@@ -27,7 +27,7 @@ cursor=1:0
 open=true
 [header]
 path=Producto.h
-cursor=33:1
+cursor=29:21
 open=true
 [config]
 name=Debug
