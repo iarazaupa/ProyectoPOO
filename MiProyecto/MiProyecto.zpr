@@ -19,7 +19,7 @@ current_source=main.cpp
 path_char=\
 [source]
 path=main.cpp
-cursor=7:7
+cursor=26:17
 open=true
 [source]
 path=Producto.cpp
@@ -27,7 +27,7 @@ cursor=3:6
 open=true
 [source]
 path=Cliente.cpp
-cursor=0:0
+cursor=14:9
 open=true
 [header]
 path=Producto.h

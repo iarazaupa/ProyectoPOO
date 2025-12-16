@@ -1,1 +1,6 @@
+<<<<<<< HEAD
 1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;
+=======
+1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;
+>>>>>>> c90009d9fc2fad6c786eb00c2b9bbb00d8dc68ad
+1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;
