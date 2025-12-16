@@ -6,7 +6,11 @@ using namespace std;
 
 int main (int argc, char *argv[]) {
 	Producto mateDeAlgarrobo(0, "mate de algarrobo", 16.00, 4);
+<<<<<<< HEAD
 	cout<<"probando a ver si se puede hacer commmit de un solo archivo. xd";
+=======
+	
+>>>>>>> 9735ddb (prueba de que funciona el main con cliente)
 	cout<<"el mate:"<<mateDeAlgarrobo.GetNombre()<<"cuesta"<<mateDeAlgarrobo.GetPrecio()<<"y hay:"<<mateDeAlgarrobo.GetStock()<<"unidades";
 	
 	
