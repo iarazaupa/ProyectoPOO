@@ -1,5 +1,8 @@
 #ifndef PRODUCTO_H
 #define PRODUCTO_H
+#include <string>
+#include <vector>
+using namespace std;
 
 class Producto {
 
@@ -9,7 +12,7 @@ private:
 	string m_nombre;
 	double m_precio;
 	int m_stock;
-	char[50] m_cateoria;
+	char m_cateoria;
 	string m_archivoProducto;
 
 public:
