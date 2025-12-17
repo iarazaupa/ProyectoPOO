@@ -19,7 +19,11 @@ current_source=main.cpp
 path_char=\
 [source]
 path=main.cpp
+<<<<<<< HEAD
 cursor=8:33
+=======
+cursor=0:0
+>>>>>>> b299187b06bcdff2f54748dd008d171336753f45
 open=true
 [source]
 path=Producto.cpp
