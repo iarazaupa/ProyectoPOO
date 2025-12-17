@@ -1,6 +1,6 @@
-<<<<<<< HEAD
-1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;
-=======
-1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;
->>>>>>> c90009d9fc2fad6c786eb00c2b9bbb00d8dc68ad
-1;iara lopez;iaraALZ@mail.com;111111;1;iara lopez;iaraALZ@mail.com;111111;
+3;Norma Zaupa;normaZ@mail.com;1234;/n1;Iara Zupa;iaraALZ@mail.com;111111;/n1;Iara Zupa;iaraALZ@mail.com;111111;/n1;Iara Zupa;iaraALZ@mail.com;111111;/n1;Iara Zupa;iaraALZ@mail.com;111111;
+1;Iara Zupa;iaraALZ@mail.com;111111;
+1;Iara Zupa;iaraALZ@mail.com;111111;
+2;Alan Toledo;alanTB@mail.com;834741;
+2;Alan Toledo;alanTB@mail.com;834741;
+4;PEPITO;pepeP@mail.com;834741;

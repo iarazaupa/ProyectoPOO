@@ -47,10 +47,11 @@ void Cliente::guardarArchivo() {
 		throw std::runtime_error("no se pudo abrir el archivo");
 	}
 	
-	archivo << std::to_string(m_ID) << ";";
-	archivo << m_nombre << ";";
-	archivo << m_email << ";";
-	archivo << m_telefono << ";";  
+	archivo<< std::to_string(m_ID)<< ";";
+	archivo<< m_nombre<< ";";
+	archivo<< m_email<< ";";
+	archivo<< m_telefono<< ";";  
+	archivo << "\n"; 
 	
 	archivo.close();
 }
@@ -89,11 +90,11 @@ std::vector<Cliente> Cliente::cargarLista() {
 		pos = linea.find(';');
 		telefono = linea.substr(0, pos);
 		
-		
-		int id = std::stoi(idStr);
-		
-		Cliente c(id, nombre, email, telefono);
-		lista.push_back(c);
+		if (idStr != "") { // primero valido que no este vacio
+			int id = std::stoi(idStr);
+			Cliente c(id, nombre, email, telefono);
+			lista.push_back(c);
+		}
 	}
 	
 	archivo.close();
@@ -101,11 +102,16 @@ std::vector<Cliente> Cliente::cargarLista() {
 }
 
 //mostrar cliente
-void Cliente::mostrar() {
-	std::cout << "ID: " << m_ID << std::endl;
-	std::cout << "Nombre: " << m_nombre << std::endl;
-	std::cout << "Email: " << m_email << std::endl;
-	std::cout << "Telefono: " << m_telefono << std::endl;
+std::string Cliente::mostrar() {
+	std::string datos = "";
+	
+	datos += "ID: " + std::to_string(m_ID) + "\n";
+	datos += "Nombre: " + m_nombre + "\n";
+	datos += "Email: " + m_email + "\n";
+	datos += "Telefono: " + m_telefono + "\n";
+	
+	return datos;
+	
 }
 
 //buscar cliente por ID
