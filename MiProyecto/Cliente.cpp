@@ -102,26 +102,19 @@ std::vector<Cliente> Cliente::cargarLista() {
 }
 
 //mostrar cliente
-std::string Cliente::mostrar() {
-	std::string datos = "";
-	
-	datos += "ID: " + std::to_string(m_ID) + "\n";
-	datos += "Nombre: " + m_nombre + "\n";
-	datos += "Email: " + m_email + "\n";
-	datos += "Telefono: " + m_telefono + "\n";
-	
-	return datos;
-	
+Cliente Cliente::mostrar() {
+	return *this;
 }
 
 //buscar cliente por ID
-Cliente* Cliente::buscarCliente(int id) {
+Cliente Cliente::buscarCliente(int id) {
 	std::vector<Cliente> lista = cargarLista();
 	
 	for (int i = 0; i < lista.size(); i++) {
 		if (lista[i].getID() == id) {
-			return new Cliente(lista[i].getID(), lista[i].getNombre(), lista[i].getEmail(), lista[i].getTelefono());
+			return lista[i];  
 		}
 	}
-	return nullptr;
+	
+	return Cliente(); 
 }

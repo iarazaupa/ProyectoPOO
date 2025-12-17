@@ -1,31 +1,57 @@
 #include <iostream>
-#include <string>
 #include "Cliente.h"
-
-using namespace std;
 
 int main() {
 	
-	Cliente c1(4, "PEPITO", "pepeP@gmail.com", "834741");
-	c1.guardarArchivo();
+	int opcion;
+	int id;
+	std::string nombre;
+	std::string email;
+	std::string telefono;
 	
-	cout<<"cliente guardado"<<endl;
+	Cliente gestor;
 	
-	int idBuscar;
-	cout<<"ingrese id a buscar: ";
-	cin>>idBuscar;
-	cout<<"lista"<<endl;
+	std::cout << "1 - agregar cliente"<<std::endl;
+	std::cout << "2 - buscar "<<std::endl;
+	std::cout << "opcion: ";
+	std::cin >> opcion;
 	
-	Cliente* encontrado;
-	encontrado = c1.buscarCliente(idBuscar);
-	
-	if (encontrado != nullptr) {
-		cout<<"cliente encontrado:"<<endl;
-		cout << encontrado->mostrar();
+	if (opcion == 1) {
 		
-		delete encontrado;
-	} else {
-		cout<<"cliente no encontrado"<<endl;
+		std::cout << "id: ";
+		std::cin >> id;
+		std::cin.ignore();
+		
+		std::cout << "nombre: ";
+		std::getline(std::cin, nombre);
+		
+		std::cout<< "email: ";
+		std::getline(std::cin, email);
+		
+		std::cout<< "telefono: ";
+		std::getline(std::cin, telefono);
+		
+		Cliente c(id, nombre, email, telefono);
+		c.guardarArchivo();
+		
+		std::cout<< "guardado!!"<< std::endl;
+	}
+	
+	if (opcion == 2){
+		std::cout<< "id a buscar: ";
+		std::cin>> id;
+		
+		Cliente encontrado = gestor.buscarCliente(id);
+		
+		if (encontrado.getID() != 0){
+			std::cout << "cliente encontrado\n";
+			std::cout<< "id: " <<encontrado.getID()<< std::endl;
+			std::cout<< "nombre: " <<encontrado.getNombre()<< std::endl;
+			std::cout<< "email: " <<encontrado.getEmail()<< std::endl;
+			std::cout<< "telefono: " <<encontrado.getTelefono()<< std::endl;
+		} else{
+			std::cout<<"no se encontro :(";
+		}
 	}
 	
 	return 0;

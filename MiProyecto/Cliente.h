@@ -25,10 +25,11 @@ public:
 	
 	void guardarArchivo();
 	std::vector<Cliente> cargarLista();
-	Cliente* buscarCliente(int id);
+	Cliente buscarCliente(int id);
 	
 	// mostrar 
-	std::string mostrar(); 
+	Cliente mostrar();
+	
 };
 
 #endif

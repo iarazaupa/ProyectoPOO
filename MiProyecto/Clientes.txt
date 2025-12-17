@@ -1,6 +1,11 @@
-3;Norma Zaupa;normaZ@mail.com;1234;/n1;Iara Zupa;iaraALZ@mail.com;111111;/n1;Iara Zupa;iaraALZ@mail.com;111111;/n1;Iara Zupa;iaraALZ@mail.com;111111;/n1;Iara Zupa;iaraALZ@mail.com;111111;
+3;Norma Zaupa;normaZ@mail.com;1234;
 1;Iara Zupa;iaraALZ@mail.com;111111;
 1;Iara Zupa;iaraALZ@mail.com;111111;
 2;Alan Toledo;alanTB@mail.com;834741;
 2;Alan Toledo;alanTB@mail.com;834741;
 4;PEPITO;pepeP@mail.com;834741;
+9;iara;aylen;27839231;
+9;iara;iaraAlz@gmail.com;3322947;
+7;lola;lolaLL@hmail.com;9237848;
+10;ron;RonaldWeasley@gmail.com;12345;
+11;roron;oeieurue@gmail.com;4984848;
