@@ -1,120 +1,141 @@
 #include "Cliente.h"
 #include <fstream>
-#include <iostream> 
-#include <string>
 
-//constructor
-Cliente::Cliente(int id, std::string nombre, std::string email, std::string telefono) {
+using namespace std;
+
+// constructor correcto
+Cliente::Cliente(int id, string nombre, string email, string telefono) {
 	m_ID = id;
 	m_nombre = nombre;
 	m_email = email;
 	m_telefono = telefono;
-	m_archivoCliente = "Clientes.txt";
+	m_archivoCliente = "Clientes.dat";
 }
 
-//getters
+// getters
 int Cliente::getID() {
 	return m_ID;
 }
 
-std::string Cliente::getNombre() {
+string Cliente::getNombre() {
 	return m_nombre;
 }
 
-std::string Cliente::getEmail() {
+string Cliente::getEmail() {
 	return m_email;
 }
 
-std::string Cliente::getTelefono() {
+string Cliente::getTelefono() {
 	return m_telefono;
 }
 
-//setters
-void Cliente::setNombre( std::string nombre) {
+// setters
+void Cliente::setNombre(string nombre) {
 	m_nombre = nombre;
 }
 
-void Cliente::setTelefono( std::string telefono) {
+void Cliente::setTelefono(string telefono) {
 	m_telefono = telefono;
 }
 
-//guardar cliente en el archivo
+// guardar binario
 void Cliente::guardarArchivo() {
-	std::ofstream archivo;
-	archivo.open(m_archivoCliente, std::ios::app);
+	ofstream archivo(m_archivoCliente, ios::binary | ios::app);
 	
 	if (!archivo.is_open()) {
-		throw std::runtime_error("no se pudo abrir el archivo");
+		return;
 	}
 	
-	archivo<< std::to_string(m_ID)<< ";";
-	archivo<< m_nombre<< ";";
-	archivo<< m_email<< ";";
-	archivo<< m_telefono<< ";";  
-	archivo << "\n"; 
+	int largo;
+	
+	archivo.write((char*)&m_ID, sizeof(int));
+	
+	largo = m_nombre.size();
+	archivo.write((char*)&largo, sizeof(int));
+	archivo.write(m_nombre.c_str(), largo);
+	
+	largo = m_email.size();
+	archivo.write((char*)&largo, sizeof(int));
+	archivo.write(m_email.c_str(), largo);
+	
+	largo = m_telefono.size();
+	archivo.write((char*)&largo, sizeof(int));
+	archivo.write(m_telefono.c_str(), largo);
 	
 	archivo.close();
 }
 
-//cargar todos los clientes desde el archivo
-std::vector<Cliente> Cliente::cargarLista() {
-	std::vector<Cliente> lista;
-	std::ifstream archivo;
-	archivo.open(m_archivoCliente);
+// cargar lista
+vector<Cliente> Cliente::cargarLista() {
+	vector<Cliente> lista;
+	ifstream archivo("Clientes.dat", ios::binary);
 	
 	if (!archivo.is_open()) {
-		throw std::runtime_error("no se pudo abrir el archivo");
+		return lista;
 	}
 	
-	std::string linea;
-	while (std::getline(archivo, linea)) {
-		std::string idStr, nombre, email, telefono;
-		int pos;
+	while (true) {
+		int id;
+		int largo;
+		string nombre;
+		string email;
+		string telefono;
 		
-		//id
-		pos = linea.find(';');
-		idStr = linea.substr(0, pos);
-		linea.erase(0, pos + 1);
-		
-		//nombre
-		pos = linea.find(';');
-		nombre = linea.substr(0, pos);
-		linea.erase(0, pos + 1);
-		
-		//email
-		pos = linea.find(';');
-		email = linea.substr(0, pos);
-		linea.erase(0, pos + 1);
-		
-		//teléfono 
-		pos = linea.find(';');
-		telefono = linea.substr(0, pos);
-		
-		if (idStr != "") { // primero valido que no este vacio
-			int id = std::stoi(idStr);
-			Cliente c(id, nombre, email, telefono);
-			lista.push_back(c);
+		if (!archivo.read((char*)&id, sizeof(int))) {
+			break;
 		}
+		
+		archivo.read((char*)&largo, sizeof(int));
+		if (largo < 0 || largo > 1000) {
+			break;
+		}
+		nombre.resize(largo);
+		archivo.read(&nombre[0], largo);
+		
+		archivo.read((char*)&largo, sizeof(int));
+		if (largo < 0 || largo > 1000) {
+			break;
+		}
+		email.resize(largo);
+		archivo.read(&email[0], largo);
+		
+		archivo.read((char*)&largo, sizeof(int));
+		if (largo < 0 || largo > 1000) {
+			break;
+		}
+		telefono.resize(largo);
+		archivo.read(&telefono[0], largo);
+		
+		Cliente c(id, nombre, email, telefono);
+		lista.push_back(c);
 	}
 	
 	archivo.close();
 	return lista;
 }
 
-//mostrar cliente
-Cliente Cliente::mostrar() {
-	return *this;
-}
-
-//buscar cliente por ID
+// buscar cliente
 Cliente Cliente::buscarCliente(int id) {
-	std::vector<Cliente> lista = cargarLista();
+	vector<Cliente> lista = cargarLista();
 	
 	for (int i = 0; i < lista.size(); i++) {
 		if (lista[i].getID() == id) {
-			return lista[i];  
+			return lista[i];
 		}
 	}
 	
-	return Cliente(); 
+	return Cliente();
+}
+
+// evitar ids repetidos
+bool Cliente::existeID(int id) {
+	vector<Cliente> lista = cargarLista();
+	
+	for (int i = 0; i < lista.size(); i++) {
+		if (lista[i].getID() == id) {
+			return true;
+		}
+	}
+	
+	return false;
 }

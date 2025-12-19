@@ -1,56 +1,64 @@
 #include <iostream>
 #include "Cliente.h"
 
+using namespace std;
+
 int main() {
 	
 	int opcion;
 	int id;
-	std::string nombre;
-	std::string email;
-	std::string telefono;
+	string nombre;
+	string email;
+	string telefono;
 	
 	Cliente gestor;
 	
-	std::cout << "1 - agregar cliente"<<std::endl;
-	std::cout << "2 - buscar "<<std::endl;
-	std::cout << "opcion: ";
-	std::cin >> opcion;
+	cout << "1 - agregar cliente" << endl;
+	cout << "2 - buscar cliente" << endl;
+	cout << "opcion: ";
+	cin >> opcion;
 	
 	if (opcion == 1) {
 		
-		std::cout << "id: ";
-		std::cin >> id;
-		std::cin.ignore();
+		cout << "id: ";
+		cin >> id;
+		cin.ignore();
 		
-		std::cout << "nombre: ";
-		std::getline(std::cin, nombre);
+		if (gestor.existeID(id)) {
+			cout << "ese id ya existe" << endl;
+			return 0;
+		}
 		
-		std::cout<< "email: ";
-		std::getline(std::cin, email);
+		cout << "nombre: ";
+		getline(cin, nombre);
 		
-		std::cout<< "telefono: ";
-		std::getline(std::cin, telefono);
+		cout << "email: ";
+		getline(cin, email);
+		
+		cout << "telefono: ";
+		getline(cin, telefono);
 		
 		Cliente c(id, nombre, email, telefono);
 		c.guardarArchivo();
 		
-		std::cout<< "guardado!!"<< std::endl;
+		cout << "guardado!!" << endl;
 	}
 	
-	if (opcion == 2){
-		std::cout<< "id a buscar: ";
-		std::cin>> id;
+	if (opcion == 2) {
+		
+		cout << "id a buscar: ";
+		cin >> id;
 		
 		Cliente encontrado = gestor.buscarCliente(id);
 		
-		if (encontrado.getID() != 0){
-			std::cout << "cliente encontrado\n";
-			std::cout<< "id: " <<encontrado.getID()<< std::endl;
-			std::cout<< "nombre: " <<encontrado.getNombre()<< std::endl;
-			std::cout<< "email: " <<encontrado.getEmail()<< std::endl;
-			std::cout<< "telefono: " <<encontrado.getTelefono()<< std::endl;
-		} else{
-			std::cout<<"no se encontro :(";
+		if (encontrado.getID() != 0) {
+			cout << "cliente encontrado" << endl;
+			cout << "id: " << encontrado.getID() << endl;
+			cout << "nombre: " << encontrado.getNombre() << endl;
+			cout << "email: " << encontrado.getEmail() << endl;
+			cout << "telefono: " << encontrado.getTelefono() << endl;
+		} else {
+			cout << "no se encontro :(" << endl;
 		}
 	}
 	

@@ -4,32 +4,32 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 class Cliente {
 private:
 	int m_ID;
-	std::string m_nombre;
-	std::string m_email;
-	std::string m_telefono;
-	std::string m_archivoCliente;
+	string m_nombre;
+	string m_email;
+	string m_telefono;
+	string m_archivoCliente;
 	
 public:
-	Cliente(int id = 0, std::string nombre = "", std::string email = "", std::string telefono = "");
+	Cliente(int id = 0, string nombre = "", string email = "", string telefono = "");
 	
 	int getID();
-	std::string getNombre();
-	std::string getEmail();
-	std::string getTelefono();
+	string getNombre();
+	string getEmail();
+	string getTelefono();
 	
-	void setNombre(std::string nombre);
-	void setTelefono(std::string telefono);
+	void setNombre(string nombre);
+	void setTelefono(string telefono);
 	
 	void guardarArchivo();
-	std::vector<Cliente> cargarLista();
+	vector<Cliente> cargarLista();
 	Cliente buscarCliente(int id);
 	
-	// mostrar 
-	Cliente mostrar();
-	
+	bool existeID(int id);
 };
 
 #endif
