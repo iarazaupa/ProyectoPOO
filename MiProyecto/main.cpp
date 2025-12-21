@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 #include "Cliente.h"
 
 using namespace std;
@@ -19,26 +18,61 @@ int main (int argc, char *argv[]) {
 int main() {
 >>>>>>> 72c8520e51b066561c48eec710aa55560b40782e
 	
-	Cliente c1(4, "PEPITO", "pepeP@gmail.com", "834741");
-	c1.guardarArchivo();
+	int opcion;
+	int id;
+	string nombre;
+	string email;
+	string telefono;
 	
-	cout<<"cliente guardado"<<endl;
+	Cliente gestor;
 	
-	int idBuscar;
-	cout<<"ingrese id a buscar: ";
-	cin>>idBuscar;
-	cout<<"lista"<<endl;
+	cout << "1 - agregar cliente" << endl;
+	cout << "2 - buscar cliente" << endl;
+	cout << "opcion: ";
+	cin >> opcion;
 	
-	Cliente* encontrado;
-	encontrado = c1.buscarCliente(idBuscar);
-	
-	if (encontrado != nullptr) {
-		cout<<"cliente encontrado:"<<endl;
-		cout << encontrado->mostrar();
+	if (opcion == 1) {
 		
-		delete encontrado;
-	} else {
-		cout<<"cliente no encontrado"<<endl;
+		cout << "id: ";
+		cin >> id;
+		cin.ignore();
+		
+		if (gestor.existeID(id)) {
+			cout << "ese id ya existe" << endl;
+			return 0;
+		}
+		
+		cout << "nombre: ";
+		getline(cin, nombre);
+		
+		cout << "email: ";
+		getline(cin, email);
+		
+		cout << "telefono: ";
+		getline(cin, telefono);
+		
+		Cliente c(id, nombre, email, telefono);
+		c.guardarArchivo();
+		
+		cout << "guardado!!" << endl;
+	}
+	
+	if (opcion == 2) {
+		
+		cout << "id a buscar: ";
+		cin >> id;
+		
+		Cliente encontrado = gestor.buscarCliente(id);
+		
+		if (encontrado.getID() != 0) {
+			cout << "cliente encontrado" << endl;
+			cout << "id: " << encontrado.getID() << endl;
+			cout << "nombre: " << encontrado.getNombre() << endl;
+			cout << "email: " << encontrado.getEmail() << endl;
+			cout << "telefono: " << encontrado.getTelefono() << endl;
+		} else {
+			cout << "no se encontro :(" << endl;
+		}
 	}
 	
 	return 0;
