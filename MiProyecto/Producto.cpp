@@ -38,70 +38,35 @@ void Producto::AumentarStock (int cantidad) {
 }
 
 bool Producto::DisminuirStock (int cantidad) {
-	if (cantidad <= m_stock) {
-		m_stock -= cantidad;
-		return true;
-	}
-	return false;
+	m_stock -=cantidad;
 }
-
 
 bool Producto::HayStock (int cantidad) {
-	return cantidad <= m_stock;
-}
-
-
-void Producto::GuardarEnArchivo () {
-	ofstream archivo("productos.txt", ios::app);
-	if (archivo.is_open()) {
-		archivo << m_ID << " "
-			<< m_nombre << " "
-			<< m_precio << " "
-			<< m_stock << endl;
-		archivo.close();
+	if(cantidad <= m_stock){
+		return true;
+	}else{
+		return false;
 	}
 }
 
-void Producto::GuardarDesdeArchivo () {
-	ifstream archivo("productos.txt");
-	if (archivo.is_open()) {
-		archivo >> m_ID >> m_nombre >> m_precio >> m_stock;
-		archivo.close();
-	}
+void Producto::GuardarEnArchivo ( ) {
+	//nada todavia no se va a usar
+}
+
+void Producto::GuardarDesdeArchivo ( ) {
+	//nada todavia no se va a usar
 }
 
 void Producto::GuardarLista (vector<Producto> & productos) {
-	ofstream archivo("productos.txt");
-	if (archivo.is_open()) {
-		for (auto &p : productos) {
-			archivo << p.m_ID << " "
-				<< p.m_nombre << " "
-				<< p.m_precio << " "
-				<< p.m_stock << endl;
-		}
-		archivo.close();
-	}
+	//nada todavia no se va a usar
 }
 
-vector<Producto> Producto::CargarLista () {
-	vector<Producto> productos;
-	ifstream archivo("productos.txt");
-	
-	if (archivo.is_open()) {
-		int id, stock;
-		string nombre;
-		double precio;
-		
-		while (archivo >> id >> nombre >> precio >> stock) {
-			productos.push_back(Producto(id, nombre, precio, stock));
-		}
-		archivo.close();
-	}
-	return productos;
+vector<Producto> Producto::CargarLista ( ) {
+	//nada todavia no se va a usar
 }
 
-Producto Producto::Mostrar ( ) {
-	return *this;
+void Producto::Mostrar ( ) {
+	//nada todavia no se va a usar
 }
 
 
