@@ -28,7 +28,10 @@ bool Venta::AgregarProducto(Producto* producto, int cantidad) {
 	
 	return true;
 }
+
+
 // quita un producto de la venta buscando por id
+
 bool Venta::QuitarProducto(int IDProducto) {
 	
 	for (int i = 0; i < m_detalles.size(); i++) {

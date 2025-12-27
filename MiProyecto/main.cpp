@@ -5,20 +5,7 @@
 
 using namespace std;
 
-<<<<<<< HEAD
-#include "Producto.h"
-
-int main (int argc, char *argv[]) {
-	Producto mateDeAlgarrobo(0, "mate de algarrobo", 16.00, 4);
-<<<<<<< HEAD
-	cout<<"probando a ver si se puede hacer commmit de un solo archivo. xd";
-=======
-	
->>>>>>> 9735ddb (prueba de que funciona el main con cliente)
-	cout<<"el mate:"<<mateDeAlgarrobo.GetNombre()<<"cuesta"<<mateDeAlgarrobo.GetPrecio()<<"y hay:"<<mateDeAlgarrobo.GetStock()<<"unidades";
-=======
 int main() {
->>>>>>> 72c8520e51b066561c48eec710aa55560b40782e
 	
 	int opcion;
 	int id;
@@ -98,7 +85,7 @@ int main() {
 		}
 		
 		//producto de prueba
-		Producto producto(100, "producto prueba", 15000);
+		Producto producto(100, "producto", 150, 10);
 		
 		Venta v(1, &clienteVenta);
 		v.AgregarProducto(&producto, 2);

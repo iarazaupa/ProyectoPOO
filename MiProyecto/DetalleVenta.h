@@ -1,5 +1,6 @@
 #ifndef DETALLEVENTA_H
 #define DETALLEVENTA_H
+#include "Producto.h"
 
 class DetalleVenta {
 private:
