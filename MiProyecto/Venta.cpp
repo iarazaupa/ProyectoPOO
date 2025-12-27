@@ -29,12 +29,12 @@ bool Venta::AgregarProducto(Producto* producto, int cantidad) {
 	return true;
 }
 // quita un producto de la venta buscando por id
-bool Venta::QuitarProducto(int IDProducto) {
+bool Venta::QuitarProducto(int IDProducto){
 	
-	for (int i = 0; i < m_detalles.size(); i++) {
+	for(int i = 0; i < m_detalles.size(); i++){
 		
 		// compara el id del producto del detalle con el id recibido
-		if (m_detalles[i].GetProducto()->GetID() == IDProducto) {
+		if(m_detalles[i].GetProducto()->GetID() == IDProducto){
 			
 			// elimina el detalle de la venta
 			m_detalles.erase(m_detalles.begin() + i);

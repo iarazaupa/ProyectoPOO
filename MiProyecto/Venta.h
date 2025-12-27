@@ -25,6 +25,7 @@ public:
 	
 	// logica principal
 	bool AgregarProducto(Producto* producto, int cantidad);
+	bool QuitarProducto(int IDProducto);
 	void CalcularTotal();
 	void ConfirmarVenta();
 	
