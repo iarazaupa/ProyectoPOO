@@ -9,7 +9,7 @@ Producto::Producto (int ID, string nombre, double precio, int stock) {
 	
 }
 
-int Producto::GetId ( ) {
+int Producto::GetID( ) {
 	return m_ID;
 }
 
@@ -38,8 +38,13 @@ void Producto::AumentarStock (int cantidad) {
 }
 
 bool Producto::DisminuirStock (int cantidad) {
-	m_stock -=cantidad;
+	if(cantidad <= m_stock){
+		m_stock -= cantidad;
+		return true;
+	}
+	return false;
 }
+
 
 bool Producto::HayStock (int cantidad) {
 	if(cantidad <= m_stock){
@@ -65,7 +70,7 @@ vector<Producto> Producto::CargarLista ( ) {
 	//nada todavia no se va a usar
 }
 
-void Producto::Mostrar ( ) {
+Producto Producto::Mostrar ( ) {
 	//nada todavia no se va a usar
 }
 

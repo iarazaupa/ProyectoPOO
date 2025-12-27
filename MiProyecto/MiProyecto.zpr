@@ -19,11 +19,11 @@ current_source=Venta.cpp
 path_char=\
 [source]
 path=main.cpp
-cursor=87:6
+cursor=100:2
 open=true
 [source]
 path=Producto.cpp
-cursor=0:0
+cursor=72:8
 open=true
 [source]
 path=Cliente.cpp
@@ -31,7 +31,7 @@ cursor=141:0
 open=true
 [source]
 path=Venta.cpp
-cursor=49:0
+cursor=30:44
 open=true
 [source]
 path=DetalleVenta.cpp
@@ -39,7 +39,7 @@ cursor=0:0
 open=true
 [header]
 path=Producto.h
-cursor=35:25
+cursor=40:1
 open=true
 [header]
 path=Cliente.h
@@ -47,11 +47,11 @@ cursor=35:0
 open=true
 [header]
 path=Venta.h
-cursor=27:37
+cursor=33:10
 open=true
 [header]
 path=DetalleVenta.h
-cursor=9:34
+cursor=6:5
 open=true
 [config]
 name=Debug

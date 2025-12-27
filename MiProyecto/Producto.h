@@ -18,7 +18,7 @@ private:
 public:
 	Producto(int ID, string nombre, double precio, int stock);
 	//getters
-	int GetId();
+	int GetID();
 	string GetNombre();
 	double GetPrecio();
 	int GetStock();
