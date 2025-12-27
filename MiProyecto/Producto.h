@@ -37,7 +37,7 @@ public:
 	void GuardarDesdeArchivo();
 	void GuardarLista(vector<Producto>& productos);
 	vector <Producto> CargarLista();
-	void Mostrar();
+	Producto Mostrar();
 	
 	
 	
