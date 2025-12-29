@@ -6,6 +6,7 @@
 using namespace std;
 
 int main() {
+
 	
 	int opcion;
 	int id;
@@ -84,8 +85,7 @@ int main() {
 			return 0;
 		}
 		
-		//producto de prueba
-		Producto producto(100, "producto", 150, 10);
+		Producto producto(100, "producto prueba", 15000, 10);
 		
 		Venta v(1, &clienteVenta);
 		v.AgregarProducto(&producto, 2);

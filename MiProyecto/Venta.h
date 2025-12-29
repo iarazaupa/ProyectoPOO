@@ -1,8 +1,8 @@
 #ifndef VENTA_H
 #define VENTA_H
 
-#include <vector>
 #include <string>
+#include <vector>
 #include "Cliente.h"
 #include "Producto.h"
 #include "DetalleVenta.h"
@@ -12,32 +12,33 @@ using namespace std;
 class Venta {
 	
 private:
-	int m_ID;
-	Cliente* m_cliente; // relacion con cliente
-	vector<DetalleVenta> m_detalles;
-	double m_total;
-	string m_fecha;
-	string m_archivoVentas;
+	int m_ID;                           
+	Cliente* m_cliente;                 
+	vector<DetalleVenta> detalles;     
+	double m_total;                     
+	string m_fecha;                     
+	string m_archivoVentas;             
 	
 public:
-	// constructor
+	//constructor
 	Venta(int ID, Cliente* cliente);
 	
-	// logica principal
+	//logica principal
 	bool AgregarProducto(Producto* producto, int cantidad);
+	bool QuitarProducto(int IDProducto);
 	void CalcularTotal();
 	void ConfirmarVenta();
 	
-	// getters
+	//getters
 	double Gettotal();
 	int GetID();
 	string Getfecha();
 	
-	// archivo
+	//persistencia
 	void GuardarEnArchivos();
 	vector<Venta> CargarVentas();
 	
-	// utilidad
+	//utilidad
 	string MostrarTicket();
 };
 
