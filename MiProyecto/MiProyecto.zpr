@@ -19,7 +19,7 @@ current_source=main.cpp
 path_char=\
 [source]
 path=main.cpp
-cursor=79:2
+cursor=114:46
 open=true
 [source]
 path=Producto.cpp
@@ -27,7 +27,7 @@ cursor=110:1
 open=true
 [source]
 path=Cliente.cpp
-cursor=141:0
+cursor=133:41
 open=true
 [source]
 path=Venta.cpp
