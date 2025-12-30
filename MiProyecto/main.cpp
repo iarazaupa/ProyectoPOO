@@ -1,13 +1,50 @@
 #include <iostream>
-#include <vector>
+#include <string>
 #include "Cliente.h"
-#include "Venta.h"
 #include "Producto.h"
+#include "Venta.h"
 
 using namespace std;
 
-int main() {
+// constantes de tipo de usuario
+const int SALIR  = 0;
+const int NORMAL = 1;
+const int ADMIN  = 2;
+
+// declaraciones
+int login();
+bool verificarPassword();
+void menuNormal();
+void menuAdmin();
+void sistema();
+
+
+// ---------------- LOGIN ----------------
+int login() {
+	int opcion;
 	
+	cout << endl;
+	cout << "----- INICIO DE SESION -----" << endl;
+	cout << "1 - Usuario normal" << endl;
+	cout << "2 - Administrador" << endl;
+	cout << "0 - Salir" << endl;
+	cout << "Opcion: ";
+	cin >> opcion;
+	
+	if (opcion == ADMIN) {
+		if (!verificarPassword()) {
+			cout << "Password incorrecta" << endl;
+			return -1; // login fallido
+		}
+	}
+	
+	return opcion;
+}
+
+
+// ---------------- MENU USUARIO NORMAL ----------------
+void menuNormal() {
+
 	int opcion;
 	int id;
 	string nombre;
@@ -121,5 +158,86 @@ int main() {
 		
 	} while (opcion != 0);
 	
+}
+
+
+// ---------------- MENU ADMIN ----------------
+void menuAdmin() {
+	int opcion;
+	
+	do {
+		cout << endl;
+		cout << "----- MENU ADMIN -----" << endl;
+		cout << "1 - Agregar cliente" << endl;
+		cout << "2 - Agregar producto" << endl;
+		cout << "3 - Quitar producto" << endl;
+		cout << "4 - Ver ventas" << endl;
+		cout << "0 - Cerrar sesion" << endl;
+		cout << "Opcion: ";
+		cin >> opcion;
+		
+		switch (opcion) {
+		case 1:
+			// agregar cliente
+			break;
+		case 2:
+			// agregar producto
+			break;
+		case 3:
+			// quitar producto
+			break;
+		case 4:
+			// ver ventas
+			break;
+		case 0:
+			cout << "Cerrando sesion admin..." << endl;
+			break;
+		default:
+			cout << "Opcion invalida" << endl;
+		}
+		
+	} while (opcion != 0);
+}
+
+
+// ---------------- PASSWORD ADMIN ----------------
+bool verificarPassword() {
+	string pass;
+	const string PASSWORD_ADMIN = "admin123";
+	
+	cout << "Ingrese password de administrador: ";
+	cin >> pass;
+	
+	return pass == PASSWORD_ADMIN;
+}
+
+
+// ---------------- SISTEMA PRINCIPAL ----------------
+void sistema() {
+	int tipoUsuario;
+	
+	do {
+		tipoUsuario = login();
+		
+		if (tipoUsuario == NORMAL) {
+			menuNormal();
+		}
+		else if (tipoUsuario == ADMIN) {
+			menuAdmin();
+		}
+		else if (tipoUsuario == SALIR) {
+			cout << "Saliendo del sistema..." << endl;
+		}
+		else {
+			cout << "Intento de login fallido" << endl;
+		}
+		
+	} while (tipoUsuario != SALIR);
+}
+
+
+// ---------------- MAIN ----------------
+int main() {
+	sistema();
 	return 0;
 }
