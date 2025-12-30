@@ -17,7 +17,7 @@ private:
 public:
 	Cliente(int id = 0, string nombre = "", string email = "", string telefono = "");
 	
-	int getID();
+	int GetID();
 	string getNombre();
 	string getEmail();
 	string getTelefono();
