@@ -165,6 +165,10 @@ void menuNormal() {
 void menuAdmin() {
 	int opcion;
 	
+	Cliente gestorClientes;
+	Producto gestorProductos(0, "", 0, 0); // objeto auxiliar
+	Venta* ventaAux = nullptr;             // solo estructura
+	
 	do {
 		cout << endl;
 		cout << "----- MENU ADMIN -----" << endl;
@@ -177,27 +181,105 @@ void menuAdmin() {
 		cin >> opcion;
 		
 		switch (opcion) {
-		case 1:
-			// agregar cliente
+			
+			// ---------------- AGREGAR CLIENTE ----------------
+		case 1: {
+			int id;
+			string nombre, email, telefono;
+			
+			cout << "ID cliente: ";
+			cin >> id;
+			cin.ignore();
+			
+			if (gestorClientes.existeID(id)) {
+				cout << "El ID ya existe" << endl;
+				break;
+			}
+			
+			cout << "Nombre: ";
+			getline(cin, nombre);
+			
+			cout << "Email: ";
+			getline(cin, email);
+			
+			cout << "Telefono: ";
+			getline(cin, telefono);
+			
+			Cliente c(id, nombre, email, telefono);
+			c.guardarArchivo();
+			
+			cout << "Cliente agregado correctamente" << endl;
 			break;
-		case 2:
-			// agregar producto
+		}
+		
+		// ---------------- AGREGAR PRODUCTO ----------------
+		case 2: {
+			int id, stock;
+			string nombre;
+			double precio;
+			
+			cout << "ID producto: ";
+			cin >> id;
+			cin.ignore();
+			
+			cout << "Nombre: ";
+			getline(cin, nombre);
+			
+			cout << "Precio: ";
+			cin >> precio;
+			
+			cout << "Stock: ";
+			cin >> stock;
+			
+			Producto p(id, nombre, precio, stock);
+			p.GuardarEnArchivo();
+			
+			cout << "Producto agregado correctamente" << endl;
 			break;
-		case 3:
-			// quitar producto
+		}
+		
+		// ---------------- QUITAR PRODUCTO ----------------
+		case 3: {
+			int idProducto;
+			
+			cout << "ID del producto a quitar: ";
+			cin >> idProducto;
+			
+			// estructura: después se implementa bien
+			cout << "Producto eliminado (estructura)" << endl;
 			break;
-		case 4:
-			// ver ventas
+		}
+		
+		// ---------------- VER VENTAS ----------------
+		case 4: {
+			Venta v(0, nullptr);
+			vector<Venta> ventas = v.CargarVentas();
+			
+			if (ventas.empty()) {
+				cout << "No hay ventas registradas" << endl;
+			} else {
+				cout << "----- LISTA DE VENTAS -----" << endl;
+				for (int i = 0; i < ventas.size(); i++) {
+					cout << "ID Venta: " << ventas[i].GetID()
+						<< " | Total: $" << ventas[i].Gettotal()
+						<< " | Fecha: " << ventas[i].Getfecha()
+						<< endl;
+				}
+			}
 			break;
+		}
+		
 		case 0:
 			cout << "Cerrando sesion admin..." << endl;
 			break;
+			
 		default:
 			cout << "Opcion invalida" << endl;
 		}
 		
 	} while (opcion != 0);
 }
+
 
 
 // ---------------- PASSWORD ADMIN ----------------
