@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <string>
 #include "Cliente.h"
@@ -99,9 +100,9 @@ void menuNormal() {
 			
 			Cliente encontrado = gestor.buscarCliente(id);
 			
-			if (encontrado.getID() != 0) {
+			if (encontrado.GetID() != 0) {
 				cout << "Cliente encontrado" << endl;
-				cout << "id: " << encontrado.getID() << endl;
+				cout << "id: " << encontrado.GetID() << endl;
 				cout << "nombre: " << encontrado.getNombre() << endl;
 				cout << "email: " << encontrado.getEmail() << endl;
 				cout << "telefono: " << encontrado.getTelefono() << endl;
@@ -118,7 +119,7 @@ void menuNormal() {
 			
 			Cliente clienteVenta = gestor.buscarCliente(id);
 			
-			if (clienteVenta.getID() == 0) {
+			if (clienteVenta.GetID() == 0) {
 				cout << "Cliente no existe" << endl;
 			} else {
 				Producto producto(100, "producto prueba", 15000, 10);
@@ -141,7 +142,7 @@ void menuNormal() {
 			} else {
 				cout << "----- LISTA DE CLIENTES -----" << endl;
 				for (int i = 0; i < lista.size(); i++) {
-					cout << "ID: " << lista[i].getID()
+					cout << "ID: " << lista[i].GetID()
 						<< " | Nombre: " << lista[i].getNombre()
 						<< endl;
 				}
@@ -323,3 +324,4 @@ int main() {
 	sistema();
 	return 0;
 }
+

@@ -13,7 +13,7 @@ Cliente::Cliente(int id, string nombre, string email, string telefono) {
 }
 
 // getters
-int Cliente::getID() {
+int Cliente::GetID() {
 	return m_ID;
 }
 
@@ -119,7 +119,7 @@ Cliente Cliente::buscarCliente(int id) {
 	vector<Cliente> lista = cargarLista();
 	
 	for (int i = 0; i < lista.size(); i++) {
-		if (lista[i].getID() == id) {
+		if (lista[i].GetID() == id) {
 			return lista[i];
 		}
 	}
@@ -132,7 +132,7 @@ bool Cliente::existeID(int id) {
 	vector<Cliente> lista = cargarLista();
 	
 	for (int i = 0; i < lista.size(); i++) {
-		if (lista[i].getID() == id) {
+		if (lista[i].GetID() == id) {
 			return true;
 		}
 	}
