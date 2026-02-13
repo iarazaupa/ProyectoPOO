@@ -261,10 +261,7 @@ void menuAdmin() {
 			} else {
 				cout << "----- LISTA DE VENTAS -----" << endl;
 				for (int i = 0; i < ventas.size(); i++) {
-					cout << "ID Venta: " << ventas[i].GetID()
-						<< " | Total: $" << ventas[i].Gettotal()
-						<< " | Fecha: " << ventas[i].Getfecha()
-						<< endl;
+					cout << "ID Venta: " << ventas[i].GetID()<< " | Total: $" << ventas[i].Gettotal()<< " | Fecha: " << ventas[i].Getfecha()<< endl;
 				}
 			}
 			break;

@@ -120,3 +120,56 @@ string Venta::MostrarTicket(){
 	
 	return ticket.str();
 }
+
+//cargo ventas desde el archivo
+vector<Venta> Venta::CargarVentas(){
+	vector<Venta> ventas;
+	ifstream archivo(m_archivoVentas.c_str(), ios::binary);
+	if(archivo){
+		// guardo los detalles de la venta
+	ofstream archivoDetalles("detallesVenta.dat", ios::binary | ios::app);
+		
+	if(archivoDetalles.is_open()){
+			
+		while(!archivo.is_open()){
+				
+			int idVenta;
+			int idCliente;
+			double total;
+				
+			archivo.read((char*)&idVenta, sizeof(int));
+			archivo.read((char*)&idCliente, sizeof(int));
+			archivo.read((char*)&total, sizeof(double));
+			for(int i = 0; i < detalles.size(); i++){
+					
+				if(archivo.is_open()){
+					break;
+				}
+				int idVenta = m_ID;
+				int idProducto = detalles[i].GetProducto()->GetID();
+				int cantidad = detalles[i].GetCantidad();
+				float precio = detalles[i].GetProducto()->GetPrecio();
+					
+				Venta v(idVenta, NULL);
+				v.m_total = total;
+					
+				ventas.push_back(v);
+				archivoDetalles.write((char*)&idVenta, sizeof(int));
+				archivoDetalles.write((char*)&idProducto, sizeof(int));
+				archivoDetalles.write((char*)&cantidad, sizeof(int));
+				archivoDetalles.write((char*)&precio, sizeof(float));
+			}
+				
+			archivoDetalles.close();
+		}
+			
+		archivo.close();
+		return ventas;
+	}
+}
+}
+
+//fecha
+string Venta::Getfecha() {
+	return m_fecha;
+}
