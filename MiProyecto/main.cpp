@@ -176,7 +176,8 @@ void menuAdmin() {
 		cout << "1 - Agregar cliente" << endl;
 		cout << "2 - Agregar producto" << endl;
 		cout << "3 - Quitar producto" << endl;
-		cout << "4 - Ver ventas" << endl;
+		cout << "4 - ver lista de productos" << endl; 
+		cout << "5 - Ver ventas" << endl;
 		cout << "0 - Cerrar sesion" << endl;
 		cout << "Opcion: ";
 		cin >> opcion;
@@ -251,8 +252,25 @@ void menuAdmin() {
 			break;
 		}
 		
-		// ---------------- VER VENTAS ----------------
 		case 4: {
+			
+			cout<<"lista de productos:"<<endl;
+			
+			vector<Producto> p = gestorProductos.CargarLista();
+			
+			if (p.empty()) {
+				cout << "No hay productos o no se pudieron leer." << endl;
+			}
+			
+			for(size_t i=0;i<p.size();i++) { 
+				cout<<p[i].GetID() << " "<< p[i].GetNombre() << " "<< p[i].GetPrecio()<< " "<< p[i].GetStock() << endl;
+			}
+			
+			break;
+		}
+		
+		// ---------------- VER VENTAS ----------------
+		case 5: {
 			Venta v(0, nullptr);
 			vector<Venta> ventas = v.CargarVentas();
 			

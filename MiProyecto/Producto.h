@@ -32,6 +32,8 @@ public:
 	bool DisminuirStock(int cantidad);
 	bool HayStock(int cantidad);
 	
+	string NombreArchivo();
+	
 	//Archivo
 	void GuardarEnArchivo();
 	void GuardarDesdeArchivo();
@@ -45,4 +47,6 @@ public:
 };
 
 #endif
+
+
 

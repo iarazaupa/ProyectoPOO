@@ -1,0 +1,2 @@
+1;mate mbarete;4000;5
+2;mate imperial;20000;10

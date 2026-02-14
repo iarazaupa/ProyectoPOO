@@ -58,16 +58,17 @@ bool Producto::HayStock (int cantidad) {
 }
 
 
-void Producto::GuardarEnArchivo () {
+void Producto::GuardarEnArchivo() {
 	ofstream archivo("productos.txt", ios::app);
 	if (archivo.is_open()) {
-		archivo << m_ID << " "
-			<< m_nombre << " "
-			<< m_precio << " "
+		archivo << m_ID << ";"
+			<< m_nombre << ";"
+			<< m_precio << ";"
 			<< m_stock << endl;
 		archivo.close();
 	}
 }
+
 
 
 void Producto::GuardarDesdeArchivo () {
@@ -93,26 +94,49 @@ void Producto::GuardarLista (vector<Producto> & productos) {
 	}
 }
 
-vector<Producto> Producto::CargarLista () {
+vector<Producto> Producto::CargarLista() {
 	vector<Producto> productos;
 	ifstream archivo("productos.txt");
 	
 	if (archivo.is_open()) {
-		int id, stock;
-		string nombre;
-		double precio;
+		string linea;
 		
-		while (archivo >> id >> nombre >> precio >> stock) {
+		while (getline(archivo, linea)) {
+			int id, stock;
+			double precio;
+			string nombre;
+			
+			size_t p1 = linea.find(';');
+			size_t p2 = linea.find(';', p1 + 1);
+			size_t p3 = linea.find(';', p2 + 1);
+			
+			if (p1 == string::npos || p2 == string::npos || p3 == string::npos)
+				continue;
+			
+			id = stoi(linea.substr(0, p1));
+			nombre = linea.substr(p1 + 1, p2 - p1 - 1);
+			precio = stod(linea.substr(p2 + 1, p3 - p2 - 1));
+			stock = stoi(linea.substr(p3 + 1));
+			
 			productos.push_back(Producto(id, nombre, precio, stock));
 		}
+		
 		archivo.close();
 	}
+	
 	return productos;
 }
+
+
+
 
 Producto Producto::Mostrar ( ) {
 	return *this;
 }
 
+
+string Producto::NombreArchivo ( ) {
+	return m_archivoProducto;
+}
 
 
