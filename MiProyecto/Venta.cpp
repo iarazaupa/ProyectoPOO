@@ -1,19 +1,19 @@
 #include "Venta.h"
 #include <fstream>
-
 #include <sstream>
+
 using namespace std;
 
-// onstructor
-Venta::Venta(int ID, Cliente* cliente){
+// constructor
+Venta::Venta(int ID, Cliente* cliente) {
 	m_ID = ID;
 	m_cliente = cliente;
 	m_total = 0;
 }
 
-//agrego un producto a la venta
-bool Venta::AgregarProducto(Producto* producto, int cantidad){
-	if(producto == NULL || cantidad <= 0){
+// agrego un producto a la venta
+bool Venta::AgregarProducto(Producto* producto, int cantidad) {
+	if (producto == NULL || cantidad <= 0) {
 		return false;
 	}
 	
@@ -23,13 +23,13 @@ bool Venta::AgregarProducto(Producto* producto, int cantidad){
 	return true;
 }
 
-//quito un producto de la venta buscando por id
-bool Venta::QuitarProducto(int IDProducto){
+// quito un producto de la venta buscando por id
+bool Venta::QuitarProducto(int IDProducto) {
 	
-	for(int i = 0; i < detalles.size(); i++){
+	for (int i = 0; i < detalles.size(); i++) {
 		
 		// si el id del producto coincide, lo borra
-		if(detalles[i].GetProducto()->GetID() == IDProducto){
+		if (detalles[i].GetProducto()->GetID() == IDProducto) {
 			detalles.erase(detalles.begin() + i);
 			return true;
 		}
@@ -38,45 +38,50 @@ bool Venta::QuitarProducto(int IDProducto){
 	return false;
 }
 
-//calculo el total de la venta
-void Venta::CalcularTotal(){
+// calculo el total de la venta
+void Venta::CalcularTotal() {
 	m_total = 0;
 	
-	for(int i = 0; i < detalles.size(); i++){
+	for (int i = 0; i < detalles.size(); i++) {
 		m_total = m_total + detalles[i].CalcularSubtotal();
 	}
 }
 
-//confirmo la venta
-void Venta::ConfirmarVenta(){
-	
+// confirmo la venta
+void Venta::ConfirmarVenta() {
 	CalcularTotal();
 	GuardarEnArchivos();
 }
 
-//devuelvo el total
-double Venta::Gettotal(){
+// devuelvo el total
+double Venta::Gettotal() {
 	return m_total;
 }
 
-//devuelvo el id de la venta
-int Venta::GetID(){
+// devuelvo el id de la venta
+int Venta::GetID() {
 	return m_ID;
 }
 
-//guardo la venta y sus detalles en archivos
-void Venta::GuardarEnArchivos(){
+// guardo la venta y sus detalles en archivos
+void Venta::GuardarEnArchivos() {
 	
-	//guardo la cabecera de la venta
+	// guardo la cabecera de la venta
 	ofstream archivoVentas("ventas.dat", ios::binary | ios::app);
 	
-	if(archivoVentas.is_open()){
+	if (archivoVentas.is_open()) {
 		
-		int idCliente = m_cliente->GetID();
+		int idCliente = 0;
+		
+		if (m_cliente != NULL) {
+			idCliente = m_cliente->GetID();
+		}
 		
 		archivoVentas.write((char*)&m_ID, sizeof(int));
 		archivoVentas.write((char*)&idCliente, sizeof(int));
-		archivoVentas.write((char*)&m_total, sizeof(float));
+		
+		// ? ARREGLO IMPORTANTE: guardar total como double
+		archivoVentas.write((char*)&m_total, sizeof(double));
 		
 		archivoVentas.close();
 	}
@@ -84,92 +89,88 @@ void Venta::GuardarEnArchivos(){
 	// guardo los detalles de la venta
 	ofstream archivoDetalles("detallesVenta.dat", ios::binary | ios::app);
 	
-	if(archivoDetalles.is_open()){
+	if (archivoDetalles.is_open()) {
 		
-		for(int i = 0; i < detalles.size(); i++){
+		for (int i = 0; i < detalles.size(); i++) {
 			
 			int idVenta = m_ID;
 			int idProducto = detalles[i].GetProducto()->GetID();
 			int cantidad = detalles[i].GetCantidad();
-			float precio = detalles[i].GetProducto()->GetPrecio();
+			
+			// guardamos precio como double también para que no haya problemas
+			double precio = detalles[i].GetProducto()->GetPrecio();
 			
 			archivoDetalles.write((char*)&idVenta, sizeof(int));
 			archivoDetalles.write((char*)&idProducto, sizeof(int));
 			archivoDetalles.write((char*)&cantidad, sizeof(int));
-			archivoDetalles.write((char*)&precio, sizeof(float));
+			
+			// ? también guardamos el precio como double
+			archivoDetalles.write((char*)&precio, sizeof(double));
 		}
 		
 		archivoDetalles.close();
 	}
 }
-//muestro el ticket de la venta
-string Venta::MostrarTicket(){
+
+// muestro el ticket de la venta
+string Venta::MostrarTicket() {
 	stringstream ticket;
 	
-	ticket<<"venta id: "<<m_ID<<endl;
+	ticket << "venta id: " << m_ID << endl;
 	
-	if(m_cliente != NULL){
-		ticket<< "cliente: "<<m_cliente->getNombre()<<endl;
-	}else{
-		ticket<<"cliente: sin datos"<<endl;
+	if (m_cliente != NULL) {
+		ticket << "cliente: " << m_cliente->getNombre() << endl;
 	}
-	for(int i = 0; i < detalles.size(); i++){
-		ticket<<detalles[i].Mostrar()<<endl;
+	else {
+		ticket << "cliente: sin datos" << endl;
 	}
-	ticket<< "total: $"<<m_total<<endl;
+	
+	for (int i = 0; i < detalles.size(); i++) {
+		ticket << detalles[i].Mostrar() << endl;
+	}
+	
+	ticket << "total: $" << m_total << endl;
 	
 	return ticket.str();
 }
 
-//cargo ventas desde el archivo
-vector<Venta> Venta::CargarVentas(){
+// cargo ventas desde el archivo (solo cabecera: idVenta, idCliente, total)
+vector<Venta> Venta::CargarVentas() {
+	
 	vector<Venta> ventas;
-	ifstream archivo(m_archivoVentas.c_str(), ios::binary);
-	if(archivo){
-		// guardo los detalles de la venta
-	ofstream archivoDetalles("detallesVenta.dat", ios::binary | ios::app);
-		
-	if(archivoDetalles.is_open()){
-			
-		while(!archivo.is_open()){
-				
-			int idVenta;
-			int idCliente;
-			double total;
-				
-			archivo.read((char*)&idVenta, sizeof(int));
-			archivo.read((char*)&idCliente, sizeof(int));
-			archivo.read((char*)&total, sizeof(double));
-			for(int i = 0; i < detalles.size(); i++){
-					
-				if(archivo.is_open()){
-					break;
-				}
-				int idVenta = m_ID;
-				int idProducto = detalles[i].GetProducto()->GetID();
-				int cantidad = detalles[i].GetCantidad();
-				float precio = detalles[i].GetProducto()->GetPrecio();
-					
-				Venta v(idVenta, NULL);
-				v.m_total = total;
-					
-				ventas.push_back(v);
-				archivoDetalles.write((char*)&idVenta, sizeof(int));
-				archivoDetalles.write((char*)&idProducto, sizeof(int));
-				archivoDetalles.write((char*)&cantidad, sizeof(int));
-				archivoDetalles.write((char*)&precio, sizeof(float));
-			}
-				
-			archivoDetalles.close();
-		}
-			
-		archivo.close();
+	
+	// si tu clase tiene m_archivoVentas, perfecto.
+	// si no, podés poner "ventas.dat" directo.
+	ifstream archivo("ventas.dat", ios::binary);
+	
+	
+	if (!archivo.is_open()) {
 		return ventas;
 	}
-}
+	
+	while (true) {
+		
+		int idVenta;
+		int idCliente;
+		double total;
+		
+		archivo.read((char*)&idVenta, sizeof(int));
+		if (archivo.eof()) break;
+		
+		archivo.read((char*)&idCliente, sizeof(int));
+		archivo.read((char*)&total, sizeof(double));
+		
+		Venta v(idVenta, NULL);
+		v.m_total = total;
+		
+		ventas.push_back(v);
+	}
+	
+	archivo.close();
+	return ventas;
 }
 
-//fecha
+// fecha
 string Venta::Getfecha() {
 	return m_fecha;
 }
