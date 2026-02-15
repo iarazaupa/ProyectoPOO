@@ -4,6 +4,7 @@
 #include "Cliente.h"
 #include "Producto.h"
 #include "Venta.h"
+#include "Stock.h"
 
 using namespace std;
 
@@ -355,10 +356,19 @@ void menuAdmin() {
 			cout << "ID del producto a quitar: ";
 			cin >> idProducto;
 			
-			// estructura: después se implementa bien
-			cout << "Producto eliminado (estructura)" << endl;
+			Stock stock;
+			stock.CargarStock();
+			
+			if (stock.EliminarProducto(idProducto)) {
+				stock.GuardarStock();
+				cout << "Producto eliminado correctamente." << endl;
+			} else {
+				cout << "No se encontro ningun producto con ese ID." << endl;
+			}
+			
 			break;
 		}
+
 		
 		case 4: {
 			

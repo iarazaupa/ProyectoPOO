@@ -1,26 +1,28 @@
 #include "Stock.h"
 #include <iostream>
 #include <fstream>
-
 #include <sstream>
+
 using namespace std;
 
-//constructor
+// constructor
 Stock::Stock() {
-	m_archivoStock = "stock.dat";
+	// antes era stock.dat (binario)
+	// ahora lo hacemos compatible con tu sistema real:
+	m_archivoStock = "productos.txt";
 }
 
-//agrego un producto al stock
-void Stock::AgregarProducto(Producto p){
+// agrego un producto al stock
+void Stock::AgregarProducto(Producto p) {
 	productos.push_back(p);
 }
 
 // elimino un producto buscando por id
-bool Stock::EliminarProducto(int ID){
+bool Stock::EliminarProducto(int ID) {
 	
-	for(int i = 0; i < productos.size(); i++){
+	for (int i = 0; i < productos.size(); i++) {
 		
-		if(productos[i].GetID() == ID){
+		if (productos[i].GetID() == ID) {
 			productos.erase(productos.begin() + i);
 			return true;
 		}
@@ -29,10 +31,10 @@ bool Stock::EliminarProducto(int ID){
 	return false;
 }
 
-//busco un producto por id
-Producto* Stock::BuscarProducto(int ID){
+// busco un producto por id
+Producto* Stock::BuscarProducto(int ID) {
 	
-	for(int i = 0; i < productos.size(); i++){
+	for (int i = 0; i < productos.size(); i++) {
 		
 		if (productos[i].GetID() == ID) {
 			return &productos[i];
@@ -43,40 +45,39 @@ Producto* Stock::BuscarProducto(int ID){
 }
 
 // muestra todo el stock
-string Stock::MostrarStock(){
+string Stock::MostrarStock() {
 	
 	stringstream comprobante;
 	
-	for(int i = 0; i < productos.size(); i++){
-		comprobante<< "id: " <<productos[i].GetID()<<endl;
-		comprobante<< "nombre: " <<productos[i].GetNombre()<<endl;
-		comprobante<< "precio: " <<productos[i].GetPrecio()<<endl;
-		comprobante<< "stock: " <<productos[i].GetStock()<<endl;
-		
+	for (int i = 0; i < productos.size(); i++) {
+		comprobante << "id: " << productos[i].GetID() << endl;
+		comprobante << "nombre: " << productos[i].GetNombre() << endl;
+		comprobante << "precio: " << productos[i].GetPrecio() << endl;
+		comprobante << "stock: " << productos[i].GetStock() << endl;
+		comprobante << endl;
 	}
 	
 	return comprobante.str();
 }
 
-
-//verifico si hay stock suficiente
-bool Stock::HayStock(int IDproducto, int cantidad){
+// verifico si hay stock suficiente
+bool Stock::HayStock(int IDproducto, int cantidad) {
 	
-	Producto* p=BuscarProducto(IDproducto);
+	Producto* p = BuscarProducto(IDproducto);
 	
-	if(p == NULL){
+	if (p == NULL) {
 		return false;
 	}
 	
 	return p->HayStock(cantidad);
 }
 
-//aumento el stock de un producto
-bool Stock::AumentarStock(int IDproducto, int cantidad){
+// aumento el stock de un producto
+bool Stock::AumentarStock(int IDproducto, int cantidad) {
 	
 	Producto* p = BuscarProducto(IDproducto);
 	
-	if(p == NULL){
+	if (p == NULL) {
 		return false;
 	}
 	
@@ -84,51 +85,69 @@ bool Stock::AumentarStock(int IDproducto, int cantidad){
 	return true;
 }
 
-//disminuyo el stock de un producto
-bool Stock::DisminuirStock(int IDproducto, int cantidad){
+// disminuyo el stock de un producto
+bool Stock::DisminuirStock(int IDproducto, int cantidad) {
 	
-	Producto* p=BuscarProducto(IDproducto);
+	Producto* p = BuscarProducto(IDproducto);
 	
-	if(p == NULL){
+	if (p == NULL) {
 		return false;
 	}
 	
 	return p->DisminuirStock(cantidad);
 }
 
-//guardo el stock en archivo
-void Stock::GuardarStock(){
+// guardo el stock en archivo (formato: id;nombre;precio;stock)
+void Stock::GuardarStock() {
 	
-	ofstream archivo(m_archivoStock.c_str(), ios::binary);
+	ofstream archivo(m_archivoStock.c_str());
 	
-	if(archivo){
+	if (!archivo.is_open()) {
+		return;
+	}
+	
+	for (int i = 0; i < productos.size(); i++) {
 		
-		int cantidad = productos.size();
-		archivo.write((char*)&cantidad, sizeof(int));
-		
-		for(int i = 0; i < productos.size(); i++){
-			archivo.write((char*)&productos[i], sizeof(Producto));
-		}
+		archivo << productos[i].GetID() << ";"
+			<< productos[i].GetNombre() << ";"
+			<< productos[i].GetPrecio() << ";"
+			<< productos[i].GetStock() << endl;
 	}
 	
 	archivo.close();
 }
 
-//cargo el stock desde archivo
-void Stock::CargarStock(){	
-	ifstream archivo(m_archivoStock.c_str(), ios::binary);
+// cargo el stock desde archivo (formato: id;nombre;precio;stock)
+void Stock::CargarStock() {
 	
-	if(!archivo.is_open()){
+	productos.clear();
+	
+	ifstream archivo(m_archivoStock.c_str());
+	
+	if (!archivo.is_open()) {
 		return;
 	}
 	
-	int cantidad;
-	archivo.read((char*)&cantidad, sizeof(int));
+	string linea;
 	
-	for(int i = 0; i < cantidad; i++){
-		Producto p(0, "", 0, 0);
-		archivo.read((char*)&p, sizeof(Producto));
-		productos.push_back(p);
+	while (getline(archivo, linea)) {
+		
+		if (linea.empty()) continue;
+		
+		size_t p1 = linea.find(';');
+		size_t p2 = linea.find(';', p1 + 1);
+		size_t p3 = linea.find(';', p2 + 1);
+		
+		if (p1 == string::npos || p2 == string::npos || p3 == string::npos) {
+			continue;
+		}
+		
+		int id = stoi(linea.substr(0, p1));
+		string nombre = linea.substr(p1 + 1, p2 - p1 - 1);
+		double precio = stod(linea.substr(p2 + 1, p3 - p2 - 1));
+		int stock = stoi(linea.substr(p3 + 1));
+		
+		productos.push_back(Producto(id, nombre, precio, stock));
 	}
 	
 	archivo.close();
