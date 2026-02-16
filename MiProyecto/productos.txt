@@ -1,1 +1,1 @@
-2;mate imperial;20000;10
+1;camionero de algarrobo;11000;12

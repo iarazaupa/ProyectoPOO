@@ -1,7 +1,9 @@
 #include "Venta.h"
 #include <fstream>
 #include <sstream>
+#include "Stock.h"
 
+#include <iostream>
 using namespace std;
 
 // constructor
@@ -47,11 +49,33 @@ void Venta::CalcularTotal() {
 	}
 }
 
-// confirmo la venta
 void Venta::ConfirmarVenta() {
+	
+	// 1) calcular total
 	CalcularTotal();
+	
+	// 2) guardar venta y detalles
 	GuardarEnArchivos();
+	
+	// 3) DESCONTAR STOCK REAL (productos.txt)
+	Stock stock;
+	stock.CargarStock();
+	
+	for (int i = 0; i < detalles.size(); i++) {
+		
+		int idProducto = detalles[i].GetProducto()->GetID();
+		int cantidad = detalles[i].GetCantidad();
+		
+		bool ok = stock.DisminuirStock(idProducto, cantidad);
+		
+		if (!ok) {
+			cout<< "ERROR: no se pudo descontar stock del producto ID "<< idProducto << endl;
+		}
+	}
+	
+	stock.GuardarStock();
 }
+
 
 // devuelvo el total
 double Venta::Gettotal() {
