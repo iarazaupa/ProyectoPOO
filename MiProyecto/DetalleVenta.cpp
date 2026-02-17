@@ -34,3 +34,12 @@ string DetalleVenta::Mostrar () {
 	return resultado;
 }
 
+
+bool DetalleVenta::DisminuirCantidad (int cantidad ) {
+	if(cantidad <= m_cantidad){
+		m_cantidad -= cantidad;
+	}else{
+		return false;
+	}
+}
+

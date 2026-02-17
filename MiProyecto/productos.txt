@@ -1,1 +1,1 @@
-1;camionero de algarrobo;11000;12
+1;camionero de algarrobo;11000;6

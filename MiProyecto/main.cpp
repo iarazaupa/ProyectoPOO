@@ -146,6 +146,7 @@ void menuNormal() {
 						cout << "1 - Agregar producto" << endl;
 						cout << "2 - Quitar producto" << endl;
 						cout << "3 - Confirmar venta" << endl;
+						cout << "4 - Ver ticket actual" << endl;
 						cout << "0 - Cancelar" << endl;
 						cout << "Opcion: ";
 						cin >> opcionVenta;
@@ -204,10 +205,21 @@ void menuNormal() {
 						// ---------------- QUITAR PRODUCTO ----------------
 						else if (opcionVenta == 2) {
 							int idProducto;
+							
+					
+							
+							int cantidad;
+							
 							cout << "ID del producto a quitar: ";
 							cin >> idProducto;
 							
-							if (v.QuitarProducto(idProducto)) {
+							
+							///ingresa la cantidad del producto que desea quitar 
+							cout<<"cantidad: "<<endl;
+							cin>>cantidad;
+							
+							
+							if (v.QuitarProducto(idProducto, cantidad)) {
 								cout << "Producto quitado." << endl;
 							} else {
 								cout << "No se encontro ese producto en la venta." << endl;
@@ -226,6 +238,16 @@ void menuNormal() {
 							cout << "------------------------" << endl;
 							
 							opcionVenta = 0; // salir del menu venta
+						}
+						// ---------------- VER TICKET ACTUAL ----------------
+						else if (opcionVenta == 4) {
+							
+							v.CalcularTotal(); // para que el total se vea actualizado
+							
+							cout << endl;
+							cout << "----- TICKET ACTUAL -----" << endl;
+							cout << v.MostrarTicket();
+							cout << "-------------------------" << endl;
 						}
 						
 						else if (opcionVenta == 0) {
