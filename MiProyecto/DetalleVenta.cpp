@@ -43,3 +43,8 @@ bool DetalleVenta::DisminuirCantidad (int cantidad ) {
 	}
 }
 
+void DetalleVenta::SetCantidad (int cantidad) {
+	m_cantidad = cantidad;
+}
+
+

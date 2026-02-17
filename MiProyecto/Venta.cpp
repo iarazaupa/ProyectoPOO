@@ -15,15 +15,32 @@ Venta::Venta(int ID, Cliente* cliente) {
 
 // agrego un producto a la venta
 bool Venta::AgregarProducto(Producto* producto, int cantidad) {
+	
 	if (producto == NULL || cantidad <= 0) {
 		return false;
 	}
 	
+	int idNuevo = producto->GetID();
+	
+	// Si ya existe ese producto en la venta, sumamos cantidad
+	for (int i = 0; i < detalles.size(); i++) {
+		
+		if (detalles[i].GetProducto()->GetID() == idNuevo) {
+			
+			int cantidadActual = detalles[i].GetCantidad();
+			detalles[i].SetCantidad(cantidadActual + cantidad);
+			
+			return true;
+		}
+	}
+	
+	// Si no existe, lo agregamos como nuevo detalle
 	DetalleVenta d(producto, cantidad);
 	detalles.push_back(d);
 	
 	return true;
 }
+
 
 // quito un producto de la venta buscando por id
 bool Venta::QuitarProducto(int IDProducto,int cantidad) {

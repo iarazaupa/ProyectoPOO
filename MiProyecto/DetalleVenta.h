@@ -12,6 +12,7 @@ public:
 	Producto* GetProducto();
 	int GetCantidad();
 	bool DisminuirCantidad(int cantidad);
+	void SetCantidad(int cantidad);
 	double CalcularSubtotal();
 	string Mostrar();
 	
@@ -19,6 +20,7 @@ public:
 };
 
 #endif
+
 
 
 
