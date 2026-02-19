@@ -29,16 +29,15 @@ public:
 	void CalcularTotal();
 	void ConfirmarVenta();
 	
-	//getters
 	double Gettotal();
 	int GetID();
 	string Getfecha();
+	string ObtenerFechaActual();
 	
-	//persistencia
 	void GuardarEnArchivos();
 	vector<Venta> CargarVentas();
 	
-	//utilidad
+
 	string MostrarTicket();
 };
 

@@ -17,13 +17,13 @@ private:
 
 public:
 	Producto(int ID, string nombre, double precio, int stock);
-	//getters
+
 	int GetID();
 	string GetNombre();
 	double GetPrecio();
 	int GetStock();
 	
-	//setters
+
 	void SetNombre(string nombre);
 	void SetPrecio(double precio);
 	

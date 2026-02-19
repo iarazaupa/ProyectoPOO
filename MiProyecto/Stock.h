@@ -17,7 +17,6 @@ public:
 	//constructor
 	Stock();
 	
-	//crud
 	void AgregarProducto(Producto p);
 	bool EliminarProducto(int ID);
 	Producto* BuscarProducto(int ID);
@@ -29,8 +28,7 @@ public:
 	//movimientos de stock
 	bool AumentarStock(int IDproducto, int cantidad);
 	bool DisminuirStock(int IDproducto, int cantidad);
-	
-	//persistencia
+
 	void GuardarStock();
 	void CargarStock();
 };

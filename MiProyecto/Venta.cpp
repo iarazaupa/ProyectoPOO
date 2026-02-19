@@ -2,6 +2,8 @@
 #include <fstream>
 #include <sstream>
 #include "Stock.h"
+#include <ctime>
+
 
 #include <iostream>
 using namespace std;
@@ -12,6 +14,22 @@ Venta::Venta(int ID, Cliente* cliente) {
 	m_cliente = cliente;
 	m_total = 0;
 }
+
+// obtengo la fecha actual del sistema
+string Venta::ObtenerFechaActual() {
+	
+	time_t ahora = time(0);
+	tm* tiempo = localtime(&ahora);
+	
+	stringstream ss;
+	
+	ss << tiempo->tm_mday << "/"
+		<< tiempo->tm_mon + 1 << "/"
+		<< tiempo->tm_year + 1900;
+	
+	return ss.str();
+}
+
 
 // agrego un producto a la venta
 bool Venta::AgregarProducto(Producto* producto, int cantidad) {
@@ -75,16 +93,18 @@ void Venta::CalcularTotal() {
 		m_total = m_total + detalles[i].CalcularSubtotal();
 	}
 }
-
 void Venta::ConfirmarVenta() {
 	
 	// 1) calcular total
 	CalcularTotal();
 	
-	// 2) guardar venta y detalles
+	// 2) guardar fecha actual
+	m_fecha = ObtenerFechaActual();
+	
+	// 3) guardar venta y detalles
 	GuardarEnArchivos();
 	
-	// 3) DESCONTAR STOCK REAL (productos.txt)
+	// 4) DESCONTAR STOCK REAL (productos.txt)
 	Stock stock;
 	stock.CargarStock();
 	
@@ -102,6 +122,7 @@ void Venta::ConfirmarVenta() {
 	
 	stock.GuardarStock();
 }
+
 
 
 // devuelvo el total
@@ -131,11 +152,17 @@ void Venta::GuardarEnArchivos() {
 		archivoVentas.write((char*)&m_ID, sizeof(int));
 		archivoVentas.write((char*)&idCliente, sizeof(int));
 		
-		// ? ARREGLO IMPORTANTE: guardar total como double
+		// guardo total
 		archivoVentas.write((char*)&m_total, sizeof(double));
+		
+		// ---------- NUEVO: guardar fecha ----------
+		int largoFecha = m_fecha.size();
+		archivoVentas.write((char*)&largoFecha, sizeof(int));
+		archivoVentas.write(m_fecha.c_str(), largoFecha);
 		
 		archivoVentas.close();
 	}
+	
 	
 	// guardo los detalles de la venta
 	ofstream archivoDetalles("detallesVenta.dat", ios::binary | ios::app);
@@ -147,21 +174,18 @@ void Venta::GuardarEnArchivos() {
 			int idVenta = m_ID;
 			int idProducto = detalles[i].GetProducto()->GetID();
 			int cantidad = detalles[i].GetCantidad();
-			
-			// guardamos precio como double también para que no haya problemas
 			double precio = detalles[i].GetProducto()->GetPrecio();
 			
 			archivoDetalles.write((char*)&idVenta, sizeof(int));
 			archivoDetalles.write((char*)&idProducto, sizeof(int));
 			archivoDetalles.write((char*)&cantidad, sizeof(int));
-			
-			// ? también guardamos el precio como double
 			archivoDetalles.write((char*)&precio, sizeof(double));
 		}
 		
 		archivoDetalles.close();
 	}
 }
+
 
 // muestro el ticket de la venta
 string Venta::MostrarTicket() {
@@ -190,10 +214,7 @@ vector<Venta> Venta::CargarVentas() {
 	
 	vector<Venta> ventas;
 	
-	// si tu clase tiene m_archivoVentas, perfecto.
-	// si no, podés poner "ventas.dat" directo.
 	ifstream archivo("ventas.dat", ios::binary);
-	
 	
 	if (!archivo.is_open()) {
 		return ventas;
@@ -211,8 +232,21 @@ vector<Venta> Venta::CargarVentas() {
 		archivo.read((char*)&idCliente, sizeof(int));
 		archivo.read((char*)&total, sizeof(double));
 		
+		// ---------- NUEVO: leer fecha ----------
+		int largoFecha;
+		archivo.read((char*)&largoFecha, sizeof(int));
+		
+		char* buffer = new char[largoFecha + 1];
+		archivo.read(buffer, largoFecha);
+		buffer[largoFecha] = '\0';
+		
+		string fecha(buffer);
+		delete[] buffer;
+		// ----------------------------------------
+		
 		Venta v(idVenta, NULL);
 		v.m_total = total;
+		v.m_fecha = fecha;
 		
 		ventas.push_back(v);
 	}
@@ -220,6 +254,7 @@ vector<Venta> Venta::CargarVentas() {
 	archivo.close();
 	return ventas;
 }
+
 
 // fecha
 string Venta::Getfecha() {

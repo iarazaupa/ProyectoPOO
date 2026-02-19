@@ -55,6 +55,8 @@ void menuNormal() {
 	
 	Cliente gestor;
 	
+	//implementado para que el cliente pueda ver los productos
+	Producto gestorProductos(0, "", 0, 0); // objeto auxiliar
 	
 	do {
 		cout << endl;
@@ -282,6 +284,17 @@ void menuNormal() {
 		}
 		//  Ver Stock
 		else if (opcion == 5) {
+			cout<<"lista de productos:"<<endl;
+			
+			vector<Producto> p = gestorProductos.CargarLista();
+			
+			if (p.empty()) {
+				cout << "No hay productos o no se pudieron leer." << endl;
+			}
+			
+			for(size_t i=0;i<p.size();i++) { 
+				cout<<p[i].GetID() << " "<< p[i].GetNombre() << " "<< p[i].GetPrecio()<< " "<< p[i].GetStock() << endl;
+			}
 			
 		}
 		
@@ -314,6 +327,7 @@ void menuAdmin() {
 		cout << "3 - Quitar producto" << endl;
 		cout << "4 - ver lista de productos" << endl; 
 		cout << "5 - Ver ventas" << endl;
+		cout << "6 - ver lista de clientes" << endl; 
 		cout << "0 - Cerrar sesion" << endl;
 		cout << "Opcion: ";
 		cin >> opcion;
@@ -427,6 +441,24 @@ void menuAdmin() {
 					cout << "ID Venta: " << ventas[i].GetID()<< " | Total: $" << ventas[i].Gettotal()<< " | Fecha: " << ventas[i].Getfecha()<< endl;
 				}
 			}
+			break;
+		}
+		
+		case 6: {
+			
+			vector<Cliente> lista = gestorClientes.cargarLista();
+			
+			if (lista.empty()) {
+				cout << "No hay clientes cargados" << endl;
+			} else {
+				cout << "----- LISTA DE CLIENTES -----" << endl;
+				for (int i = 0; i < lista.size(); i++) {
+					cout << "DNI: " << lista[i].GetID()
+						<< " | Nombre: " << lista[i].getNombre()
+						<< endl;
+				}
+			}
+			
 			break;
 		}
 		
