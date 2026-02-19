@@ -61,8 +61,9 @@ void menuNormal() {
 		cout << "----- MENU -----" << endl;
 		cout << "1 - Agregar cliente" << endl;
 		cout << "2 - Buscar cliente" << endl;
-		cout << "3 - Probar venta" << endl;
+		cout << "3 - vender" << endl;
 		cout << "4 - Listar clientes" << endl;
+		cout << "5 - Ver stock" << endl;
 		cout << "0 - Salir" << endl;
 		cout << "Opcion: ";
 		cin >> opcion;
@@ -70,12 +71,12 @@ void menuNormal() {
 		// AGREGAR CLIENTE
 		if (opcion == 1) {
 			
-			cout << "id: ";
+			cout << "DNI: ";
 			cin >> id;
 			cin.ignore();
 			
 			if (gestor.existeID(id)) {
-				cout << "Ese ID ya existe" << endl;
+				cout << "Ese DNI ya existe" << endl;
 			} else {
 				cout << "nombre: ";
 				getline(cin, nombre);
@@ -96,14 +97,14 @@ void menuNormal() {
 		// BUSCAR CLIENTE
 		else if (opcion == 2) {
 			
-			cout << "id a buscar: ";
+			cout << "DNI a buscar: ";
 			cin >> id;
 			
 			Cliente encontrado = gestor.buscarCliente(id);
 			
 			if (encontrado.GetID() != 0) {
 				cout << "Cliente encontrado" << endl;
-				cout << "id: " << encontrado.GetID() << endl;
+				cout << "DNI: " << encontrado.GetID() << endl;
 				cout << "nombre: " << encontrado.getNombre() << endl;
 				cout << "email: " << encontrado.getEmail() << endl;
 				cout << "telefono: " << encontrado.getTelefono() << endl;
@@ -116,7 +117,7 @@ void menuNormal() {
 		else if (opcion == 3) {
 			
 			int idCliente;
-			cout << "id del cliente para la venta: ";
+			cout << "DNI del cliente para la venta: ";
 			cin >> idCliente;
 			
 			Cliente clienteVenta = gestor.buscarCliente(idCliente);
@@ -273,11 +274,15 @@ void menuNormal() {
 			} else {
 				cout << "----- LISTA DE CLIENTES -----" << endl;
 				for (int i = 0; i < lista.size(); i++) {
-					cout << "ID: " << lista[i].GetID()
+					cout << "DNI: " << lista[i].GetID()
 						<< " | Nombre: " << lista[i].getNombre()
 						<< endl;
 				}
 			}
+		}
+		//  Ver Stock
+		else if (opcion == 5) {
+			
 		}
 		
 		else if (opcion == 0) {
@@ -320,12 +325,12 @@ void menuAdmin() {
 			int id;
 			string nombre, email, telefono;
 			
-			cout << "ID cliente: ";
+			cout << "DNI cliente: ";
 			cin >> id;
 			cin.ignore();
 			
 			if (gestorClientes.existeID(id)) {
-				cout << "El ID ya existe" << endl;
+				cout << "El DNI ya existe" << endl;
 				break;
 			}
 			
