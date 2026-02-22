@@ -10,8 +10,8 @@ using namespace std;
 class Stock {
 	
 private:
-	vector<Producto> productos;    
-	string m_archivoStock;          
+	vector<Producto> productos;  
+	string m_archivoStock;  
 	
 public:
 	//constructor

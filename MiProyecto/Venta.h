@@ -14,7 +14,7 @@ class Venta {
 private:
 	int m_ID;                           
 	Cliente* m_cliente;                 
-	vector<DetalleVenta> detalles;     
+	vector<DetalleVenta> detalles;   
 	double m_total;                     
 	string m_fecha;                     
 	string m_archivoVentas;             
