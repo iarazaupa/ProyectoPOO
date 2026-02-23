@@ -75,6 +75,7 @@ void Sistema::menuNormal() {
 		cout << "3 - Vender" << endl;
 		cout << "4 - Listar clientes" << endl;
 		cout << "5 - Ver stock" << endl;
+		cout << "6 - Modificar email y telefono cliente" << endl;
 		cout << "0 - Salir" << endl;
 		cout << "Opcion: ";
 		cin >> opcion;
@@ -313,6 +314,74 @@ void Sistema::menuNormal() {
 					<< p[i].GetNombre() << " "
 					<< p[i].GetPrecio() << " "
 					<< p[i].GetStock() << endl;
+			}
+		}
+		
+		// ---------------- MODIFICAR CLIENTE ----------------
+		
+		else if (opcion == 6) {
+			
+			int idModificar;
+			string nuevoEmail;
+			string nuevoTelefono;
+			int respuesta;
+			bool huboCambios = false;
+			
+			cout << "DNI del cliente a modificar: ";
+			cin >> idModificar;
+			cin.ignore();
+			
+			Cliente clienteActual = gestor.buscarCliente(idModificar);
+			
+			if (clienteActual.GetID() == 0) {
+				cout << "No existe un cliente con ese DNI" << endl;
+			}
+			else {
+				
+				cout << endl;
+				cout << "Datos actuales del cliente:" << endl;
+				cout << "Email: " << clienteActual.getEmail() << endl;
+				cout << "Telefono: " << clienteActual.getTelefono() << endl;
+				
+				// valores actuales por defecto
+				nuevoEmail = clienteActual.getEmail();
+				nuevoTelefono = clienteActual.getTelefono();
+				
+				cout << endl;
+				cout << "Modificar email? (1 = si / 0 = no): ";
+				cin >> respuesta;
+				cin.ignore();
+				
+				if (respuesta == 1) {
+					cout << "Nuevo email: ";
+					getline(cin, nuevoEmail);
+					huboCambios = true;
+				}
+				
+				cout << "Modificar telefono? (1 = si / 0 = no): ";
+				cin >> respuesta;
+				cin.ignore();
+				
+				if (respuesta == 1) {
+					cout << "Nuevo telefono: ";
+					getline(cin, nuevoTelefono);
+					huboCambios = true;
+				}
+				
+				if (huboCambios) {
+					
+					if (gestor.modificarCliente(idModificar, nuevoEmail, nuevoTelefono)) {
+						cout << endl;
+						cout << "Cliente modificado correctamente" << endl;
+					}
+					else {
+						cout << "Error al modificar cliente" << endl;
+					}
+				}
+				else {
+					cout << endl;
+					cout << "Perfecto, no realizaste cambios" << endl;
+				}
 			}
 		}
 		

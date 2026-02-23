@@ -37,6 +37,10 @@ void Cliente::setNombre(string nombre) {
 void Cliente::setTelefono(string telefono) {
 	m_telefono = telefono;
 }
+// setter email
+void Cliente::setEmail(string email) {
+	m_email = email;
+}
 
 // guardar binario
 void Cliente::guardarArchivo() {
@@ -138,4 +142,59 @@ bool Cliente::existeID(int id) {
 	}
 	
 	return false;
+}
+// modificar email y telefono de un cliente
+bool Cliente::modificarCliente(int id, string nuevoEmail, string nuevoTelefono) {
+	
+	vector<Cliente> lista = cargarLista();
+	bool encontrado = false;
+	
+	for (int i = 0; i < lista.size(); i++) {
+		
+		if (lista[i].GetID() == id) {
+			
+			lista[i].setEmail(nuevoEmail);
+			lista[i].setTelefono(nuevoTelefono);
+			encontrado = true;
+			break;
+		}
+	}
+	
+	if (!encontrado) {
+		return false;
+	}
+	
+	// reescribimos todo el archivo
+	ofstream archivo("Clientes.dat", ios::binary | ios::trunc);
+	
+	if (!archivo.is_open()) {
+		return false;
+	}
+	
+	int largo;
+	
+	for (int i = 0; i < lista.size(); i++) {
+		
+		int id = lista[i].GetID();
+		string nombre = lista[i].getNombre();
+		string email = lista[i].getEmail();
+		string telefono = lista[i].getTelefono();
+		
+		archivo.write((char*)&id, sizeof(int));
+		
+		largo = nombre.size();
+		archivo.write((char*)&largo, sizeof(int));
+		archivo.write(nombre.c_str(), largo);
+		
+		largo = email.size();
+		archivo.write((char*)&largo, sizeof(int));
+		archivo.write(email.c_str(), largo);
+		
+		largo = telefono.size();
+		archivo.write((char*)&largo, sizeof(int));
+		archivo.write(telefono.c_str(), largo);
+	}
+	
+	archivo.close();
+	return true;
 }

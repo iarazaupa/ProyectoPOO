@@ -24,12 +24,15 @@ public:
 	
 	void setNombre(string nombre);
 	void setTelefono(string telefono);
+	void setEmail(string email);
+	
 	
 	void guardarArchivo();
 	vector<Cliente> cargarLista();
 	Cliente buscarCliente(int id);
 	
 	bool existeID(int id);
+	bool modificarCliente(int id, string nuevoEmail, string nuevoTelefono);
 };
 
 #endif
