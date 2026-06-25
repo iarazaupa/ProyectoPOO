@@ -110,11 +110,17 @@ void Sistema::menuNormal() {
 		}
 		
 		// ---------------- BUSCAR CLIENTE ----------------
-		
 		else if (opcion == 2) {
 			
 			cout << "DNI a buscar: ";
-			cin >> id;
+			
+			while (!(cin >> id)) {
+				cout << "Error: ingrese un DNI valido (solo numeros): ";
+				cin.clear();
+				cin.ignore(10000, '\n');
+			}
+			
+			cin.ignore();
 			
 			Cliente encontrado = gestor.buscarCliente(id);
 			
