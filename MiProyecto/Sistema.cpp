@@ -85,13 +85,19 @@ void Sistema::menuNormal() {
 		if (opcion == 1) {
 			
 			cout << "DNI: ";
-			cin >> id;
+			
+			//validacion de que es un numero
+			while (!(cin >> id)) {
+				cout << "Error: ingrese un DNI valido (solo numeros): ";
+				cin.clear();
+				cin.ignore(10000, '\n'); //(max caracteres a ignorar,se frena en un salto de linea)
+			}
+			
 			cin.ignore();
 			
 			if (gestor.existeID(id)) {
 				cout << "Ese DNI ya existe" << endl;
-			}
-			else {
+			} else {
 				
 				cout << "Nombre: ";
 				getline(cin, nombre);
@@ -114,6 +120,7 @@ void Sistema::menuNormal() {
 			
 			cout << "DNI a buscar: ";
 			
+			//validacion de que es un numero
 			while (!(cin >> id)) {
 				cout << "Error: ingrese un DNI valido (solo numeros): ";
 				cin.clear();
@@ -143,7 +150,15 @@ void Sistema::menuNormal() {
 			
 			int idCliente;
 			cout << "DNI del cliente para la venta: ";
-			cin >> idCliente;
+			
+			//validar que es un numero
+			while (!(cin >> idCliente)) {
+				cout << "Error: ingrese un DNI valido (solo numeros): ";
+				cin.clear();
+				cin.ignore(10000, '\n');
+			}
+			
+			cin.ignore();
 			
 			Cliente clienteVenta = gestor.buscarCliente(idCliente);
 			
