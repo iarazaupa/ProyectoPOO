@@ -30,7 +30,7 @@ string DetalleVenta::Mostrar() {
 	
 	stringstream ss;
 	
-	ss << fixed << setprecision(0);
+	ss << fixed << setprecision(2);
 	
 	ss << "Producto: " << m_producto->GetNombre() << "\n";
 	ss << "Cantidad: " << m_cantidad << "\n";
