@@ -310,10 +310,9 @@ void Sistema::menuNormal() {
 				cout << "----- LISTA DE CLIENTES -----" << endl;
 				
 				for (int i = 0; i < lista.size(); i++) {
-					
 					cout << "DNI: " << lista[i].GetID()
 						<< " | Nombre: " << lista[i].getNombre()
-						<< endl;
+						<< " | Telefono: " << lista[i].getTelefono() << endl;
 				}
 			}
 		}
