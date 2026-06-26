@@ -1,4 +1,6 @@
 #include "DetalleVenta.h"
+#include <sstream>
+#include <iomanip>
 
 
 DetalleVenta::DetalleVenta (Producto * producto, int cantidad) {
@@ -22,25 +24,30 @@ double DetalleVenta::CalcularSubtotal () {
 }
 
 
-string DetalleVenta::Mostrar () {
+string DetalleVenta::Mostrar() {
 	if (m_producto == nullptr)
 		return "Detalle de venta sin producto";
 	
-	string resultado = "Producto: " + m_producto->GetNombre() + "\n";
-	resultado += "Cantidad: " + to_string(m_cantidad) + "\n";
-	resultado += "Precio unitario: $" + to_string(m_producto->GetPrecio()) + "\n";
-	resultado += "Subtotal: $" + to_string(CalcularSubtotal());
+	stringstream ss;
 	
-	return resultado;
+	ss << fixed << setprecision(0);
+	
+	ss << "Producto: " << m_producto->GetNombre() << "\n";
+	ss << "Cantidad: " << m_cantidad << "\n";
+	ss << "Precio unitario: $" << m_producto->GetPrecio() << "\n";
+	ss << "Subtotal: $" << CalcularSubtotal();
+	
+	return ss.str();
 }
 
 
-bool DetalleVenta::DisminuirCantidad (int cantidad ) {
-	if(cantidad <= m_cantidad){
+bool DetalleVenta::DisminuirCantidad(int cantidad) {
+	if (cantidad <= m_cantidad) {
 		m_cantidad -= cantidad;
-	}else{
-		return false;
+		return true;
 	}
+	
+	return false;
 }
 
 void DetalleVenta::SetCantidad (int cantidad) {
