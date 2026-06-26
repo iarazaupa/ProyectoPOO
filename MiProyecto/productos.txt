@@ -1,3 +1,5 @@
 1;mate imperial de acero y alpaca;20000;1
 2;mate Cam Alg;11000;3
 3;ranchero;30000;1
+99;bombilla chata;2999.99;3
+101;mate acero;1229.99;3
