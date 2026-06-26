@@ -438,7 +438,7 @@ void Sistema::menuNormal() {
 }
 
 
-// ---------------- MENU ADMIN ----------------
+/// ---------------- MENU ADMIN ----------------
 
 void Sistema::menuAdmin() {
 	
@@ -463,6 +463,7 @@ void Sistema::menuAdmin() {
 		
 		switch (opcion) {
 			
+		//Agregar cliente
 		case 1: {
 			
 			int id;
@@ -493,6 +494,7 @@ void Sistema::menuAdmin() {
 			break;
 		}
 		
+		//Agregar producto
 		case 2: {
 			
 			int id, stock;
@@ -519,6 +521,7 @@ void Sistema::menuAdmin() {
 			break;
 		}
 		
+		//Quitar producto
 		case 3: {
 			
 			int idProducto;
@@ -540,6 +543,7 @@ void Sistema::menuAdmin() {
 			break;
 		}
 		
+		//Ver lista de productos 
 		case 4: {
 			
 			vector<Producto> p = gestorProductos.CargarLista();
@@ -559,6 +563,7 @@ void Sistema::menuAdmin() {
 			break;
 		}
 		
+		//Ver ventas
 		case 5: {
 			
 			Venta v(0, nullptr);
@@ -583,6 +588,7 @@ void Sistema::menuAdmin() {
 			break;
 		}
 		
+		//Ver lista de clientes
 		case 6: {
 			
 			vector<Cliente> lista = gestorClientes.cargarLista();
@@ -596,13 +602,14 @@ void Sistema::menuAdmin() {
 					
 					cout << "DNI: " << lista[i].GetID()
 						<< " | Nombre: " << lista[i].getNombre()
-						<< endl;
+						<< " | Telefono: " << lista[i].getTelefono() <<endl;
 				}
 			}
 			
 			break;
 		}
 		
+		//Cerrar sesion
 		case 0:
 			cout << "Cerrando sesion admin..." << endl;
 			break;
