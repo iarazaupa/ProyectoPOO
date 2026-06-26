@@ -7,6 +7,8 @@
 #include "Venta.h"
 #include "Stock.h"
 
+#include <fstream>
+#include <cstring>
 using namespace std;
 
 // ---------------- CONSTRUCTOR ----------------
@@ -43,13 +45,33 @@ int Sistema::login() {
 
 bool Sistema::verificarPassword() {
 	
+	char passwordAdmin[20];
 	string pass;
-	const string PASSWORD_ADMIN = "admin123";
+	
+	ifstream archivo("config.dat", ios::binary);
+	
+	// Si el archivo no existe, crear la contraseña
+	if (!archivo) {
+		
+		cout << "No existe una contraseña de administrador." << endl;
+		cout << "Cree una nueva contraseña: ";
+		
+		cin >> passwordAdmin;
+		
+		ofstream crear("config.dat", ios::binary);
+		crear.write(reinterpret_cast<char*>(passwordAdmin), sizeof(passwordAdmin));
+		crear.close();
+		
+		archivo.open("config.dat", ios::binary);
+	}
+	
+	archivo.read(reinterpret_cast<char*>(passwordAdmin), sizeof(passwordAdmin));
+	archivo.close();
 	
 	cout << "Ingrese password de administrador: ";
 	cin >> pass;
 	
-	return pass == PASSWORD_ADMIN;
+	return pass == passwordAdmin;
 }
 
 
