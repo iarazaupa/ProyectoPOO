@@ -98,7 +98,7 @@ void Sistema::menuNormal() {
 		cout << "3 - Vender" << endl;
 		cout << "4 - Listar clientes" << endl;
 		cout << "5 - Ver stock" << endl;
-		cout << "6 - Modificar email y telefono cliente" << endl;
+		cout << "6 - Modificar Datos del cliente" << endl;
 		cout << "0 - Salir" << endl;
 		cout << "Opcion: ";
 		cin >> opcion;
@@ -365,6 +365,9 @@ void Sistema::menuNormal() {
 		else if (opcion == 6) {
 			
 			int idModificar;
+			
+			int nuevoID;
+			string nuevoNombre;
 			string nuevoEmail;
 			string nuevoTelefono;
 			int respuesta;
@@ -383,12 +386,29 @@ void Sistema::menuNormal() {
 				
 				cout << endl;
 				cout << "Datos actuales del cliente:" << endl;
+				cout << "DNI: " << clienteActual.GetID() << endl;
+				cout << "Nombre: " << clienteActual.getNombre() << endl;
 				cout << "Email: " << clienteActual.getEmail() << endl;
 				cout << "Telefono: " << clienteActual.getTelefono() << endl;
 				
 				// valores actuales por defecto
+				nuevoID = clienteActual.GetID();
+				nuevoNombre = clienteActual.getNombre();
 				nuevoEmail = clienteActual.getEmail();
 				nuevoTelefono = clienteActual.getTelefono();
+				
+				//AGERGANDO PARA PODER MODIFICAR EL DNI Y EL NOMBRE
+				
+				cout << "Modificar nombre? (1 = si / 0 = no): ";
+				cin >> respuesta;
+				cin.ignore();
+				
+				if (respuesta == 1) {
+					cout << "Nuevo nombre: ";
+					getline(cin, nuevoNombre);
+					huboCambios = true;
+				}
+				
 				
 				cout << endl;
 				cout << "Modificar email? (1 = si / 0 = no): ";
@@ -411,9 +431,11 @@ void Sistema::menuNormal() {
 					huboCambios = true;
 				}
 				
+				
+				//ACA CONSULTA SI HUBO CAMBIOS, SI ES QUE SI, LOS GUARDA
 				if (huboCambios) {
 					
-					if (gestor.modificarCliente(idModificar, nuevoEmail, nuevoTelefono)) {
+					if (gestor.modificarCliente(idModificar,nuevoNombre, nuevoEmail, nuevoTelefono)) {
 						cout << endl;
 						cout << "Cliente modificado correctamente" << endl;
 					}
@@ -458,6 +480,7 @@ void Sistema::menuAdmin() {
 		cout << "4 - Ver lista de productos" << endl;
 		cout << "5 - Ver ventas" << endl;
 		cout << "6 - Ver lista de clientes" << endl;
+		cout << "7 - Ver productos con stock bajo" << endl;
 		cout << "0 - Cerrar sesion" << endl;
 		cout << "Opcion: ";
 		cin >> opcion;
@@ -544,21 +567,26 @@ void Sistema::menuAdmin() {
 			break;
 		}
 		
-		//Ver lista de productos 
+		//Ver lista de productos
 		case 4: {
 			
-			vector<Producto> p = gestorProductos.CargarLista();
+			vector<Producto> productos = gestorProductos.CargarLista();
 			
-			if (p.empty()) {
-				cout << "No hay productos o no se pudieron leer." << endl;
+			if (productos.empty()) {
+				cout << "No hay productos registrados" << endl;
 			}
-			
-			for (int i = 0; i < p.size(); i++) {
+			else {
 				
-				cout << p[i].GetID() << " "
-					<< p[i].GetNombre() << " "
-					<< p[i].GetPrecio() << " "
-					<< p[i].GetStock() << endl;
+				cout << "----- LISTA DE PRODUCTOS -----" << endl;
+				
+				for (int i = 0; i < productos.size(); i++) {
+					
+					cout << "ID: " << productos[i].GetID()
+						<< " | Nombre: " << productos[i].GetNombre()
+						<< " | Precio: $" << productos[i].GetPrecio()
+						<< " | Stock: " << productos[i].GetStock()
+						<< endl;
+				}
 			}
 			
 			break;
@@ -615,6 +643,17 @@ void Sistema::menuAdmin() {
 						<< " | Telefono: " << lista[i].getTelefono() <<endl;
 				}
 			}
+			
+			break;
+		}
+		
+		//Ver productos con stock bajo
+		case 7: {
+			
+			Stock stock;
+			
+			stock.CargarStock();
+			stock.VerificarStockBajo();
 			
 			break;
 		}

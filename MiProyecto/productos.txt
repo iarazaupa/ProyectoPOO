@@ -3,3 +3,4 @@
 3;ranchero;30000;1
 99;bombilla chata;2999.99;3
 101;mate acero;1229.99;3
+4;mate criollo;1550.5;4
