@@ -30,6 +30,11 @@ string Cliente::getTelefono() {
 }
 
 // setters
+
+void Cliente::setID(int id) {
+	m_ID = id;
+}
+
 void Cliente::setNombre(string nombre) {
 	m_nombre = nombre;
 }
@@ -144,17 +149,18 @@ bool Cliente::existeID(int id) {
 	return false;
 }
 // modificar email y telefono de un cliente
-bool Cliente::modificarCliente(int id, string nuevoEmail, string nuevoTelefono) {
+bool Cliente::modificarCliente(int idActual, string nuevoNombre, string nuevoEmail, string nuevoTelefono){
 	
 	vector<Cliente> lista = cargarLista();
 	bool encontrado = false;
 	
 	for (int i = 0; i < lista.size(); i++) {
 		
-		if (lista[i].GetID() == id) {
-			
+		if (lista[i].GetID() == idActual) {
+			lista[i].setNombre(nuevoNombre);
 			lista[i].setEmail(nuevoEmail);
 			lista[i].setTelefono(nuevoTelefono);
+			
 			encontrado = true;
 			break;
 		}

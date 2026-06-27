@@ -22,6 +22,7 @@ public:
 	string getEmail();
 	string getTelefono();
 	
+	void setID(int id);
 	void setNombre(string nombre);
 	void setTelefono(string telefono);
 	void setEmail(string email);
@@ -32,7 +33,7 @@ public:
 	Cliente buscarCliente(int id);
 	
 	bool existeID(int id);
-	bool modificarCliente(int id, string nuevoEmail, string nuevoTelefono);
+	bool modificarCliente(int idActual, string nuevoNombre, string nuevoEmail, string nuevoTelefono);
 };
 
 #endif
