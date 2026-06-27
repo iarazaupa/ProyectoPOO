@@ -15,7 +15,7 @@ tab_width=4
 tab_use_spaces=0
 explorer_path=.
 inherits_from=
-current_source=Sistema.cpp
+current_source=Stock.cpp
 path_char=\
 [source]
 path=main.cpp
@@ -23,7 +23,7 @@ cursor=0:0
 open=true
 [source]
 path=Producto.cpp
-cursor=124:2
+cursor=142:0
 open=true
 [source]
 path=Cliente.cpp
@@ -39,11 +39,11 @@ cursor=42:0
 open=true
 [source]
 path=Stock.cpp
-cursor=154:0
+cursor=159:1
 open=true
 [source]
 path=Sistema.cpp
-cursor=511:17
+cursor=625:5
 open=true
 [header]
 path=Producto.h
@@ -63,7 +63,7 @@ cursor=5:8
 open=true
 [header]
 path=Stock.h
-cursor=25:45
+cursor=26:27
 open=true
 [header]
 path=Sistema.h

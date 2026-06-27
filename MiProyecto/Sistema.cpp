@@ -457,6 +457,7 @@ void Sistema::menuAdmin() {
 		cout << "4 - Ver lista de productos" << endl;
 		cout << "5 - Ver ventas" << endl;
 		cout << "6 - Ver lista de clientes" << endl;
+		cout << "7 - Ver productos con stock bajo" << endl;
 		cout << "0 - Cerrar sesion" << endl;
 		cout << "Opcion: ";
 		cin >> opcion;
@@ -543,21 +544,26 @@ void Sistema::menuAdmin() {
 			break;
 		}
 		
-		//Ver lista de productos 
+		//Ver lista de productos
 		case 4: {
 			
-			vector<Producto> p = gestorProductos.CargarLista();
+			vector<Producto> productos = gestorProductos.CargarLista();
 			
-			if (p.empty()) {
-				cout << "No hay productos o no se pudieron leer." << endl;
+			if (productos.empty()) {
+				cout << "No hay productos registrados" << endl;
 			}
-			
-			for (int i = 0; i < p.size(); i++) {
+			else {
 				
-				cout << p[i].GetID() << " "
-					<< p[i].GetNombre() << " "
-					<< p[i].GetPrecio() << " "
-					<< p[i].GetStock() << endl;
+				cout << "----- LISTA DE PRODUCTOS -----" << endl;
+				
+				for (int i = 0; i < productos.size(); i++) {
+					
+					cout << "ID: " << productos[i].GetID()
+						<< " | Nombre: " << productos[i].GetNombre()
+						<< " | Precio: $" << productos[i].GetPrecio()
+						<< " | Stock: " << productos[i].GetStock()
+						<< endl;
+				}
 			}
 			
 			break;
@@ -605,6 +611,17 @@ void Sistema::menuAdmin() {
 						<< " | Telefono: " << lista[i].getTelefono() <<endl;
 				}
 			}
+			
+			break;
+		}
+		
+		//Ver productos con stock bajo
+		case 7: {
+			
+			Stock stock;
+			
+			stock.CargarStock();
+			stock.VerificarStockBajo();
 			
 			break;
 		}

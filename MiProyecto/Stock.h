@@ -24,6 +24,7 @@ public:
 	//consulta
 	string MostrarStock();
 	bool HayStock(int IDproducto, int cantidad);
+	void VerificarStockBajo();
 	
 	//movimientos de stock
 	bool AumentarStock(int IDproducto, int cantidad);
