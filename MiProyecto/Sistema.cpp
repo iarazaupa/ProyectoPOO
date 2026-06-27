@@ -6,6 +6,7 @@
 #include "Producto.h"
 #include "Venta.h"
 #include "Stock.h"
+#include "DetalleVenta.h"
 
 #include <fstream>
 #include <cstring>
@@ -568,6 +569,7 @@ void Sistema::menuAdmin() {
 			
 			Venta v(0, nullptr);
 			vector<Venta> ventas = v.CargarVentas();
+			vector<DetalleVenta> detalles;
 			
 			if (ventas.empty()) {
 				cout << "No hay ventas registradas" << endl;
@@ -577,9 +579,17 @@ void Sistema::menuAdmin() {
 				cout << "----- LISTA DE VENTAS -----" << endl;
 				
 				for (int i = 0; i < ventas.size(); i++) {
-					
-					cout << "ID Venta: " << ventas[i].GetID()
-						<< " | Total: $" << ventas[i].Gettotal()
+					//detalles.push_back(ventas[i].GetDetalles());
+					cout << "ID Venta: " << ventas[i].GetID();
+						for(int i=0;i<detalles.size();i++) { 
+							if (detalles.empty()) {
+								cout << "No hay detalles registrados" << endl;
+							} else {
+								cout << " | Nombre del producto: " << detalles[i].GetProducto();
+							}
+						}
+						
+					cout << " | Total: $" << ventas[i].Gettotal()
 						<< " | Fecha: " << ventas[i].Getfecha()
 						<< endl;
 				}

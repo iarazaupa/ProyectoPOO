@@ -31,6 +31,7 @@ public:
 	
 	double Gettotal();
 	int GetID();
+	vector<DetalleVenta> GetDetalles();
 	string Getfecha();
 	string ObtenerFechaActual();
 	

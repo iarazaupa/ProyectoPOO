@@ -255,6 +255,9 @@ vector<Venta> Venta::CargarVentas() {
 	return ventas;
 }
 
+vector<DetalleVenta> Venta::GetDetalles() {
+	return detalles;
+}
 
 // fecha
 string Venta::Getfecha() {
