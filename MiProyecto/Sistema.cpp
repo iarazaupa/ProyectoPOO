@@ -246,21 +246,30 @@ void Sistema::menuNormal() {
 							
 							if (productoSeleccionado == NULL) {
 								cout << "Producto no encontrado." << endl;
-							}
-							else {
-								
+							} else {
 								cout << "Cantidad: ";
 								cin >> cantidad;
 								
 								if (cantidad <= 0) {
 									cout << "Cantidad invalida." << endl;
-								}
-								else if (cantidad > productoSeleccionado->GetStock()) {
-									cout << "No hay stock suficiente." << endl;
-								}
-								else {
-									v.AgregarProducto(productoSeleccionado, cantidad);
-									cout << "Producto agregado a la venta." << endl;
+								} else {
+									int cantidadEnCarrito = 0;
+									vector<DetalleVenta> detallesActuales = v.GetDetalles();
+									
+									for(int j=0;j<detallesActuales.size();j++) { 
+										if (detallesActuales[j].GetProducto()->GetID() == idProducto) {
+											cantidadEnCarrito = detallesActuales[j].GetCantidad();
+											break;
+										}
+									}
+									if ((cantidad + cantidadEnCarrito) > productoSeleccionado->GetStock()) {
+										cout << "No hay stock suficiente" << endl;
+										cout << "(Stock total: " << productoSeleccionado->GetStock()
+											<< ")" << endl;
+									} else {
+										v.AgregarProducto(productoSeleccionado, cantidad);
+										cout << "Producto agregado a la venta." << endl;
+									}
 								}
 							}
 						}
