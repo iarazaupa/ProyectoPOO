@@ -17,7 +17,9 @@ private:
 	vector<DetalleVenta> detalles;   
 	double m_total;                     
 	string m_fecha;                     
-	string m_archivoVentas;             
+	string m_archivoVentas;
+	vector<string> m_nombresProductos;
+	vector<int> m_cantidadesProductos;
 	
 public:
 	//constructor
@@ -35,6 +37,8 @@ public:
 	string Getfecha();
 	string ObtenerFechaActual();
 	
+	vector<string> GetNombresProductos();
+	vector<int> GetCantidadesProductos();
 	void GuardarEnArchivos();
 	vector<Venta> CargarVentas();
 	

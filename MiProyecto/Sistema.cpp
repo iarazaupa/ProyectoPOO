@@ -606,7 +606,6 @@ void Sistema::menuAdmin() {
 			
 			Venta v(0, nullptr);
 			vector<Venta> ventas = v.CargarVentas();
-			vector<DetalleVenta> detalles;
 			
 			if (ventas.empty()) {
 				cout << "No hay ventas registradas" << endl;
@@ -616,25 +615,30 @@ void Sistema::menuAdmin() {
 				cout << "----- LISTA DE VENTAS -----" << endl;
 				
 				for (int i = 0; i < ventas.size(); i++) {
-					//detalles.push_back(ventas[i].GetDetalles());
+					
 					cout << "ID Venta: " << ventas[i].GetID();
-						for(int i=0;i<detalles.size();i++) { 
-							if (detalles.empty()) {
-								cout << "No hay detalles registrados" << endl;
-							} else {
-								cout << " | Nombre del producto: " << detalles[i].GetProducto();
-							}
+					
+					vector<string> nombres = ventas[i].GetNombresProductos();
+					vector<int> cantidades = ventas[i].GetCantidadesProductos();
+					
+					if (nombres.empty()) {
+						cout << " | No hay productos";
+					}
+					else {
+						for (int j = 0; j < nombres.size(); j++) {
+							cout << " | Producto: " << nombres[j]
+								<< " | Cantidad: " << cantidades[j];
 						}
-						
+					}
+					
 					cout << " | Total: $" << ventas[i].Gettotal()
-						<< " | Fecha: " << ventas[i].Getfecha()
-						<< endl;
+									  << " | Fecha: " << ventas[i].Getfecha()
+									  << endl;
 				}
 			}
 			
 			break;
 		}
-		
 		//Ver lista de clientes
 		case 6: {
 			

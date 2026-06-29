@@ -160,6 +160,21 @@ void Venta::GuardarEnArchivos() {
 		archivoVentas.write((char*)&largoFecha, sizeof(int));
 		archivoVentas.write(m_fecha.c_str(), largoFecha);
 		
+		// Cantidad de productos de la venta
+		int cantidadProductos = detalles.size();
+		archivoVentas.write((char*)&cantidadProductos, sizeof(int));
+		
+		for (int i = 0; i < detalles.size(); i++) {
+			
+			string nombre = detalles[i].GetProducto()->GetNombre();
+			int largoNombre = nombre.size();
+			int cantidad = detalles[i].GetCantidad();
+			
+			archivoVentas.write((char*)&largoNombre, sizeof(int));
+			archivoVentas.write(nombre.c_str(), largoNombre);
+			archivoVentas.write((char*)&cantidad, sizeof(int));
+		}
+		
 		archivoVentas.close();
 	}
 	
@@ -209,6 +224,13 @@ string Venta::MostrarTicket() {
 	return ticket.str();
 }
 
+
+
+vector<int> Venta::GetCantidadesProductos() {
+	return m_cantidadesProductos;
+}
+
+
 // cargo ventas desde el archivo (solo cabecera: idVenta, idCliente, total)
 vector<Venta> Venta::CargarVentas() {
 	
@@ -232,7 +254,10 @@ vector<Venta> Venta::CargarVentas() {
 		archivo.read((char*)&idCliente, sizeof(int));
 		archivo.read((char*)&total, sizeof(double));
 		
+		
+		
 		// ---------- NUEVO: leer fecha ----------
+		// ---------- leer fecha ----------
 		int largoFecha;
 		archivo.read((char*)&largoFecha, sizeof(int));
 		
@@ -242,11 +267,35 @@ vector<Venta> Venta::CargarVentas() {
 		
 		string fecha(buffer);
 		delete[] buffer;
-		// ----------------------------------------
 		
+		// Crear la venta
 		Venta v(idVenta, NULL);
 		v.m_total = total;
 		v.m_fecha = fecha;
+		
+		// Leer nombres de productos
+		int cantidadProductos;
+		archivo.read((char*)&cantidadProductos, sizeof(int));
+		
+		for (int i = 0; i < cantidadProductos; i++) {
+			
+			int largoNombre;
+			archivo.read((char*)&largoNombre, sizeof(int));
+			
+			char* bufferNombre = new char[largoNombre + 1];
+			archivo.read(bufferNombre, largoNombre);
+			bufferNombre[largoNombre] = '\0';
+			
+			string nombreProducto(bufferNombre);
+			delete[] bufferNombre;
+			
+			v.m_nombresProductos.push_back(nombreProducto);
+			
+			int cantidad;
+			archivo.read((char*)&cantidad, sizeof(int));
+			
+			v.m_cantidadesProductos.push_back(cantidad);
+		}
 		
 		ventas.push_back(v);
 	}
@@ -254,6 +303,14 @@ vector<Venta> Venta::CargarVentas() {
 	archivo.close();
 	return ventas;
 }
+
+
+vector<string> Venta::GetNombresProductos() {
+	return m_nombresProductos;
+}
+
+
+
 
 vector<DetalleVenta> Venta::GetDetalles() {
 	return detalles;
