@@ -10,6 +10,7 @@
 
 #include <fstream>
 #include <cstring>
+#include <iomanip>
 using namespace std;
 
 // ---------------- CONSTRUCTOR ----------------
@@ -87,7 +88,7 @@ void Sistema::menuNormal() {
 	string telefono;
 	
 	Cliente gestor;
-	Producto gestorProductos(0, "", 0, 0);
+	Producto gestorProductos(0, "", "", 0, 0);
 	
 	do {
 		
@@ -218,15 +219,79 @@ void Sistema::menuNormal() {
 						if (opcionVenta == 1) {
 							
 							cout << endl;
+							cout << "----- CATEGORIAS -----" << endl;
+							cout << "1 - Mate de calabaza" << endl;
+							cout << "2 - Mate de algarrobo" << endl;
+							cout << "3 - Termo" << endl;
+							cout << "4 - Bombilla" << endl;
+							cout << "5 - Yerba" << endl;
+							cout << "6 - Otra categoria" << endl;
+							cout << "0 - Volver" << endl;
+							
+							int opCategoria;
+							string categoriaElegida;
+							
+							cout << "Opcion: ";
+							cin >> opCategoria;
+							cin.ignore();
+							
+							switch (opCategoria) {
+								
+							case 1:
+								categoriaElegida = "Mate de calabaza";
+								break;
+								
+							case 2:
+								categoriaElegida = "Mate de algarrobo";
+								break;
+								
+							case 3:
+								categoriaElegida = "Termo";
+								break;
+								
+							case 4:
+								categoriaElegida = "Bombilla";
+								break;
+								
+							case 5:
+								categoriaElegida = "Yerba";
+								break;
+								
+							case 6:
+								cout << "Ingrese la categoria: ";
+								getline(cin, categoriaElegida);
+								break;
+								
+							case 0:
+								continue;
+								
+							default:
+								cout << "Opcion invalida." << endl;
+								continue;
+							}
+							
+							cout << endl;
 							cout << "----- LISTA DE PRODUCTOS -----" << endl;
+							
+							bool hay = false;
 							
 							for (int i = 0; i < listaProductos.size(); i++) {
 								
-								cout << "ID: " << listaProductos[i].GetID()
-									<< " | Nombre: " << listaProductos[i].GetNombre()
-									<< " | Precio: $" << listaProductos[i].GetPrecio()
-									<< " | Stock: " << listaProductos[i].GetStock()
-									<< endl;
+								if (listaProductos[i].GetCategoria() == categoriaElegida) {
+									
+									hay = true;
+									
+									cout << "ID: " << listaProductos[i].GetID()
+										<< " | Nombre: " << listaProductos[i].GetNombre()
+										<< " | Precio: $" << listaProductos[i].GetPrecio()
+										<< " | Stock: " << listaProductos[i].GetStock()
+										<< endl;
+								}
+							}
+							
+							if (!hay) {
+								cout << "No hay productos en esa categoria." << endl;
+								continue;
 							}
 							
 							int idProducto;
@@ -238,6 +303,7 @@ void Sistema::menuNormal() {
 							Producto* productoSeleccionado = NULL;
 							
 							for (int i = 0; i < listaProductos.size(); i++) {
+								
 								if (listaProductos[i].GetID() == idProducto) {
 									productoSeleccionado = &listaProductos[i];
 									break;
@@ -246,27 +312,36 @@ void Sistema::menuNormal() {
 							
 							if (productoSeleccionado == NULL) {
 								cout << "Producto no encontrado." << endl;
-							} else {
+							}
+							else {
+								
 								cout << "Cantidad: ";
 								cin >> cantidad;
 								
 								if (cantidad <= 0) {
 									cout << "Cantidad invalida." << endl;
-								} else {
+								}
+								else {
+									
 									int cantidadEnCarrito = 0;
 									vector<DetalleVenta> detallesActuales = v.GetDetalles();
 									
-									for(int j=0;j<detallesActuales.size();j++) { 
+									for (int j = 0; j < detallesActuales.size(); j++) {
+										
 										if (detallesActuales[j].GetProducto()->GetID() == idProducto) {
 											cantidadEnCarrito = detallesActuales[j].GetCantidad();
 											break;
 										}
 									}
+									
 									if ((cantidad + cantidadEnCarrito) > productoSeleccionado->GetStock()) {
+										
 										cout << "No hay stock suficiente" << endl;
-										cout << "(Stock total: " << productoSeleccionado->GetStock()
-											<< ")" << endl;
-									} else {
+										cout << "(Stock total: " << productoSeleccionado->GetStock() << ")" << endl;
+										
+									}
+									else {
+										
 										v.AgregarProducto(productoSeleccionado, cantidad);
 										cout << "Producto agregado a la venta." << endl;
 									}
@@ -359,11 +434,12 @@ void Sistema::menuNormal() {
 			if (p.empty()) {
 				cout << "No hay productos o no se pudieron leer." << endl;
 			}
-			
+			cout << fixed << setprecision(2);
 			for (int i = 0; i < p.size(); i++) {
 				
 				cout << p[i].GetID() << " "
 					<< p[i].GetNombre() << " "
+					<< p[i].GetCategoria() << " "
 					<< p[i].GetPrecio() << " "
 					<< p[i].GetStock() << endl;
 			}
@@ -477,7 +553,7 @@ void Sistema::menuAdmin() {
 	int opcion;
 	
 	Cliente gestorClientes;
-	Producto gestorProductos(0, "", 0, 0);
+	Producto gestorProductos(0, "", "", 0, 0);
 	
 	do {
 		
@@ -532,6 +608,7 @@ void Sistema::menuAdmin() {
 			
 			int id, stock;
 			string nombre;
+			string categoria;
 			double precio;
 			
 			cout << "ID producto: ";
@@ -541,16 +618,67 @@ void Sistema::menuAdmin() {
 			cout << "Nombre: ";
 			getline(cin, nombre);
 			
+			cout << endl;
+			cout << endl;
+			cout << "Categoria:" << endl;
+			cout << "1 - Mate de calabaza" << endl;
+			cout << "2 - Mate de algarrobo" << endl;
+			cout << "3 - Termo" << endl;
+			cout << "4 - Bombilla" << endl;
+			cout << "5 - Yerba" << endl;
+			cout << "6 - Otra categoria" << endl;
+			cout << "Opcion: ";
+			
+			int opCategoria;
+			cin >> opCategoria;
+			cin.ignore();
+			
+			switch (opCategoria) {
+				
+			case 1:
+				categoria = "Mate de calabaza";
+				break;
+				
+			case 2:
+				categoria = "Mate de algarrobo";
+				break;
+				
+			case 3:
+				categoria = "Termo";
+				break;
+				
+			case 4:
+				categoria = "Bombilla";
+				break;
+				
+			case 5:
+				categoria = "Yerba";
+				break;
+				
+			case 6:
+				cout << "Ingrese el nombre de la nueva categoria: ";
+				getline(cin, categoria);
+				break;
+				
+			default:
+				cout << "Categoria invalida." << endl;
+				break;
+			}
+			// Si la categoría es inválida, no continúa
+			if (categoria == "") {
+				break;
+			}
+			
 			cout << "Precio: ";
 			cin >> precio;
 			
 			cout << "Stock: ";
 			cin >> stock;
 			
-			Producto p(id, nombre, precio, stock);
+			Producto p(id, nombre, categoria, precio, stock);
 			p.GuardarEnArchivo();
 			
-			cout << "Producto agregado correctamente" << endl;
+			cout << "Producto agregado correctamente." << endl;
 			break;
 		}
 		
@@ -592,6 +720,7 @@ void Sistema::menuAdmin() {
 					
 					cout << "ID: " << productos[i].GetID()
 						<< " | Nombre: " << productos[i].GetNombre()
+						<< " | Categoria: " << productos[i].GetCategoria()
 						<< " | Precio: $" << productos[i].GetPrecio()
 						<< " | Stock: " << productos[i].GetStock()
 						<< endl;

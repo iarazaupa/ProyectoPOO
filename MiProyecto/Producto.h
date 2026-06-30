@@ -12,11 +12,11 @@ private:
 	string m_nombre;
 	double m_precio;
 	int m_stock;
-	char m_cateoria;
 	string m_archivoProducto;
+	string m_categoria;
 
 public:
-	Producto(int ID, string nombre, double precio, int stock);
+	Producto(int ID, string nombre, string categoria, double precio, int stock);
 
 	int GetID();
 	string GetNombre();
@@ -33,6 +33,7 @@ public:
 	bool HayStock(int cantidad);
 	
 	string NombreArchivo();
+	string GetCategoria();
 	
 	//Archivo
 	void GuardarEnArchivo();

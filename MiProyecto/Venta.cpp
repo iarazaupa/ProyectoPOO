@@ -218,7 +218,7 @@ string Venta::MostrarTicket() {
 	for (int i = 0; i < detalles.size(); i++) {
 		ticket << detalles[i].Mostrar() << endl;
 	}
-	
+	ticket << "Fecha: " << m_fecha << endl;
 	ticket << "total: $" << m_total << endl;
 	
 	return ticket.str();

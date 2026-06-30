@@ -52,6 +52,7 @@ string Stock::MostrarStock() {
 	for (int i = 0; i < productos.size(); i++) {
 		comprobante << "id: " << productos[i].GetID() << endl;
 		comprobante << "nombre: " << productos[i].GetNombre() << endl;
+		comprobante << "categoria: " << productos[i].GetCategoria() << endl;
 		comprobante << "precio: " << productos[i].GetPrecio() << endl;
 		comprobante << "stock: " << productos[i].GetStock() << endl;
 		comprobante << endl;
@@ -110,6 +111,7 @@ void Stock::GuardarStock() {
 		
 		archivo << productos[i].GetID() << ";"
 			<< productos[i].GetNombre() << ";"
+			<< productos[i].GetCategoria() << ";"
 			<< productos[i].GetPrecio() << ";"
 			<< productos[i].GetStock() << endl;
 	}
@@ -137,17 +139,20 @@ void Stock::CargarStock() {
 		size_t p1 = linea.find(';');
 		size_t p2 = linea.find(';', p1 + 1);
 		size_t p3 = linea.find(';', p2 + 1);
+		size_t p4 = linea.find(';', p3 + 1);
 		
-		if (p1 == string::npos || p2 == string::npos || p3 == string::npos) {
+		if (p1 == string::npos || p2 == string::npos ||
+			p3 == string::npos || p4 == string::npos) {
 			continue;
 		}
 		
 		int id = stoi(linea.substr(0, p1));
 		string nombre = linea.substr(p1 + 1, p2 - p1 - 1);
-		double precio = stod(linea.substr(p2 + 1, p3 - p2 - 1));
-		int stock = stoi(linea.substr(p3 + 1));
+		string categoria = linea.substr(p2 + 1, p3 - p2 - 1);
+		double precio = stod(linea.substr(p3 + 1, p4 - p3 - 1));
+		int stock = stoi(linea.substr(p4 + 1));
 		
-		productos.push_back(Producto(id, nombre, precio, stock));
+		productos.push_back(Producto(id, nombre, categoria, precio, stock));
 	}
 	
 	archivo.close();
@@ -168,6 +173,7 @@ void Stock::VerificarStockBajo() {
 			
 			cout << "ID: " << productos[i].GetID()
 				<< " | Nombre: " << productos[i].GetNombre()
+				<< " | Categoria: " << productos[i].GetCategoria()
 				<< " | Stock: " << productos[i].GetStock()
 				<< endl;
 		}
