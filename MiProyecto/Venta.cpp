@@ -309,9 +309,6 @@ vector<string> Venta::GetNombresProductos() {
 	return m_nombresProductos;
 }
 
-
-
-
 vector<DetalleVenta> Venta::GetDetalles() {
 	return detalles;
 }

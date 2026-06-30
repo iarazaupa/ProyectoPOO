@@ -490,6 +490,7 @@ void Sistema::menuAdmin() {
 		cout << "5 - Ver ventas" << endl;
 		cout << "6 - Ver lista de clientes" << endl;
 		cout << "7 - Ver productos con stock bajo" << endl;
+		cout << "8 - Cantidad de ventas por mes" << endl;
 		cout << "0 - Cerrar sesion" << endl;
 		cout << "Opcion: ";
 		cin >> opcion;
@@ -639,6 +640,7 @@ void Sistema::menuAdmin() {
 			
 			break;
 		}
+		
 		//Ver lista de clientes
 		case 6: {
 			
@@ -671,6 +673,50 @@ void Sistema::menuAdmin() {
 			break;
 		}
 		
+		//Cantidad de ventas por mes
+		case 8: {
+			Venta v(0, nullptr);
+			vector<Venta> ventas = v.CargarVentas();
+			
+			if (ventas.empty()) {
+				cout << "No hay ventas registradas" << endl;
+			} else {
+				int contadorMeses[12] = {0};
+				double totalDineroMeses[12] = {0.0};
+				
+				for (auto& venta : ventas) {
+					string fechaStr = venta.Getfecha();
+					
+					if (fechaStr.length() >= 6) {
+						string mesStr = fechaStr.substr(3,2);
+						int mes = stoi(mesStr);
+						if (mes >=1 && mes <= 12) {
+							contadorMeses[mes-1]++;
+							totalDineroMeses[mes-1] += venta.Gettotal();
+						}
+					}
+				};
+			
+				const string nombreMeses[12] = {"Enero", "Febrero", "Marzo", "Abril",
+					"Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre",
+					"Diciembre"};
+			
+				cout << "--- Cantidad de Ventas por Mes ---" << endl;
+				bool mostrarMensajeVacio = true;
+				for(int i=0;i<12;i++) { 
+					if(contadorMeses[i] > 0) {
+						cout << nombreMeses[i] << ": " << contadorMeses[i] << " venta(s) | " << totalDineroMeses[i] << endl;
+						mostrarMensajeVacio = false;
+					}
+				}
+			
+				if (mostrarMensajeVacio) {
+					cout << "No se encontraron ventas con meses validos" << endl;
+				}
+			}
+			break;
+		}
+		
 		//Cerrar sesion
 		case 0:
 			cout << "Cerrando sesion admin..." << endl;
@@ -679,6 +725,7 @@ void Sistema::menuAdmin() {
 		default:
 			cout << "Opcion invalida" << endl;
 		}
+		
 		
 	} while (opcion != 0);
 }
