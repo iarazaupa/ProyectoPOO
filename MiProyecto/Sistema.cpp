@@ -548,6 +548,7 @@ void Sistema::menuAdmin() {
 		cout << "6 - Ver lista de clientes" << endl;
 		cout << "7 - Ver productos con stock bajo" << endl;
 		cout << "8 - Cantidad de ventas por mes" << endl;
+		cout << "9 - Eliminar categoria" << endl;
 		cout << "0 - Cerrar sesion" << endl;
 		cout << "Opcion: ";
 		cin >> opcion;
@@ -811,6 +812,62 @@ void Sistema::menuAdmin() {
 					cout << "No se encontraron ventas con meses validos" << endl;
 				}
 			}
+			break;
+		}
+		
+		case 9: {
+			vector<string> categorias = gestorProductos.CargarCategorias();
+			
+			if (categorias.empty()) {
+				cout << "No hay categorias registradas." << endl;
+				break;
+			}
+			
+			cout << endl << "----- ELIMINAR CATEGORIA -----" << endl;
+			for (int i = 0; i < categorias.size(); i++) {
+				cout << i + 1 << " - " << categorias[i] << endl;
+			}
+			cout << "0 - Cancelar" << endl;
+			
+			int opCategoria;
+			cout << "Opcion a eliminar: ";
+			cin >> opCategoria;
+			cin.ignore();
+			
+			if (opCategoria == 0) {
+				break;
+			}
+			
+			if (opCategoria >= 1 && opCategoria <= categorias.size()) {
+				string categoriaEliminar = categorias[opCategoria - 1];
+				
+				cout << "Seguro que desea eliminar la categoria '" << categoriaEliminar 
+					<< "'? Los productos pasaran a 'Sin categoria'. (1 = si / 0 = no): ";
+				
+				int confirmar;
+				cin >> confirmar;
+				cin.ignore();
+				
+				if (confirmar == 1) {
+					Stock stock;
+					stock.CargarStock(); // Cargamos el archivo en el vector de memoria
+					
+					int cantidad = stock.EliminarCategoria(categoriaEliminar); 
+					
+					if (cantidad > 0) {
+						stock.GuardarStock(); // Sobrescribimos el archivo con los datos del vector actualizado
+						cout << "Categoria eliminada. Se modificaron " << cantidad << " productos." << endl;
+					} else {
+						cout << "No habia productos con esa categoria." << endl;
+					}
+				} else {
+					cout << "Eliminacion cancelada." << endl;
+				}
+				
+			} else {
+				cout << "Opcion invalida." << endl;
+			}
+			
 			break;
 		}
 		

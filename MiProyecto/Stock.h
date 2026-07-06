@@ -19,6 +19,7 @@ public:
 	
 	void AgregarProducto(Producto p);
 	bool EliminarProducto(int ID);
+	int EliminarCategoria(string categoriaVieja);
 	Producto* BuscarProducto(int ID);
 	
 	//consulta

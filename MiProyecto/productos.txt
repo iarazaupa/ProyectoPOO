@@ -1,11 +1,12 @@
 1;mate imperial;Mate de calabaza;23991;5
 2;dispensers;Muebles;25000;2
-3;termo system;Termo;24550.2;3
-6;mate Acero;Interior Acero;6999.99;6
-7;mate Imperial Deluxe;mates inyectados;30001;8
+3;termo system;Sin categoria;24550.2;3
+6;mate Acero;Sin categoria;6999.99;6
+7;mate Imperial Deluxe;Sin categoria;30001;8
 10;mate Criollo;Mate de calabaza;15001;9
 11;Mate corrientes;Mates Algarrobo;10001;5
-12;mate Nose;Interior Acero;9500.99;4
-12;Mate Alan;mates inyectados;15789.5;18
+12;mate Nose;Sin categoria;9500.99;4
+12;Mate Alan;Sin categoria;15789.5;18
 13;mate Franco;Mate de calabaza;13540.8;5
 16;Mate Iara;Mates Algarrobo;15500.4;10
+17;MateStaFe;Interior Acero;11111;2

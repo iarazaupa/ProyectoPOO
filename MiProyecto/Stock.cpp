@@ -157,6 +157,7 @@ void Stock::CargarStock() {
 	
 	archivo.close();
 }
+
 // verifica qué productos tienen stock bajo y los muestra por pantalla
 void Stock::VerificarStockBajo() {
 	
@@ -182,4 +183,19 @@ void Stock::VerificarStockBajo() {
 	if (!hay) {
 		cout << "No hay productos con stock bajo." << endl;
 	}
+}
+
+
+int Stock::EliminarCategoria(string categoriaVieja) {
+	int modificados = 0;
+	
+	// Iteramos sobre el vector de productos
+	for (int i = 0; i < productos.size(); i++) {
+		if (productos[i].GetCategoria() == categoriaVieja) {
+			productos[i].SetCategoria("Sin categoria");
+			modificados++;
+		}
+	}
+	
+	return modificados;
 }

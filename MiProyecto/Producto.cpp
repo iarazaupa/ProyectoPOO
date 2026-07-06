@@ -51,11 +51,9 @@ bool Producto::DisminuirStock (int cantidad) {
 	return false;
 }
 
-
 bool Producto::HayStock(int cantidad) {
 	return cantidad <= m_stock;
 }
-
 
 void Producto::GuardarEnArchivo() {
 	ofstream archivo("productos.txt", ios::app);
@@ -69,8 +67,6 @@ void Producto::GuardarEnArchivo() {
 	}
 }
 
-
-
 void Producto::GuardarDesdeArchivo () {
 	ifstream archivo("productos.txt");
 	if (archivo.is_open()) {
@@ -78,7 +74,6 @@ void Producto::GuardarDesdeArchivo () {
 		archivo.close();
 	}
 }
-
 
 void Producto::GuardarLista (vector<Producto> & productos) {
 	//nada todavia no se va a usar
@@ -133,13 +128,9 @@ vector<Producto> Producto::CargarLista() {
 	return productos;
 }
 
-
-
-
 Producto Producto::Mostrar ( ) {
 	return *this;
 }
-
 
 vector<string> Producto::CargarCategorias() {
 	
@@ -180,9 +171,10 @@ vector<string> Producto::CargarCategorias() {
 	return categorias;
 }
 
-
 string Producto::NombreArchivo ( ) {
 	return m_archivoProducto;
 }
 
-
+void Producto::SetCategoria(string categoria) {
+	m_categoria = categoria;
+}

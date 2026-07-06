@@ -26,6 +26,7 @@ public:
 
 	void SetNombre(string nombre);
 	void SetPrecio(double precio);
+	void SetCategoria(string categoria);
 	
 	//logica de negocios
 	void AumentarStock(int cantidad);
