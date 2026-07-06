@@ -1,5 +1,6 @@
 #include "Producto.h"
 #include <fstream>
+#include <sstream>
 using namespace std;
 
 
@@ -137,6 +138,46 @@ vector<Producto> Producto::CargarLista() {
 
 Producto Producto::Mostrar ( ) {
 	return *this;
+}
+
+
+vector<string> Producto::CargarCategorias() {
+	
+	vector<string> categorias;
+	
+	ifstream archivo("productos.txt");
+	
+	string linea;
+	
+	while (getline(archivo, linea)) {
+		
+		stringstream ss(linea);
+		
+		string id, nombre, categoria, precio, stock;
+		
+		getline(ss, id, ';');
+		getline(ss, nombre, ';');
+		getline(ss, categoria, ';');
+		getline(ss, precio, ';');
+		getline(ss, stock, ';');
+		
+		bool existe = false;
+		
+		for (int i = 0; i < categorias.size(); i++) {
+			if (categorias[i] == categoria) {
+				existe = true;
+				break;
+			}
+		}
+		
+		if (!existe) {
+			categorias.push_back(categoria);
+		}
+	}
+	
+	archivo.close();
+	
+	return categorias;
 }
 
 

@@ -217,15 +217,15 @@ void Sistema::menuNormal() {
 						
 						// AGREGAR PRODUCTO
 						if (opcionVenta == 1) {
+							vector<string> categorias = gestorProductos.CargarCategorias();
 							
 							cout << endl;
 							cout << "----- CATEGORIAS -----" << endl;
-							cout << "1 - Mate de calabaza" << endl;
-							cout << "2 - Mate de algarrobo" << endl;
-							cout << "3 - Termo" << endl;
-							cout << "4 - Bombilla" << endl;
-							cout << "5 - Yerba" << endl;
-							cout << "6 - Otra categoria" << endl;
+							
+							for (int i = 0; i < categorias.size(); i++) {
+								cout << i + 1 << " - " << categorias[i] << endl;
+							}
+							
 							cout << "0 - Volver" << endl;
 							
 							int opCategoria;
@@ -235,39 +235,20 @@ void Sistema::menuNormal() {
 							cin >> opCategoria;
 							cin.ignore();
 							
-							switch (opCategoria) {
-								
-							case 1:
-								categoriaElegida = "Mate de calabaza";
-								break;
-								
-							case 2:
-								categoriaElegida = "Mate de algarrobo";
-								break;
-								
-							case 3:
-								categoriaElegida = "Termo";
-								break;
-								
-							case 4:
-								categoriaElegida = "Bombilla";
-								break;
-								
-							case 5:
-								categoriaElegida = "Yerba";
-								break;
-								
-							case 6:
-								cout << "Ingrese la categoria: ";
-								getline(cin, categoriaElegida);
-								break;
-								
-							case 0:
+							if (opCategoria == 0) {
 								continue;
+							}
+							
+							if (opCategoria >= 1 && opCategoria <= categorias.size()) {
 								
-							default:
+								categoriaElegida = categorias[opCategoria - 1];
+								
+							}
+							else {
+								
 								cout << "Opcion invalida." << endl;
 								continue;
+								
 							}
 							
 							cout << endl;
@@ -348,7 +329,7 @@ void Sistema::menuNormal() {
 								}
 							}
 						}
-						
+
 						// QUITAR PRODUCTO
 						else if (opcionVenta == 2) {
 							
@@ -604,7 +585,6 @@ void Sistema::menuAdmin() {
 			break;
 		}
 		
-		//Agregar producto
 		case 2: {
 			
 			int id, stock;
@@ -619,64 +599,52 @@ void Sistema::menuAdmin() {
 			cout << "Nombre: ";
 			getline(cin, nombre);
 			
-			cout << endl;
+			// Cargar categorías existentes
+			vector<string> categorias = gestorProductos.CargarCategorias();
+			
 			cout << endl;
 			cout << "Categoria:" << endl;
-			cout << "1 - Mate de calabaza" << endl;
-			cout << "2 - Mate de algarrobo" << endl;
-			cout << "3 - Termo" << endl;
-			cout << "4 - Bombilla" << endl;
-			cout << "5 - Yerba" << endl;
-			cout << "6 - Otra categoria" << endl;
-			cout << "Opcion: ";
+			
+			for (int i = 0; i < categorias.size(); i++) {
+				cout << i + 1 << " - " << categorias[i] << endl;
+			}
+			
+			cout << categorias.size() + 1 << " - Nueva categoria" << endl;
 			
 			int opCategoria;
+			
+			cout << "Opcion: ";
 			cin >> opCategoria;
 			cin.ignore();
 			
-			switch (opCategoria) {
+			if (opCategoria >= 1 && opCategoria <= categorias.size()) {
 				
-			case 1:
-				categoria = "Mate de calabaza";
-				break;
+				categoria = categorias[opCategoria - 1];
 				
-			case 2:
-				categoria = "Mate de algarrobo";
-				break;
+			}
+			else if (opCategoria == categorias.size() + 1) {
 				
-			case 3:
-				categoria = "Termo";
-				break;
-				
-			case 4:
-				categoria = "Bombilla";
-				break;
-				
-			case 5:
-				categoria = "Yerba";
-				break;
-				
-			case 6:
 				cout << "Ingrese el nombre de la nueva categoria: ";
 				getline(cin, categoria);
-				break;
 				
-			default:
+			}
+			else {
+				
 				cout << "Categoria invalida." << endl;
 				break;
-			}
-			// Si la categoría es inválida, no continúa
-			if (categoria == "") {
-				break;
+				
 			}
 			
 			cout << "Precio: ";
+			cout << fixed << setprecision(2);
 			cin >> precio;
 			
 			cout << "Stock: ";
 			cin >> stock;
+			// Prueba
 			
 			Producto p(id, nombre, categoria, precio, stock);
+			
 			p.GuardarEnArchivo();
 			
 			cout << "Producto agregado correctamente." << endl;

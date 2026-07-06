@@ -35,6 +35,8 @@ public:
 	string NombreArchivo();
 	string GetCategoria();
 	
+	vector<string> CargarCategorias();
+	
 	//Archivo
 	void GuardarEnArchivo();
 	void GuardarDesdeArchivo();
@@ -48,6 +50,7 @@ public:
 };
 
 #endif
+
 
 
 
