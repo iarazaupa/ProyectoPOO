@@ -54,9 +54,8 @@ bool Sistema::verificarPassword(string pass) {
 
 
 bool Sistema::agregarCliente (int id, string nombre, string email, string telefono) {
-	Cliente gestor;
 	
-	if (gestor.existeID(id)) {
+	if (m_gestor.existeID(id)) {
 		return false;
 	} else {
 		
@@ -65,6 +64,23 @@ bool Sistema::agregarCliente (int id, string nombre, string email, string telefo
 		c.guardarArchivo();
 		
 		return true;
+	}
+}
+
+
+///funcion para buscar cliente
+Cliente Sistema::BuscarCliente(int Dni){
+	
+	Cliente encontrado = m_gestor.buscarCliente(Dni);
+	
+	if (encontrado.GetID() != 0) {
+		
+		return encontrado;
+		
+	}
+	else {
+		Cliente noEncontrado(0, "", "", "");
+		return noEncontrado;
 	}
 }
 
@@ -100,7 +116,7 @@ void Sistema::menuNormal() {
 		
 		
 		// ---------------- BUSCAR CLIENTE ----------------
-		if (opcion == 2) {
+		if (opcion == 0) {
 			
 			cout << "DNI a buscar: ";
 			

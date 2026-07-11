@@ -14,7 +14,7 @@ int main() {
 	
 	do{
 		
-		int id;
+		int Dni;
 		string nombre;
 		string email;
 		string telefono;
@@ -37,6 +37,8 @@ int main() {
 			sistema.menuNormal();
 			
 			/// opcion de agregar clientes ///
+			cout<<"ponga la opcion de la accion que desea realizar";
+			cin>>opcion;
 			if (opcion == 1) {
 				
 				bool clienteAgg = false;
@@ -45,7 +47,7 @@ int main() {
 					cout << "DNI: ";
 					
 					// Validación de que es un número
-					while (!(cin >> id)) {
+					while (!(cin >> Dni)) {
 						cout << "Error: ingrese un DNI valido (solo numeros): ";
 						cin.clear();
 						cin.ignore(10000, '\n');
@@ -62,7 +64,7 @@ int main() {
 					cout << "Telefono: ";
 					getline(cin, telefono);
 					
-					clienteAgg = sistema.agregarCliente(id, nombre, email, telefono);
+					clienteAgg = sistema.agregarCliente(Dni, nombre, email, telefono);
 					
 					if (!clienteAgg) {
 						cout << "Error: ya existe un cliente con ese DNI. Intente nuevamente.\n\n";
@@ -70,8 +72,35 @@ int main() {
 				}
 				
 				cout << "Usuario agregado correctamente.\n";
+			}else if(opcion == 2){
+				cout << "DNI a buscar: ";
+				
+				//validacion de que es un numero
+				while (!(cin >> Dni)) {
+					cout << "Error: ingrese un DNI valido (solo numeros): ";
+					cin.clear();
+					cin.ignore(10000, '\n');
+				}
+				
+				cin.ignore();
+				
+				Cliente encontrado = sistema.BuscarCliente(Dni);
+				
+				if (encontrado.GetID() != 0) {
+					
+					cout << "Cliente encontrado" << endl;
+					cout << "DNI: " << encontrado.GetID() << endl;
+					cout << "Nombre: " << encontrado.getNombre() << endl;
+					cout << "Email: " << encontrado.getEmail() << endl;
+					cout << "Telefono: " << encontrado.getTelefono() << endl;
+				}
+				else {
+					cout << "No se encontro :(" << endl;
+				}
+				
 			}
 			/// opcion de agregar clientes ///
+
 		
 		}else if(opcion == 2) {
 			string pass;
