@@ -19,7 +19,7 @@ current_source=main.cpp
 path_char=\
 [source]
 path=main.cpp
-cursor=29:24
+cursor=73:37
 open=true
 [source]
 path=Producto.cpp
@@ -42,7 +42,7 @@ path=Stock.cpp
 cursor=154:0
 [source]
 path=Sistema.cpp
-cursor=897:0
+cursor=59:14
 open=true
 [header]
 path=Producto.h
@@ -63,7 +63,7 @@ path=Stock.h
 cursor=25:45
 [header]
 path=Sistema.h
-cursor=37:0
+cursor=35:0
 open=true
 [config]
 name=Debug

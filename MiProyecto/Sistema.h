@@ -24,8 +24,7 @@ public:
 	
 	bool verificarPassword(string pass);
 	///Haciendo los metodos del menu normal///
-	void agregarCliente(int id, string nombre, string email, string telefono);
-	
+	bool agregarCliente(int id, string nombre, string email, string telefono);
 	
 	void menuNormal();
 	
@@ -33,6 +32,5 @@ public:
 };
 
 #endif
-
 
 

@@ -53,6 +53,21 @@ bool Sistema::verificarPassword(string pass) {
 // ---------------- PASSWORD ADMIN ----------------
 
 
+bool Sistema::agregarCliente (int id, string nombre, string email, string telefono) {
+	Cliente gestor;
+	
+	if (gestor.existeID(id)) {
+		return false;
+	} else {
+		
+		
+		Cliente c(id, nombre, email, telefono);
+		c.guardarArchivo();
+		
+		return true;
+	}
+}
+
 
 // ---------------- MENU NORMAL ----------------
 
@@ -83,41 +98,9 @@ void Sistema::menuNormal() {
 		
 		// ---------------- AGREGAR CLIENTE ----------------
 		
-		if (opcion == 1) {
-			
-			cout << "DNI: ";
-			
-			//validacion de que es un numero
-			while (!(cin >> id)) {
-				cout << "Error: ingrese un DNI valido (solo numeros): ";
-				cin.clear();
-				cin.ignore(10000, '\n'); //(max caracteres a ignorar,se frena en un salto de linea)
-			}
-			
-			cin.ignore();
-			
-			if (gestor.existeID(id)) {
-				cout << "Ese DNI ya existe" << endl;
-			} else {
-				
-				cout << "Nombre: ";
-				getline(cin, nombre);
-				
-				cout << "Email: ";
-				getline(cin, email);
-				
-				cout << "Telefono: ";
-				getline(cin, telefono);
-				
-				Cliente c(id, nombre, email, telefono);
-				c.guardarArchivo();
-				
-				cout << "Cliente guardado!!" << endl;
-			}
-		}
 		
 		// ---------------- BUSCAR CLIENTE ----------------
-		else if (opcion == 2) {
+		if (opcion == 2) {
 			
 			cout << "DNI a buscar: ";
 			
