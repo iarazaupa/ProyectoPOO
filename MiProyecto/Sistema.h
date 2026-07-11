@@ -2,6 +2,7 @@
 #define SISTEMA_H
 
 #include <string>
+using namespace std;
 
 class Sistema {
 	
@@ -13,16 +14,25 @@ private:
 	static const int ADMIN  = 2;
 	
 	// metodos internos
-	int login();
-	bool verificarPassword();
-	
-	void menuNormal();
-	void menuAdmin();
+	//int login();
+	///PROPIEDADES DEL LOGIN///
+	int m_usuario;
+	string m_password;
 	
 public:
 	Sistema();
-	void Ejecutar();   // antes era sistema()
 	
+	bool verificarPassword(string pass);
+	///Haciendo los metodos del menu normal///
+	void agregarCliente(int id, string nombre, string email, string telefono);
+	
+	
+	void menuNormal();
+	
+	void menuAdmin();
 };
 
 #endif
+
+
+

@@ -27,6 +27,7 @@ public:
 	void SetNombre(string nombre);
 	void SetPrecio(double precio);
 	void SetCategoria(string categoria);
+	void setStock(int stockNuevo);
 	
 	//logica de negocios
 	void AumentarStock(int cantidad);
@@ -45,7 +46,8 @@ public:
 	vector <Producto> CargarLista();
 	Producto Mostrar();
 	
-	
+	void EditarProducto(int id, int opcion);
+	bool ExisteProducto(int id);
 	
 	
 };

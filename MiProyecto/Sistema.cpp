@@ -20,35 +20,10 @@ Sistema::Sistema() {}
 
 // ---------------- LOGIN ----------------
 
-int Sistema::login() {
-	
-	int opcion;
-	
-	cout << endl;
-	cout << "----- INICIO DE SESION -----" << endl;
-	cout << "1 - Usuario normal" << endl;
-	cout << "2 - Administrador" << endl;
-	cout << "0 - Salir" << endl;
-	cout << "Opcion: ";
-	cin >> opcion;
-	
-	if (opcion == ADMIN) {
-		if (!verificarPassword()) {
-			cout << "Password incorrecta" << endl;
-			return -1;
-		}
-	}
-	
-	return opcion;
-}
 
-
-// ---------------- PASSWORD ADMIN ----------------
-
-bool Sistema::verificarPassword() {
+bool Sistema::verificarPassword(string pass) {
 	
 	char passwordAdmin[20];
-	string pass;
 	
 	ifstream archivo("config.dat", ios::binary);
 	
@@ -71,10 +46,12 @@ bool Sistema::verificarPassword() {
 	archivo.close();
 	
 	cout << "Ingrese password de administrador: ";
-	cin >> pass;
 	
 	return pass == passwordAdmin;
 }
+
+// ---------------- PASSWORD ADMIN ----------------
+
 
 
 // ---------------- MENU NORMAL ----------------
@@ -549,6 +526,7 @@ void Sistema::menuAdmin() {
 		cout << "7 - Ver productos con stock bajo" << endl;
 		cout << "8 - Cantidad de ventas por mes" << endl;
 		cout << "9 - Eliminar categoria" << endl;
+		cout << "10 - Editar producto" << endl;
 		cout << "0 - Cerrar sesion" << endl;
 		cout << "Opcion: ";
 		cin >> opcion;
@@ -871,6 +849,39 @@ void Sistema::menuAdmin() {
 			break;
 		}
 		
+		case 10: {
+			
+			int id;
+			cout << "Ingrese el ID del producto a editar: ";
+			cin >> id;
+			cin.ignore();
+			
+			if (!gestorProductos.ExisteProducto(id)) {
+				cout << "El producto no existe." << endl;
+				break;
+			}
+			
+			int opcionEditar;
+			
+			cout << endl;
+			cout << "¿Que desea modificar?" << endl;
+			cout << "1 - Nombre" << endl;
+			cout << "2 - Categoria" << endl;
+			cout << "3 - Precio" << endl;
+			cout << "4 - Stock" << endl;
+			cout << "5 - Todo" << endl;
+			cout << "Opcion: ";
+			cin >> opcionEditar;
+			cin.ignore();
+			
+			gestorProductos.EditarProducto(id, opcionEditar);
+			
+			cout << "Producto editado correctamente." << endl;
+			
+			break;
+		}
+		
+		
 		//Cerrar sesion
 		case 0:
 			cout << "Cerrando sesion admin..." << endl;
@@ -887,26 +898,3 @@ void Sistema::menuAdmin() {
 
 // ---------------- EJECUTAR SISTEMA ----------------
 
-void Sistema::Ejecutar() {
-	
-	int tipoUsuario;
-	
-	do {
-		
-		tipoUsuario = login();
-		
-		if (tipoUsuario == NORMAL) {
-			menuNormal();
-		}
-		else if (tipoUsuario == ADMIN) {
-			menuAdmin();
-		}
-		else if (tipoUsuario == SALIR) {
-			cout << "Saliendo del sistema..." << endl;
-		}
-		else {
-			cout << "Intento de login fallido" << endl;
-		}
-		
-	} while (tipoUsuario != SALIR);
-}
