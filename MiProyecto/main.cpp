@@ -9,7 +9,6 @@ int main() {
 	
 	Sistema sistema;
 	
-	
 	int opcion;
 	
 	do{
@@ -19,8 +18,9 @@ int main() {
 		string email;
 		string telefono;
 		
-		Cliente gestor;
-		Producto gestorProductos(0, "", "", 0, 0);
+		//No se pa q sirve
+//		Cliente gestor;
+//		Producto gestorProductos(0, "", "", 0, 0);
 		
 		cout << endl;
 		cout << "----- INICIO DE SESION -----" << endl;
@@ -30,17 +30,25 @@ int main() {
 		cout << "Opcion: ";
 		cin >> opcion;
 	
-
-	
 		if(opcion == 1){
 
-			sistema.menuNormal();
+/*			sistema.menuNormal();*/
 			
-			/// opcion de agregar clientes ///
-			cout<<"ponga la opcion de la accion que desea realizar";
+			cout << endl;
+			cout << "----- MENU -----" << endl;
+			cout << "1 - Agregar cliente" << endl;
+			cout << "2 - Buscar cliente" << endl;
+			cout << "3 No completado - Vender" << endl;
+			cout << "4 - Listar clientes" << endl;
+			cout << "5 - Ver stock" << endl;
+			cout << "6 No completado - Modificar Datos del cliente" << endl;
+			cout << "0 - Salir" << endl;
+			cout << "Opcion: ";
 			cin>>opcion;
-			if (opcion == 1) {
-				
+			
+			switch (opcion) {
+			case 1: {
+				///Agregar Cliente
 				bool clienteAgg = false;
 				
 				while (!clienteAgg) {
@@ -70,9 +78,11 @@ int main() {
 						cout << "Error: ya existe un cliente con ese DNI. Intente nuevamente.\n\n";
 					}
 				}
-				
 				cout << "Usuario agregado correctamente.\n";
-			}else if(opcion == 2){
+			}
+			break;
+			case 2: {
+				///Buscar Cliente 
 				cout << "DNI a buscar: ";
 				
 				//validacion de que es un numero
@@ -97,12 +107,55 @@ int main() {
 				else {
 					cout << "No se encontro :(" << endl;
 				}
+			}
+			break;
+			case 3: {
+				///Vender
 				
 			}
-			/// opcion de agregar clientes ///
-
-		
-		}else if(opcion == 2) {
+			break;
+			case 4: {
+				///Listar Clientes
+				vector<Cliente> clientes;
+				if (sistema.ListarClientes(clientes)) {
+					for (int i = 0; i < clientes.size(); i++) {
+						cout << "DNI: " << clientes[i].GetID()
+							<< " | Nombre: " << clientes[i].getNombre()
+							<< " | Telefono: " << clientes[i].getTelefono() << endl;
+					}
+				} else {
+					cout << "No hay clientes registrados" << endl;
+				}
+			}
+			break;
+			case 5: {
+				///Ver Stock
+				vector<Producto> productos;
+				if (sistema.ListarProductos(productos)) {
+					
+					for (int i = 0; i < productos.size(); i++) {
+						cout << productos[i].GetID() << " "
+							<< productos[i].GetNombre() << " "
+							<< productos[i].GetCategoria() << " "
+							<< productos[i].GetPrecio() << " "
+							<< productos[i].GetStock() << endl;
+					}
+				} else {
+					cout << "No hay productos" << endl;
+				}
+			}
+			break;
+			case 6: {
+				///Modificar Cliente
+				
+			}
+			break;
+			default:
+				cout << "ola" << endl;
+			break;
+			}
+			
+		} else if (opcion == 2) {
 			string pass;
 			cout<<"ingrese la contrasenia";
 			cin>>pass;

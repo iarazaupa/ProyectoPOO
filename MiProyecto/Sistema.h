@@ -3,6 +3,8 @@
 
 #include <string>
 #include "Cliente.h"
+#include "Producto.h"
+
 using namespace std;
 
 class Sistema {
@@ -28,6 +30,8 @@ public:
 	///Haciendo los metodos del menu normal///
 	bool agregarCliente(int id, string nombre, string email, string telefono);
 	Cliente BuscarCliente(int Dni);
+	bool ListarClientes(vector<Cliente> &clientes);
+	bool ListarProductos(vector<Producto> &productos);
 	
 	void menuNormal();
 	

@@ -52,7 +52,7 @@ bool Sistema::verificarPassword(string pass) {
 
 // ---------------- PASSWORD ADMIN ----------------
 
-
+///Funcion agregar cliente
 bool Sistema::agregarCliente (int id, string nombre, string email, string telefono) {
 	
 	if (m_gestor.existeID(id)) {
@@ -84,6 +84,31 @@ Cliente Sistema::BuscarCliente(int Dni){
 	}
 }
 
+///Funcion vender
+//Falta hacer
+
+
+
+///Funcion Listar Clientes
+bool Sistema::ListarClientes(vector<Cliente> &clientes) {
+	
+	Cliente c;
+	clientes = c.cargarLista();
+	
+	return !clientes.empty();
+}
+
+///Ver stock
+bool Sistema::ListarProductos(vector<Producto> &productos) {
+	
+	Producto p;
+	productos = p.CargarLista();
+	
+	return !productos.empty();
+}
+
+///Funcion Modificar Cliente
+//Falta Hacer
 
 // ---------------- MENU NORMAL ----------------
 

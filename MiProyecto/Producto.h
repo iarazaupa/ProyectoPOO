@@ -16,7 +16,7 @@ private:
 	string m_categoria;
 
 public:
-	Producto(int ID, string nombre, string categoria, double precio, int stock);
+	Producto(int ID=0, string nombre="", string categoria="", double precio=0, int stock=0);
 
 	int GetID();
 	string GetNombre();
