@@ -31,130 +31,130 @@ int main() {
 		cin >> opcion;
 	
 		if(opcion == 1){
-
+			int opcionMenu;
+			
+			do {
 /*			sistema.menuNormal();*/
+				cout << endl;
+				cout << "----- MENU -----" << endl;
+				cout << "1 - Agregar cliente" << endl;
+				cout << "2 - Buscar cliente" << endl;
+				cout << "3 No completado - Vender" << endl;
+				cout << "4 - Listar clientes" << endl;
+				cout << "5 - Ver stock" << endl;
+				cout << "6 No completado - Modificar Datos del cliente" << endl;
+				cout << "0 - Salir" << endl;
+				cout << "Opcion: ";
+				cin>>opcionMenu;
 			
-			cout << endl;
-			cout << "----- MENU -----" << endl;
-			cout << "1 - Agregar cliente" << endl;
-			cout << "2 - Buscar cliente" << endl;
-			cout << "3 No completado - Vender" << endl;
-			cout << "4 - Listar clientes" << endl;
-			cout << "5 - Ver stock" << endl;
-			cout << "6 No completado - Modificar Datos del cliente" << endl;
-			cout << "0 - Salir" << endl;
-			cout << "Opcion: ";
-			cin>>opcion;
-			
-			switch (opcion) {
-			case 1: {
-				///Agregar Cliente
-				bool clienteAgg = false;
-				
-				while (!clienteAgg) {
-					cout << "DNI: ";
+				switch (opcionMenu) {
+				case 1: {
+					///Agregar Cliente
+					bool clienteAgg = false;
 					
-					// Validación de que es un número
+					while (!clienteAgg) {
+						cout << "DNI: ";
+						
+						// Validación de que es un número
+						while (!(cin >> Dni)) {
+							cout << "Error: ingrese un DNI valido (solo numeros): ";
+							cin.clear();
+							cin.ignore(10000, '\n');
+						}
+						
+						cin.ignore(); // limpiar el salto de línea
+						
+						cout << "Nombre: ";
+						getline(cin, nombre);
+						
+						cout << "Email: ";
+						getline(cin, email);
+						
+						cout << "Telefono: ";
+						getline(cin, telefono);
+						
+						clienteAgg = sistema.agregarCliente(Dni, nombre, email, telefono);
+						
+						if (!clienteAgg) {
+							cout << "Error: ya existe un cliente con ese DNI. Intente nuevamente.\n\n";
+						}
+					}
+					cout << "Usuario agregado correctamente.\n";
+				}
+				break;
+				case 2: {
+					///Buscar Cliente 
+					cout << "DNI a buscar: ";
+					
+					//validacion de que es un numero
 					while (!(cin >> Dni)) {
 						cout << "Error: ingrese un DNI valido (solo numeros): ";
 						cin.clear();
 						cin.ignore(10000, '\n');
 					}
 					
-					cin.ignore(); // limpiar el salto de línea
+					cin.ignore();
 					
-					cout << "Nombre: ";
-					getline(cin, nombre);
+					Cliente encontrado = sistema.BuscarCliente(Dni);
 					
-					cout << "Email: ";
-					getline(cin, email);
-					
-					cout << "Telefono: ";
-					getline(cin, telefono);
-					
-					clienteAgg = sistema.agregarCliente(Dni, nombre, email, telefono);
-					
-					if (!clienteAgg) {
-						cout << "Error: ya existe un cliente con ese DNI. Intente nuevamente.\n\n";
+					if (encontrado.GetID() != 0) {
+						
+						cout << "Cliente encontrado" << endl;
+						cout << "DNI: " << encontrado.GetID() << endl;
+						cout << "Nombre: " << encontrado.getNombre() << endl;
+						cout << "Email: " << encontrado.getEmail() << endl;
+						cout << "Telefono: " << encontrado.getTelefono() << endl;
+					}
+					else {
+						cout << "No se encontro :(" << endl;
 					}
 				}
-				cout << "Usuario agregado correctamente.\n";
-			}
-			break;
-			case 2: {
-				///Buscar Cliente 
-				cout << "DNI a buscar: ";
-				
-				//validacion de que es un numero
-				while (!(cin >> Dni)) {
-					cout << "Error: ingrese un DNI valido (solo numeros): ";
-					cin.clear();
-					cin.ignore(10000, '\n');
-				}
-				
-				cin.ignore();
-				
-				Cliente encontrado = sistema.BuscarCliente(Dni);
-				
-				if (encontrado.GetID() != 0) {
+				break;
+				case 3: {
+					///Vender
 					
-					cout << "Cliente encontrado" << endl;
-					cout << "DNI: " << encontrado.GetID() << endl;
-					cout << "Nombre: " << encontrado.getNombre() << endl;
-					cout << "Email: " << encontrado.getEmail() << endl;
-					cout << "Telefono: " << encontrado.getTelefono() << endl;
 				}
-				else {
-					cout << "No se encontro :(" << endl;
-				}
-			}
-			break;
-			case 3: {
-				///Vender
-				
-			}
-			break;
-			case 4: {
-				///Listar Clientes
-				vector<Cliente> clientes;
-				if (sistema.ListarClientes(clientes)) {
-					for (int i = 0; i < clientes.size(); i++) {
-						cout << "DNI: " << clientes[i].GetID()
-							<< " | Nombre: " << clientes[i].getNombre()
-							<< " | Telefono: " << clientes[i].getTelefono() << endl;
+				break;
+				case 4: {
+					///Listar Clientes
+					vector<Cliente> clientes;
+					if (sistema.ListarClientes(clientes)) {
+						for (int i = 0; i < clientes.size(); i++) {
+							cout << "DNI: " << clientes[i].GetID()
+								<< " | Nombre: " << clientes[i].getNombre()
+								<< " | Telefono: " << clientes[i].getTelefono() << endl;
+						}
+					} else {
+						cout << "No hay clientes registrados" << endl;
 					}
-				} else {
-					cout << "No hay clientes registrados" << endl;
 				}
-			}
-			break;
-			case 5: {
-				///Ver Stock
-				vector<Producto> productos;
-				if (sistema.ListarProductos(productos)) {
+				break;
+				case 5: {
+					///Ver Stock
+					vector<Producto> productos;
+					if (sistema.ListarProductos(productos)) {
+						
+						for (int i = 0; i < productos.size(); i++) {
+							cout << productos[i].GetID() << " "
+								<< productos[i].GetNombre() << " "
+								<< productos[i].GetCategoria() << " "
+								<< productos[i].GetPrecio() << " "
+								<< productos[i].GetStock() << endl;
+						}
+					} else {
+						cout << "No hay productos" << endl;
+					}
+				}
+				break;
+				case 6: {
+					///Modificar Cliente
 					
-					for (int i = 0; i < productos.size(); i++) {
-						cout << productos[i].GetID() << " "
-							<< productos[i].GetNombre() << " "
-							<< productos[i].GetCategoria() << " "
-							<< productos[i].GetPrecio() << " "
-							<< productos[i].GetStock() << endl;
-					}
-				} else {
-					cout << "No hay productos" << endl;
 				}
-			}
-			break;
-			case 6: {
-				///Modificar Cliente
-				
-			}
-			break;
-			default:
-				cout << "ola" << endl;
-			break;
-			}
-			
+				break;
+				default:
+				break;
+				}
+			} while (opcionMenu != 0);
 		} else if (opcion == 2) {
 			string pass;
 			cout<<"ingrese la contrasenia";
