@@ -86,7 +86,16 @@ Cliente Sistema::BuscarCliente(int Dni){
 
 ///Funcion vender
 //Falta hacer
-
+void Sistema::RealizarVenta(int dni) {
+	Cliente cliente = BuscarCliente(dni);
+	
+	if (cliente.GetID()==0) {
+		return;
+	}
+	
+	int idVenta = 1;
+	Venta v(idVenta, &cliente);
+}
 
 
 ///Funcion Listar Clientes
@@ -108,7 +117,16 @@ bool Sistema::ListarProductos(vector<Producto> &productos) {
 }
 
 ///Funcion Modificar Cliente
-//Falta Hacer
+bool Sistema::ModificarCliente(int dni, string nombre, string email, string telefono) {
+	Cliente cliente = BuscarCliente(dni);
+	
+	if (cliente.GetID() == 0) {
+		return false;
+	} 
+	return m_gestor.modificarCliente(dni,nombre,email,telefono);
+}
+
+
 
 // ---------------- MENU NORMAL ----------------
 

@@ -32,6 +32,8 @@ public:
 	Cliente BuscarCliente(int Dni);
 	bool ListarClientes(vector<Cliente> &clientes);
 	bool ListarProductos(vector<Producto> &productos);
+	bool ModificarCliente(int dni, string nombre, string email, string telefono);
+	void RealizarVenta(int dni);
 	
 	void menuNormal();
 	

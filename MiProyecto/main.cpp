@@ -42,7 +42,7 @@ int main() {
 				cout << "3 No completado - Vender" << endl;
 				cout << "4 - Listar clientes" << endl;
 				cout << "5 - Ver stock" << endl;
-				cout << "6 No completado - Modificar Datos del cliente" << endl;
+				cout << "6 - Modificar Datos del cliente" << endl;
 				cout << "0 - Salir" << endl;
 				cout << "Opcion: ";
 				cin>>opcionMenu;
@@ -148,7 +148,76 @@ int main() {
 				break;
 				case 6: {
 					///Modificar Cliente
+					int idModificar;
+					string nuevoNombre;
+					string nuevoEmail;
+					string nuevoTelefono;
+					int respuesta;
 					
+					cout << "DNI del cliente a modificar: ";
+					cin >> idModificar;
+					cin.ignore();
+					
+					Cliente clienteActual = sistema.BuscarCliente(idModificar);
+					
+					if (clienteActual.GetID() == 0) {
+						cout << "No existe un cliente con ese DNI" << endl;
+					}
+					else {
+						// Mostrar datos
+						cout << "DNI: " << clienteActual.GetID() << endl;
+						cout << "Nombre: " << clienteActual.getNombre() << endl;
+						cout << "Email: " << clienteActual.getEmail() << endl;
+						cout << "Telefono: " << clienteActual.getTelefono() << endl;
+						cout << endl;
+						
+						nuevoNombre = clienteActual.getNombre();
+						nuevoEmail = clienteActual.getEmail();
+						nuevoTelefono = clienteActual.getTelefono();
+						
+						bool huboCambios = false;
+						
+						cout << "Modificar nombre? (1=si / 0=no): ";
+						cin >> respuesta;
+						cin.ignore();
+						
+						if (respuesta == 1) {
+							cout << "Nuevo nombre: ";
+							getline(cin, nuevoNombre);
+							huboCambios = true;
+						}
+						
+						cout << "Modificar email? (1=si / 0=no): ";
+						cin >> respuesta;
+						cin.ignore();
+						
+						if (respuesta == 1) {
+							cout << "Nuevo email: ";
+							getline(cin, nuevoEmail);
+							huboCambios = true;
+						}
+						
+						cout << "Modificar telefono? (1=si / 0=no): ";
+						cin >> respuesta;
+						cin.ignore();
+						
+						if (respuesta == 1) {
+							cout << "Nuevo telefono: ";
+							getline(cin, nuevoTelefono);
+							huboCambios = true;
+						}
+						
+						if (huboCambios) {
+							
+							if (sistema.ModificarCliente(idModificar,
+														 nuevoNombre,
+														 nuevoEmail,
+														 nuevoTelefono))
+								cout << "Cliente modificado correctamente";
+							else
+								cout << "Error al modificar";
+						}
+					}
 				}
 				break;
 				default:
