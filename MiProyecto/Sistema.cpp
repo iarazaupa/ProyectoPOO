@@ -14,9 +14,9 @@
 using namespace std;
 
 // ---------------- CONSTRUCTOR ----------------
-
-Sistema::Sistema() {}
-
+Sistema::Sistema():m_venta(0, nullptr){
+	m_listaProductos = m_gestorProducto.CargarLista();
+}
 
 // ---------------- LOGIN ----------------
 
@@ -52,6 +52,10 @@ bool Sistema::verificarPassword(string pass) {
 
 // ---------------- PASSWORD ADMIN ----------------
 
+void Sistema::ActualizarProductos() {
+	m_listaProductos = m_gestorProducto.CargarLista();
+}
+
 ///Funcion agregar cliente
 bool Sistema::agregarCliente (int id, string nombre, string email, string telefono) {
 	
@@ -84,19 +88,147 @@ Cliente Sistema::BuscarCliente(int Dni){
 	}
 }
 
-///Funcion vender
-//Falta hacer
-void Sistema::RealizarVenta(int dni) {
-	Cliente cliente = BuscarCliente(dni);
+
+///Funcion buscar dni para vender
+bool Sistema::verificarDniVenta(int dni) {
 	
-	if (cliente.GetID()==0) {
-		return;
+	Cliente clienteVenta = m_gestor.buscarCliente(dni);
+	
+	if (clienteVenta.GetID() == 0) {
+		return false;
+	}else{
+		return true;
 	}
-	
-	int idVenta = 1;
-	Venta v(idVenta, &cliente);
+
+}
+///funcion para mostrar productos
+
+
+///funciones para realizar una venta
+
+vector<string> Sistema::ObtenerCategorias()
+{
+	return m_gestorProducto.CargarCategorias();
 }
 
+bool Sistema::ObtenerCategoriaSeleccionada (const vector<string> & categorias, int opcion, string & categoria) {
+	if(opcion < 1 || opcion > categorias.size())
+	{
+		return false;
+	}
+	
+	categoria = categorias[opcion - 1];
+	
+	return true;
+}
+
+vector<Producto*> Sistema::ObtenerProductosPorCategoria(string categoria) {
+	
+	vector<Producto*> productos;
+	
+	for (int i = 0; i < m_listaProductos.size(); i++) {
+		
+		if (m_listaProductos[i].GetCategoria() == categoria) {
+			
+			productos.push_back(&m_listaProductos[i]);
+		}
+	}
+	
+	return productos;
+}
+
+Producto* Sistema::BuscarProducto(int idProducto) {
+	
+	for (int i = 0; i < m_listaProductos.size(); i++) {
+		
+		if (m_listaProductos[i].GetID() == idProducto) {
+			
+			return &m_listaProductos[i];
+		}
+	}
+	
+	return NULL;
+}
+
+bool Sistema::ProductoPerteneceCategoria (Producto * producto, string categoria) {
+	if(producto == NULL)
+	{
+		return false;
+	}
+	
+	return producto->GetCategoria() == categoria;
+}
+
+bool Sistema::CantidadValida (int cantidad) {
+	return cantidad > 0;
+}
+
+
+int Sistema::ObtenerCantidadProductoEnVenta (Venta & venta, int idProducto) {
+	vector<DetalleVenta> detalles = venta.GetDetalles();
+	
+	for(int i = 0; i < detalles.size(); i++)
+	{
+		if(detalles[i].GetProducto()->GetID() == idProducto)
+		{
+			return detalles[i].GetCantidad();
+		}
+	}
+	
+	return 0;
+}
+
+bool Sistema::HayStockDisponible (Venta & venta, Producto * producto, int cantidad) {
+	if(producto == NULL)
+	{
+		return false;
+	}
+
+	int cantidadEnVenta = ObtenerCantidadProductoEnVenta(venta, producto->GetID());
+
+	return (cantidad + cantidadEnVenta)
+		<= producto->GetStock();
+}
+
+bool Sistema::AgregarProductoAVenta (Venta & venta, Producto * producto, int cantidad) {
+	if(producto == NULL)
+	{
+		return false;
+	}
+	
+	if(!CantidadValida(cantidad))
+	{
+		return false;
+	}
+	
+	if(!HayStockDisponible(venta, producto, cantidad))
+	{
+		return false;
+	}
+	
+	venta.AgregarProducto(producto, cantidad);
+	
+	return true;
+}
+
+bool Sistema::QuitarProductoDeVenta (Venta & venta, int idProducto, int cantidad) {
+	return venta.QuitarProducto(idProducto, cantidad);
+}
+
+bool Sistema::ConfirmarVenta (Venta & venta) {
+	venta.ConfirmarVenta();
+	
+	return true;
+}
+
+string Sistema::ObtenerTicket (Venta & venta) {
+	return venta.MostrarTicket();
+}
+
+double Sistema::ObtenerTotalVenta(Venta &venta) {
+	venta.CalcularTotal();
+	return venta.Gettotal();
+}
 
 ///Funcion Listar Clientes
 bool Sistema::ListarClientes(vector<Cliente> &clientes) {
@@ -187,223 +319,222 @@ void Sistema::menuNormal() {
 			}
 		}
 		
-		// ---------------- VENTA ----------------
+		/// ---------------- VENTA ----------------
 		
-		else if (opcion == 3) {
-			
-			int idCliente;
-			cout << "DNI del cliente para la venta: ";
-			
-			//validar que es un numero
-			while (!(cin >> idCliente)) {
-				cout << "Error: ingrese un DNI valido (solo numeros): ";
-				cin.clear();
-				cin.ignore(10000, '\n');
-			}
-			
-			cin.ignore();
-			
-			Cliente clienteVenta = gestor.buscarCliente(idCliente);
-			
-			if (clienteVenta.GetID() == 0) {
-				cout << "Cliente no existe" << endl;
-			}
-			else {
-				
-				vector<Producto> listaProductos = gestorProductos.CargarLista();
-				
-				if (listaProductos.empty()) {
-					cout << "No hay productos cargados para vender." << endl;
-				}
-				else {
-					
-					int idVenta = 1;
-					Venta v(idVenta, &clienteVenta);
-					
-					int opcionVenta;
-					
-					do {
-						
-						cout << endl;
-						cout << "----- MENU VENTA -----" << endl;
-						cout << "1 - Agregar producto" << endl;
-						cout << "2 - Quitar producto" << endl;
-						cout << "3 - Confirmar venta" << endl;
-						cout << "4 - Ver ticket actual" << endl;
-						cout << "0 - Cancelar" << endl;
-						cout << "Opcion: ";
-						cin >> opcionVenta;
-						
-						// AGREGAR PRODUCTO
-						if (opcionVenta == 1) {
-							vector<string> categorias = gestorProductos.CargarCategorias();
-							
-							cout << endl;
-							cout << "----- CATEGORIAS -----" << endl;
-							
-							for (int i = 0; i < categorias.size(); i++) {
-								cout << i + 1 << " - " << categorias[i] << endl;
-							}
-							
-							cout << "0 - Volver" << endl;
-							
-							int opCategoria;
-							string categoriaElegida;
-							
-							cout << "Opcion: ";
-							cin >> opCategoria;
-							cin.ignore();
-							
-							if (opCategoria == 0) {
-								continue;
-							}
-							
-							if (opCategoria >= 1 && opCategoria <= categorias.size()) {
-								
-								categoriaElegida = categorias[opCategoria - 1];
-								
-							}
-							else {
-								
-								cout << "Opcion invalida." << endl;
-								continue;
-								
-							}
-							
-							cout << endl;
-							cout << "----- LISTA DE PRODUCTOS -----" << endl;
-							
-							bool hay = false;
-							
-							for (int i = 0; i < listaProductos.size(); i++) {
-								
-								if (listaProductos[i].GetCategoria() == categoriaElegida) {
-									
-									hay = true;
-									
-									cout << "ID: " << listaProductos[i].GetID()
-										<< " | Nombre: " << listaProductos[i].GetNombre()
-										<< " | Precio: $" << listaProductos[i].GetPrecio()
-										<< " | Stock: " << listaProductos[i].GetStock()
-										<< endl;
-								}
-							}
-							
-							if (!hay) {
-								cout << "No hay productos en esa categoria." << endl;
-								continue;
-							}
-							
-							int idProducto;
-							int cantidad;
-							
-							cout << "ID del producto: ";
-							cin >> idProducto;
-							
-							Producto* productoSeleccionado = NULL;
-							
-							for (int i = 0; i < listaProductos.size(); i++) {
-								
-								if (listaProductos[i].GetID() == idProducto) {
-									productoSeleccionado = &listaProductos[i];
-									break;
-								}
-							}
-							
-							if (productoSeleccionado == NULL) {
-								cout << "Producto no encontrado." << endl;
-							}
-							else {
-								
-								cout << "Cantidad: ";
-								cin >> cantidad;
-								
-								if (cantidad <= 0) {
-									cout << "Cantidad invalida." << endl;
-								}
-								else {
-									
-									int cantidadEnCarrito = 0;
-									vector<DetalleVenta> detallesActuales = v.GetDetalles();
-									
-									for (int j = 0; j < detallesActuales.size(); j++) {
-										
-										if (detallesActuales[j].GetProducto()->GetID() == idProducto) {
-											cantidadEnCarrito = detallesActuales[j].GetCantidad();
-											break;
-										}
-									}
-									
-									if ((cantidad + cantidadEnCarrito) > productoSeleccionado->GetStock()) {
-										
-										cout << "No hay stock suficiente" << endl;
-										cout << "(Stock total: " << productoSeleccionado->GetStock() << ")" << endl;
-										
-									}
-									else {
-										
-										v.AgregarProducto(productoSeleccionado, cantidad);
-										cout << "Producto agregado a la venta." << endl;
-									}
-								}
-							}
-						}
-
-						// QUITAR PRODUCTO
-						else if (opcionVenta == 2) {
-							
-							int idProducto;
-							int cantidad;
-							
-							cout << "ID del producto a quitar: ";
-							cin >> idProducto;
-							
-							cout << "Cantidad: ";
-							cin >> cantidad;
-							
-							if (v.QuitarProducto(idProducto, cantidad)) {
-								cout << "Producto quitado." << endl;
-							}
-							else {
-								cout << "No se encontro ese producto en la venta." << endl;
-							}
-						}
-						
-						// CONFIRMAR
-						else if (opcionVenta == 3) {
-							
-							v.ConfirmarVenta();
-							
-							cout << endl;
-							cout << "VENTA CONFIRMADA!!" << endl;
-							cout << "------------------------" << endl;
-							cout << v.MostrarTicket();
-							cout << "------------------------" << endl;
-							
-							opcionVenta = 0;
-						}
-						
-						else if (opcionVenta == 4) {
-							
-							v.CalcularTotal();
-							
-							cout << endl;
-							cout << "----- TICKET ACTUAL -----" << endl;
-							cout << v.MostrarTicket();
-							cout << "-------------------------" << endl;
-						}
-						
-						else if (opcionVenta == 0) {
-							cout << "Venta cancelada." << endl;
-						}
-						else {
-							cout << "Opcion invalida." << endl;
-						}
-						
-					} while (opcionVenta != 0);
-				}
-			}
-		}
+//		else if (opcion == 3) {
+//
+////			int idCliente;
+////			cout << "DNI del cliente para la venta: ";
+////			
+////			//validar que es un numero
+//			while (!(cin >> idCliente)) {
+//				cout << "Error: ingrese un DNI valido (solo numeros): ";
+//				cin.clear();
+//				cin.ignore(10000, '\n');
+//			}
+//			
+////			cin.ignore();
+////			
+////			Cliente clienteVenta = gestor.buscarCliente(idCliente);
+////			
+////			if (clienteVenta.GetID() == 0) {
+////				cout << "Cliente no existe" << endl;
+////			}
+////			else {
+////				
+////				vector<Producto> listaProductos = gestorProductos.CargarLista();
+////				
+////				if (listaProductos.empty()) {
+////					cout << "No hay productos cargados para vender." << endl;
+////				}
+//				else {
+//					int idVenta = 1;
+//					Venta v(idVenta, &clienteVenta);
+//					
+//					int opcionVenta;
+//					
+//					do {
+//						
+//						cout << endl;
+//						cout << "----- MENU VENTA -----" << endl;
+//						cout << "1 - Agregar producto" << endl;
+//						cout << "2 - Quitar producto" << endl;
+//						cout << "3 - Confirmar venta" << endl;
+//						cout << "4 - Ver ticket actual" << endl;
+//						cout << "0 - Cancelar" << endl;
+//						cout << "Opcion: ";
+//						cin >> opcionVenta;
+//						
+//						// AGREGAR PRODUCTO
+//						if (opcionVenta == 1) {
+//							vector<string> categorias = gestorProductos.CargarCategorias();
+//							
+//							cout << endl;
+//							cout << "----- CATEGORIAS -----" << endl;
+//							
+//							for (int i = 0; i < categorias.size(); i++) {
+//								cout << i + 1 << " - " << categorias[i] << endl;
+//							}
+//							
+//							cout << "0 - Volver" << endl;
+//							
+//							int opCategoria;
+//							string categoriaElegida;
+//							
+//							cout << "Opcion: ";
+//							cin >> opCategoria;
+//							cin.ignore();
+//							
+//							if (opCategoria == 0) {
+//								continue;
+//							}
+//							
+//							if (opCategoria >= 1 && opCategoria <= categorias.size()) {
+//								
+//								categoriaElegida = categorias[opCategoria - 1];
+//								
+//							}
+//							else {
+//								
+//								cout << "Opcion invalida." << endl;
+//								continue;
+//								
+//							}
+//							
+//							cout << endl;
+//							cout << "----- LISTA DE PRODUCTOS -----" << endl;
+//							
+//							bool hay = false;
+//							
+//							for (int i = 0; i < listaProductos.size(); i++) {
+//								
+//								if (listaProductos[i].GetCategoria() == categoriaElegida) {
+//									
+//									hay = true;
+//									
+//									cout << "ID: " << listaProductos[i].GetID()
+//										<< " | Nombre: " << listaProductos[i].GetNombre()
+//										<< " | Precio: $" << listaProductos[i].GetPrecio()
+//										<< " | Stock: " << listaProductos[i].GetStock()
+//										<< endl;
+//								}
+//							}
+//							
+//							if (!hay) {
+//								cout << "No hay productos en esa categoria." << endl;
+//								continue;
+//							}
+//							
+//							int idProducto;
+//							int cantidad;
+//							
+//							cout << "ID del producto: ";
+//							cin >> idProducto;
+//							
+//							Producto* productoSeleccionado = NULL;
+//							
+//							for (int i = 0; i < listaProductos.size(); i++) {
+//								
+//								if (listaProductos[i].GetID() == idProducto) {
+//									productoSeleccionado = &listaProductos[i];
+//									break;
+//								}
+//							}
+//							
+//							if (productoSeleccionado == NULL) {
+//								cout << "Producto no encontrado." << endl;
+//							}
+//							else {
+//								
+//								cout << "Cantidad: ";
+//								cin >> cantidad;
+//								
+//								if (cantidad <= 0) {
+//									cout << "Cantidad invalida." << endl;
+//								}
+//								else {
+//									
+//									int cantidadEnCarrito = 0;
+//									vector<DetalleVenta> detallesActuales = v.GetDetalles();
+//									
+//									for (int j = 0; j < detallesActuales.size(); j++) {
+//										
+//										if (detallesActuales[j].GetProducto()->GetID() == idProducto) {
+//											cantidadEnCarrito = detallesActuales[j].GetCantidad();
+//											break;
+//										}
+//									}
+//									
+//									if ((cantidad + cantidadEnCarrito) > productoSeleccionado->GetStock()) {
+//										
+//										cout << "No hay stock suficiente" << endl;
+//										cout << "(Stock total: " << productoSeleccionado->GetStock() << ")" << endl;
+//										
+//									}
+//									else {
+//										
+//										v.AgregarProducto(productoSeleccionado, cantidad);
+//										cout << "Producto agregado a la venta." << endl;
+//									}
+//								}
+//							}
+//						}
+//
+//						// QUITAR PRODUCTO
+//						else if (opcionVenta == 2) {
+//							
+//							int idProducto;
+//							int cantidad;
+//							
+//							cout << "ID del producto a quitar: ";
+//							cin >> idProducto;
+//							
+//							cout << "Cantidad: ";
+//							cin >> cantidad;
+//							
+//							if (v.QuitarProducto(idProducto, cantidad)) {
+//								cout << "Producto quitado." << endl;
+//							}
+//							else {
+//								cout << "No se encontro ese producto en la venta." << endl;
+//							}
+//						}
+//						
+//						// CONFIRMAR
+//						else if (opcionVenta == 3) {
+//							
+//							v.ConfirmarVenta();
+//							
+//							cout << endl;
+//							cout << "VENTA CONFIRMADA!!" << endl;
+//							cout << "------------------------" << endl;
+//							cout << v.MostrarTicket();
+//							cout << "------------------------" << endl;
+//							
+//							opcionVenta = 0;
+//						}
+//						
+//						else if (opcionVenta == 4) {
+//							
+//							v.CalcularTotal();
+//							
+//							cout << endl;
+//							cout << "----- TICKET ACTUAL -----" << endl;
+//							cout << v.MostrarTicket();
+//							cout << "-------------------------" << endl;
+//						}
+//						
+//						else if (opcionVenta == 0) {
+//							cout << "Venta cancelada." << endl;
+//						}
+//						else {
+//							cout << "Opcion invalida." << endl;
+//						}
+//						
+//					} while (opcionVenta != 0);
+//				}
+//			}
+//		}
 		
 		// LISTAR CLIENTES
 		else if (opcion == 4) {

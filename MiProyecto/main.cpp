@@ -110,11 +110,219 @@ int main() {
 					}
 				}
 				break;
-				case 3: {
-					///Vender
+				
+				///realizar venta
+				case 3:
+				{
+					int dni;
 					
+					cout << "DNI del cliente: ";
+					cin >> dni;
+					
+					
+					// Buscar cliente
+					Cliente cliente = sistema.BuscarCliente(dni);
+					
+					
+					if(cliente.GetID() == 0)
+					{
+						cout << "Cliente inexistente." << endl;
+						break;
+					}
+					
+					
+					// Crear venta
+					int idVenta = 1;
+					
+					Venta venta(idVenta, &cliente);
+					
+					
+					
+					int opcionVenta;
+					do
+					{
+						
+						cout << endl;
+						cout << "----- MENU VENTA -----" << endl;
+						cout << "1 - Agregar producto" << endl;
+						cout << "2 - Quitar producto" << endl;
+						cout << "3 - Confirmar venta" << endl;
+						cout << "4 - Ver ticket actual" << endl;
+						cout << "0 - Cancelar" << endl;
+						
+						cout << "Opcion: ";
+						cin >> opcionVenta;
+					
+						// ---------------- AGREGAR PRODUCTO ----------------
+						
+						if(opcionVenta == 1)
+						{
+							
+							vector<string> categorias = sistema.ObtenerCategorias();
+							cout << endl;
+							cout << "----- CATEGORIAS -----" << endl;
+							
+							for(int i = 0; i < categorias.size(); i++)
+							{
+								cout << i+1 << " - "
+									<< categorias[i]
+									<< endl;
+							}
+							int opCategoria;
+							
+							cout << "Seleccione categoria: ";
+							cin >> opCategoria;
+							
+							string categoria;
+							
+							if(!sistema.ObtenerCategoriaSeleccionada(categorias,opCategoria,categoria))
+							{
+								cout << "Categoria invalida." << endl;
+								break;
+							}
+							vector<Producto*> productos = sistema.ObtenerProductosPorCategoria(categoria);
+							cout << endl;
+							cout << "----- PRODUCTOS -----" << endl;
+							
+							for(int i=0;i<productos.size();i++)
+							{
+								
+								cout << "ID: "
+									<< productos[i]->GetID()
+									<< " | "
+									<< productos[i]->GetNombre()
+									<< " | Precio: $"
+									<< productos[i]->GetPrecio()
+									<< " | Stock: "
+									<< productos[i]->GetStock()
+									<< endl;
+								
+							}
+							
+							int idProducto;
+							
+							cout << "ID producto: ";
+							cin >> idProducto;
+							
+							Producto* producto = sistema.BuscarProducto(idProducto);
+							
+							if(producto == NULL)
+							{
+								cout << "Producto no encontrado." << endl;
+								break;
+							}
+							
+							int cantidad;
+							
+							cout << "Cantidad: ";
+							cin >> cantidad;
+							if(sistema.AgregarProductoAVenta(venta,producto, cantidad))
+							{
+								cout << "Producto agregado correctamente."
+									<< endl;
+							}
+							else
+							{
+								cout << "No se pudo agregar el producto."
+									<< endl;
+							}
+							
+						}
+							
+						// ---------------- QUITAR PRODUCTO ----------------
+						
+						
+						else if(opcionVenta == 2)
+						{
+							
+							int idProducto;
+							int cantidad;
+							
+							
+							cout << "ID producto a quitar: ";
+							cin >> idProducto;
+							
+							
+							cout << "Cantidad: ";
+							cin >> cantidad;
+							
+							if(sistema.QuitarProductoDeVenta(venta,idProducto,cantidad))
+							{
+								cout << "Producto quitado." << endl;
+							}else
+							{
+								cout << "No se encontro el producto."
+									<< endl;
+							}
+							
+						}
+						
+						// ---------------- CONFIRMAR ----------------
+						
+						
+						else if(opcionVenta == 3)
+						{
+							
+							
+							if(sistema.ConfirmarVenta(venta))
+							{
+								
+								cout << endl;
+								cout << "VENTA CONFIRMADA" << endl;
+								cout << "------------------" << endl;
+								
+								
+								cout << sistema.ObtenerTicket(venta);
+								
+								
+								cout << "------------------" << endl;
+								
+							}
+							
+							
+							opcionVenta = 0;
+							
+						}
+						
+						// ---------------- TICKET ACTUAL ----------------
+						
+						
+						else if(opcionVenta == 4)
+						{
+							
+							cout << endl;
+							cout << "----- TICKET -----"
+								<< endl;
+							
+							
+							cout << sistema.ObtenerTicket(venta);
+							
+							
+							cout << endl;
+							
+						}
+						
+						
+						
+						
+						else if(opcionVenta == 0)
+						{
+							cout << "Venta cancelada." << endl;
+						}
+						
+						
+						else
+						{
+							cout << "Opcion invalida." << endl;
+						}
+						
+						
+						
+					}while(opcionVenta != 0);
+					
+					
+					break;
 				}
-				break;
 				case 4: {
 					///Listar Clientes
 					vector<Cliente> clientes;

@@ -37,6 +37,7 @@ public:
 	string NombreArchivo();
 	string GetCategoria();
 	
+	///carga categoria
 	vector<string> CargarCategorias();
 	
 	//Archivo
