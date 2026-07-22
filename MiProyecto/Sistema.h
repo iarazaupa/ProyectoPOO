@@ -5,6 +5,7 @@
 #include "Cliente.h"
 #include "Producto.h"
 #include "Venta.h"
+#include "Stock.h"
 
 using namespace std;
 
@@ -27,6 +28,7 @@ private:
 	Cliente m_gestor;
 	Producto m_gestorProducto;
 	Venta m_venta;
+	Stock m_stock;
 	
 public:
 	Sistema();
@@ -79,6 +81,8 @@ public:
 	//Agregar Producto
 	bool AgregarProductoAdmin(int id, int stock, string nombre, string categoria, double precio);
 	
+	//Quitar Producto
+	bool QuitarProductoAdmin(int idProducto);
 	
 	///Menus anteriores
 	void menuNormal();

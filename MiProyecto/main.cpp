@@ -556,6 +556,17 @@ int main() {
 					break;
 					case 3: {
 						//Quitar Producto
+						int idProducto;
+						
+						cout << "ID del producto a quitar: ";
+						cin >> idProducto;
+						
+						bool seQuito = sistema.QuitarProductoAdmin(idProducto);
+						if (seQuito == true) {
+							cout << "Producto quitado" << endl;
+						} else {
+							cout << "No se pudo quitar" << endl;
+						}
 					}
 					break;
 					case 4: {

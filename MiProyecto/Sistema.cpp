@@ -270,9 +270,16 @@ bool Sistema::AgregarProductoAdmin(int id, int stock, string nombre, string cate
 }
 
 
-
 //Quitar Producto
-
+bool Sistema::QuitarProductoAdmin(int idProducto) {
+	m_stock.CargarStock();
+	if (m_stock.EliminarProducto(idProducto)) {
+		m_stock.GuardarStock();
+		return true;
+	} else {
+		return false;
+	}
+}
 
 
 // ---------------- MENU NORMAL ----------------
