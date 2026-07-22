@@ -41,7 +41,7 @@ public:
 	vector<string> CargarCategorias();
 	
 	//Archivo
-	void GuardarEnArchivo();
+	bool GuardarEnArchivo();
 	void GuardarDesdeArchivo();
 	void GuardarLista(vector<Producto>& productos);
 	vector <Producto> CargarLista();

@@ -32,6 +32,7 @@ public:
 	Sistema();
 	
 	bool verificarPassword(string pass);
+	
 	///Haciendo los metodos del menu normal///
 	bool agregarCliente(int id, string nombre, string email, string telefono);
 	Cliente BuscarCliente(int Dni);
@@ -73,6 +74,13 @@ public:
 	
 	bool verificarDniVenta(int dni);
 	
+	///Metodos del Menu ADMIN
+	
+	//Agregar Producto
+	bool AgregarProductoAdmin(int id, int stock, string nombre, string categoria, double precio);
+	
+	
+	///Menus anteriores
 	void menuNormal();
 	
 	void menuAdmin();

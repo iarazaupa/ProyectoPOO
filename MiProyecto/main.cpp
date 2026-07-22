@@ -3,6 +3,7 @@
 #include <string>
 #include "Cliente.h"
 #include "Producto.h"
+#include <iomanip>
 using namespace std;
 
 int main() {
@@ -441,7 +442,7 @@ int main() {
 				cout << "Password incorrecta" << endl;
 				return -1;
 			}else{
-				//sistema.menuAdmin();
+				/*sistema.menuAdmin();*/
 				do {
 					cout << endl;
 					cout << "----- MENU ADMIN -----" << endl;
@@ -496,10 +497,60 @@ int main() {
 					break;
 					case 2: {
 						//Agregar Producto
-						int idProducto;
+						int id, stock;
+						string nombre;
+						string categoria;
+						double precio;
 						
-						cout << "ID del producto a quitar: ";
-						cin >> idProducto;
+						cout << "ID producto: ";
+						cin >> id;
+						cin.ignore();
+						
+						cout << "Nombre: ";
+						getline(cin, nombre);
+						
+						vector<string> categorias = sistema.ObtenerCategorias();
+						
+						cout << endl;
+						cout << "Categoria:" << endl;
+						
+						for (int i = 0; i < categorias.size(); i++) {
+							cout << i + 1 << " - " << categorias[i] << endl;
+						}
+						
+						cout << categorias.size() + 1 << " - Nueva categoria" << endl;
+						
+						int opCategoria;
+						
+						cout << "Opcion: ";
+						cin >> opCategoria;
+						cin.ignore();
+						
+						if (opCategoria >= 1 && opCategoria <= categorias.size()) {
+							
+							categoria = categorias[opCategoria - 1];
+							
+						}
+						else if (opCategoria == categorias.size() + 1) {
+							
+							cout << "Ingrese el nombre de la nueva categoria: ";
+							getline(cin, categoria);
+							
+						}
+						cout << "Precio: ";
+						cout << fixed << setprecision(2);
+						cin >> precio;
+						
+						cout << "Stock: ";
+						cin >> stock;
+						
+						bool seAgrego = sistema.AgregarProductoAdmin(id,stock,nombre,categoria,precio);
+						
+						if(seAgrego == true){
+							cout << "Producto agregado correctamente." << endl;
+						} else {
+							cout << "No se pudo agregar el producto." << endl;
+						}
 						
 					}
 					break;

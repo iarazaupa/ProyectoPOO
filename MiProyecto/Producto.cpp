@@ -56,15 +56,18 @@ bool Producto::HayStock(int cantidad) {
 	return cantidad <= m_stock;
 }
 
-void Producto::GuardarEnArchivo() {
+bool Producto::GuardarEnArchivo() {
 	ofstream archivo("productos.txt", ios::app);
-	if (archivo.is_open()) {
+	if (!archivo.is_open()) {
+		return false;
+	}else {
 		archivo << m_ID << ";"
 			<< m_nombre << ";"
 			<< m_categoria << ";"
 			<< m_precio << ";"
 			<< m_stock << endl;
 		archivo.close();
+		return true;
 	}
 }
 

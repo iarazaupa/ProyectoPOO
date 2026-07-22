@@ -56,6 +56,8 @@ void Sistema::ActualizarProductos() {
 	m_listaProductos = m_gestorProducto.CargarLista();
 }
 
+/// -------------- FUNCIONES USUARIO -------------- ///
+
 ///Funcion agregar cliente
 bool Sistema::agregarCliente (int id, string nombre, string email, string telefono) {
 	
@@ -260,6 +262,14 @@ bool Sistema::ModificarCliente(int dni, string nombre, string email, string tele
 /// -------------- FUNCIONES ADMIN -------------- ///
 
 //Agregar Producto
+bool Sistema::AgregarProductoAdmin(int id, int stock, string nombre, string categoria, double precio) {
+	
+	Producto p(id,nombre,categoria,precio,stock);
+	
+	return p.GuardarEnArchivo();
+}
+
+
 
 //Quitar Producto
 
@@ -798,7 +808,6 @@ void Sistema::menuAdmin() {
 			
 			cout << "Stock: ";
 			cin >> stock;
-			// Prueba
 			
 			Producto p(id, nombre, categoria, precio, stock);
 			
