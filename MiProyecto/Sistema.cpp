@@ -63,7 +63,6 @@ bool Sistema::agregarCliente (int id, string nombre, string email, string telefo
 		return false;
 	} else {
 		
-		
 		Cliente c(id, nombre, email, telefono);
 		c.guardarArchivo();
 		
@@ -257,6 +256,12 @@ bool Sistema::ModificarCliente(int dni, string nombre, string email, string tele
 	} 
 	return m_gestor.modificarCliente(dni,nombre,email,telefono);
 }
+
+/// -------------- FUNCIONES ADMIN -------------- ///
+
+//Agregar Producto
+
+//Quitar Producto
 
 
 

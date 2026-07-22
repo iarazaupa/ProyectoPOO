@@ -39,7 +39,7 @@ int main() {
 				cout << "----- MENU -----" << endl;
 				cout << "1 - Agregar cliente" << endl;
 				cout << "2 - Buscar cliente" << endl;
-				cout << "3 No completado - Vender" << endl;
+				cout << "3 - Vender" << endl;
 				cout << "4 - Listar clientes" << endl;
 				cout << "5 - Ver stock" << endl;
 				cout << "6 - Modificar Datos del cliente" << endl;
@@ -433,6 +433,7 @@ int main() {
 				}
 			} while (opcionMenu != 0);
 		} else if (opcion == 2) {
+			int opcionAdmin = 0;
 			string pass;
 			cout<<"ingrese la contrasenia";
 			cin>>pass;
@@ -440,7 +441,104 @@ int main() {
 				cout << "Password incorrecta" << endl;
 				return -1;
 			}else{
-				sistema.menuAdmin();
+				//sistema.menuAdmin();
+				do {
+					cout << endl;
+					cout << "----- MENU ADMIN -----" << endl;
+					cout << "1 - Agregar cliente" << endl;
+					cout << "2 - Agregar producto" << endl;
+					cout << "3 - Quitar producto" << endl;
+					cout << "4 - Ver lista de productos" << endl;
+					cout << "5 - Ver ventas" << endl;
+					cout << "6 - Ver lista de clientes" << endl;
+					cout << "7 - Ver productos con stock bajo" << endl;
+					cout << "8 - Cantidad de ventas por mes" << endl;
+					cout << "9 - Eliminar categoria" << endl;
+					cout << "10 - Editar producto" << endl;
+					cout << "0 - Cerrar sesion" << endl;
+					cout << "Opcion: ";
+					cin >> opcionAdmin;
+					
+					switch (opcionAdmin) {
+					case 1: {
+						//Agregar cliente
+						bool clienteAgg = false;
+						
+						while (!clienteAgg) {
+							cout << "DNI: ";
+							
+							// Validación de que es un número
+							while (!(cin >> Dni)) {
+								cout << "Error: ingrese un DNI valido (solo numeros): ";
+								cin.clear();
+								cin.ignore(10000, '\n');
+							}
+							
+							cin.ignore(); // limpiar el salto de línea
+							
+							cout << "Nombre: ";
+							getline(cin, nombre);
+							
+							cout << "Email: ";
+							getline(cin, email);
+							
+							cout << "Telefono: ";
+							getline(cin, telefono);
+							
+							clienteAgg = sistema.agregarCliente(Dni, nombre, email, telefono);
+							
+							if (!clienteAgg) {
+								cout << "Error: ya existe un cliente con ese DNI. Intente nuevamente.\n\n";
+							}
+						}
+						cout << "Usuario agregado correctamente.\n";
+					}
+					break;
+					case 2: {
+						//Agregar Producto
+						int idProducto;
+						
+						cout << "ID del producto a quitar: ";
+						cin >> idProducto;
+						
+					}
+					break;
+					case 3: {
+						//Quitar Producto
+					}
+					break;
+					case 4: {
+						//Ver lista de productos
+					}
+					break;
+					case 5: {
+						//Ver Ventas
+					}
+					break;
+					case 6: {
+						//Ver lista de clientes
+					}
+					break;
+					case 7: {
+						//Ver productos con stock bajo
+					}
+					break;
+					case 8: {
+						//Cantidad de ventas por mes
+					}
+					break;
+					case 9: {
+						//Eliminar Categoria
+					}
+					break;
+					case 10: {
+						//Editar Producto
+					}
+					break;
+					default:
+					break;
+					}
+				} while(opcionAdmin!=0);
 			}
 		}
 	} while(opcion != 0);
