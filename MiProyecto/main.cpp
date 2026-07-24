@@ -649,7 +649,36 @@ int main() {
 					}
 					break;
 					case 8: {
-						//Cantidad de ventas por mes
+						int contadorMeses[12];
+						double totalMeses[12];
+						
+						const string meses[12] = {
+							"Enero","Febrero","Marzo","Abril",
+								"Mayo","Junio","Julio","Agosto",
+								"Septiembre","Octubre","Noviembre","Diciembre"
+						};
+						
+						if (sistema.cantidadVentasMes(contadorMeses, totalMeses))
+						{
+							cout << "--- Cantidad de Ventas por Mes ---\n";
+							
+							for (int i = 0; i < 12; i++)
+							{
+								if (contadorMeses[i] > 0)
+								{
+									cout << meses[i]
+										<< ": "
+										<< contadorMeses[i]
+										<< " venta(s) | "
+										<< totalMeses[i]
+										<< endl;
+								}
+							}
+						}
+						else
+						{
+							cout << "No hay ventas registradas.\n";
+						}
 					}
 					break;
 					case 9: {

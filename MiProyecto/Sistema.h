@@ -87,6 +87,7 @@ public:
 	//Ver Ventas
 	vector<Venta> VerVentas();
 	///cant de ventas por mes
+	bool cantidadVentasMes(int contadorMeses[], double totalDineroMeses[]);
 	
 	
 	//Ver Stock Bajo

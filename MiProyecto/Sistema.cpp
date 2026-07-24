@@ -296,6 +296,38 @@ vector<Producto> Sistema::StockBajo() {
 }
 
 
+///cantidad de ventas por mes
+bool Sistema::cantidadVentasMes(int contadorMeses[], double totalDineroMeses[])
+{
+	Venta v(0, nullptr);
+	vector<Venta> ventas = v.CargarVentas();
+	
+	if (ventas.empty())
+		return false;
+	
+	for (int i = 0; i < 12; i++) {
+		contadorMeses[i] = 0;
+		totalDineroMeses[i] = 0;
+	}
+	
+	for (auto &venta : ventas) {
+		string fecha = venta.Getfecha();
+		
+		if (fecha.length() >= 6) {
+			int mes = stoi(fecha.substr(3,2));
+			
+			if (mes >= 1 && mes <= 12) {
+				contadorMeses[mes-1]++;
+				totalDineroMeses[mes-1] += venta.Gettotal();
+			}
+		}
+	}
+	
+	return true;
+}
+
+
+
 // ---------------- MENU NORMAL ----------------
 
 void Sistema::menuNormal() {
