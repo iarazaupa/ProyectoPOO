@@ -281,6 +281,20 @@ bool Sistema::QuitarProductoAdmin(int idProducto) {
 	}
 }
 
+//Ver Ventas
+vector<Venta> Sistema::VerVentas() {
+	vector<Venta> ventas = m_venta.CargarVentas();
+	return ventas;
+}
+
+//Ver productos con stock bajo
+vector<Producto> Sistema::StockBajo() {
+	vector<Producto> stockBajo = m_stock.VerificarStockBajo();
+	
+	return stockBajo;
+	
+}
+
 
 // ---------------- MENU NORMAL ----------------
 

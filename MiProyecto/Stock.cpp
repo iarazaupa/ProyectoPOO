@@ -159,30 +159,20 @@ void Stock::CargarStock() {
 }
 
 // verifica qué productos tienen stock bajo y los muestra por pantalla
-void Stock::VerificarStockBajo() {
+vector<Producto> Stock::VerificarStockBajo() {
 	
 	const int STOCK_MINIMO = 1;
-	bool hay = false;
 	
-	cout << "----- PRODUCTOS CON STOCK BAJO -----" << endl;
+	vector<Producto> StockBajo;
 	
 	for (int i = 0; i < productos.size(); i++) {
 		
 		if (productos[i].GetStock() <= STOCK_MINIMO) {
 			
-			hay = true;
-			
-			cout << "ID: " << productos[i].GetID()
-				<< " | Nombre: " << productos[i].GetNombre()
-				<< " | Categoria: " << productos[i].GetCategoria()
-				<< " | Stock: " << productos[i].GetStock()
-				<< endl;
+			StockBajo.push_back(productos[i]);
 		}
 	}
-	
-	if (!hay) {
-		cout << "No hay productos con stock bajo." << endl;
-	}
+	return StockBajo;
 }
 
 

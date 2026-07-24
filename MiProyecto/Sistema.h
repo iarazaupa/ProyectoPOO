@@ -84,6 +84,13 @@ public:
 	//Quitar Producto
 	bool QuitarProductoAdmin(int idProducto);
 	
+	//Ver Ventas
+	vector<Venta> VerVentas();
+	
+	//Ver Stock Bajo
+	vector<Producto> StockBajo();
+	
+	
 	///Menus anteriores
 	void menuNormal();
 	

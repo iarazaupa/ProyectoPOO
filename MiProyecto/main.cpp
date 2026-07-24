@@ -571,18 +571,76 @@ int main() {
 					break;
 					case 4: {
 						//Ver lista de productos
+						vector<Producto> productos;
+						if (sistema.ListarProductos(productos)) {
+							
+							for (int i = 0; i < productos.size(); i++) {
+								cout << productos[i].GetID() << " "
+									<< productos[i].GetNombre() << " "
+									<< productos[i].GetCategoria() << " "
+									<< productos[i].GetPrecio() << " "
+									<< productos[i].GetStock() << endl;
+							}
+						} else {
+							cout << "No hay productos" << endl;
+						}
 					}
 					break;
 					case 5: {
 						//Ver Ventas
+						vector<Venta> ventas;
+						ventas = sistema.VerVentas();
+						if (ventas.empty()) {
+							cout << "No hay ventas registradas" << endl;
+						}
+						else {
+							
+							cout << "----- LISTA DE VENTAS -----" << endl;
+							
+							for (int i = 0; i < ventas.size(); i++) {
+								
+								cout << "ID Venta: " << ventas[i].GetID();
+								
+								vector<string> nombres = ventas[i].GetNombresProductos();
+								vector<int> cantidades = ventas[i].GetCantidadesProductos();
+								
+								if (nombres.empty()) {
+									cout << " | No hay productos";
+								}
+								else {
+									for (int j = 0; j < nombres.size(); j++) {
+										cout << " | Producto: " << nombres[j]
+											<< " | Cantidad: " << cantidades[j];
+									}
+								}
+								
+								cout << " | Total: $" << ventas[i].Gettotal()
+												  << " | Fecha: " << ventas[i].Getfecha()
+												  << endl;
+							}
+						}
 					}
 					break;
 					case 6: {
 						//Ver lista de clientes
+						vector<Cliente> clientes;
+						if (sistema.ListarClientes(clientes)) {
+							for (int i = 0; i < clientes.size(); i++) {
+								cout << "DNI: " << clientes[i].GetID()
+									<< " | Nombre: " << clientes[i].getNombre()
+									<< " | Telefono: " << clientes[i].getTelefono() << endl;
+							}
+						} else {
+							cout << "No hay clientes registrados" << endl;
+						}
 					}
 					break;
 					case 7: {
 						//Ver productos con stock bajo
+						vector<Producto> stockBajo = sistema.StockBajo();
+						for(size_t i=0;i<stockBajo.size();i++) { 
+							cout << stockBajo[i].GetID() << endl;
+						}
 					}
 					break;
 					case 8: {

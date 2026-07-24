@@ -11,7 +11,7 @@ class Stock {
 	
 private:
 	vector<Producto> productos;  
-	string m_archivoStock;  
+	string m_archivoStock; 
 	
 public:
 	//constructor
@@ -25,7 +25,7 @@ public:
 	//consulta
 	string MostrarStock();
 	bool HayStock(int IDproducto, int cantidad);
-	void VerificarStockBajo();
+	vector<Producto> VerificarStockBajo();
 	
 	//movimientos de stock
 	bool AumentarStock(int IDproducto, int cantidad);
