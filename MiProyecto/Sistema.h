@@ -86,6 +86,8 @@ public:
 	
 	//Ver Ventas
 	vector<Venta> VerVentas();
+	///cant de ventas por mes
+	
 	
 	//Ver Stock Bajo
 	vector<Producto> StockBajo();

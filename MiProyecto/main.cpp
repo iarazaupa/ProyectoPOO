@@ -638,8 +638,13 @@ int main() {
 					case 7: {
 						//Ver productos con stock bajo
 						vector<Producto> stockBajo = sistema.StockBajo();
+						cout<<"productos con stock bajo:"<<endl;
 						for(size_t i=0;i<stockBajo.size();i++) { 
-							cout << stockBajo[i].GetID() << endl;
+							cout << "ID: " << stockBajo[i].GetID()
+								<< " | Nombre: " << stockBajo[i].GetNombre()
+								<< " | Categoria: " << stockBajo[i].GetCategoria()
+								<< " | Stock: " << stockBajo[i].GetStock()
+								<< endl;
 						}
 					}
 					break;

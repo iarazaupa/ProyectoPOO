@@ -10,6 +10,7 @@ Stock::Stock() {
 	// antes era stock.dat (binario)
 	// ahora lo hacemos compatible con tu sistema real:
 	m_archivoStock = "productos.txt";
+	CargarStock();
 }
 
 // agrego un producto al stock
