@@ -47,13 +47,18 @@ public:
 	vector <Producto> CargarLista();
 	Producto Mostrar();
 	
-	void EditarProducto(int id, int opcion);
+	bool EditarProducto(Producto& productoEditado);
+	bool BuscarProducto(int id, Producto &productoEncontrado);
+	
+
+	
 	bool ExisteProducto(int id);
 	
 	
 };
 
 #endif
+
 
 
 

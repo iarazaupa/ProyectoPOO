@@ -326,6 +326,28 @@ bool Sistema::cantidadVentasMes(int contadorMeses[], double totalDineroMeses[])
 	return true;
 }
 
+int Sistema::EliminarCategoria (string categoria) {
+	Stock stock;
+	
+	stock.CargarStock();
+	
+	int cantidad = stock.EliminarCategoria(categoria);
+	
+	if(cantidad > 0)
+		stock.GuardarStock();
+	
+	return cantidad;
+}
+
+
+///editar producto
+bool Sistema::BuscarProducto (int id, Producto & producto) {
+	return m_gestorProducto.BuscarProducto(id, producto);
+}
+
+bool Sistema::EditarProducto (Producto & producto) {
+	return m_gestorProducto.EditarProducto(producto);
+}
 
 
 // ---------------- MENU NORMAL ----------------
@@ -1089,37 +1111,37 @@ void Sistema::menuAdmin() {
 			break;
 		}
 		
-		case 10: {
-			
-			int id;
-			cout << "Ingrese el ID del producto a editar: ";
-			cin >> id;
-			cin.ignore();
-			
-			if (!gestorProductos.ExisteProducto(id)) {
-				cout << "El producto no existe." << endl;
-				break;
-			}
-			
-			int opcionEditar;
-			
-			cout << endl;
-			cout << "¿Que desea modificar?" << endl;
-			cout << "1 - Nombre" << endl;
-			cout << "2 - Categoria" << endl;
-			cout << "3 - Precio" << endl;
-			cout << "4 - Stock" << endl;
-			cout << "5 - Todo" << endl;
-			cout << "Opcion: ";
-			cin >> opcionEditar;
-			cin.ignore();
-			
-			gestorProductos.EditarProducto(id, opcionEditar);
-			
-			cout << "Producto editado correctamente." << endl;
-			
-			break;
-		}
+//		case 10: {
+//			
+//			int id;
+//			cout << "Ingrese el ID del producto a editar: ";
+//			cin >> id;
+//			cin.ignore();
+//			
+//			if (!gestorProductos.ExisteProducto(id)) {
+//				cout << "El producto no existe." << endl;
+//				break;
+//			}
+//			
+//			int opcionEditar;
+//			
+//			cout << endl;
+//			cout << "¿Que desea modificar?" << endl;
+//			cout << "1 - Nombre" << endl;
+//			cout << "2 - Categoria" << endl;
+//			cout << "3 - Precio" << endl;
+//			cout << "4 - Stock" << endl;
+//			cout << "5 - Todo" << endl;
+//			cout << "Opcion: ";
+//			cin >> opcionEditar;
+//			cin.ignore();
+//			
+//			gestorProductos.EditarProducto(id, opcionEditar);
+//			
+//			cout << "Producto editado correctamente." << endl;
+//			
+//			break;
+//		}
 		
 		
 		//Cerrar sesion

@@ -682,13 +682,183 @@ int main() {
 					}
 					break;
 					case 9: {
-						//Eliminar Categoria
+						
+						vector<string> categorias = sistema.ObtenerCategorias();
+						
+						if (categorias.empty()) {
+							cout << "No hay categorias registradas." << endl;
+							break;
+						}
+						
+						cout << endl << "----- ELIMINAR CATEGORIA -----" << endl;
+						
+						for (int i = 0; i < categorias.size(); i++) {
+							cout << i + 1 << " - " << categorias[i] << endl;
+						}
+						
+						cout << "0 - Cancelar" << endl;
+						
+						int opcion;
+						cout << "Opcion a eliminar: ";
+						cin >> opcion;
+						cin.ignore();
+						
+						if (opcion == 0)
+							break;
+						
+						if (opcion < 1 || opcion > categorias.size()) {
+							cout << "Opcion invalida." << endl;
+							break;
+						}
+						
+						string categoria = categorias[opcion - 1];
+						
+						cout << "Seguro que desea eliminar la categoria '" << categoria
+							<< "'? Los productos pasaran a 'Sin categoria'. (1 = Si / 0 = No): ";
+						
+						int confirmar;
+						cin >> confirmar;
+						cin.ignore();
+						
+						if (confirmar == 1) {
+							
+							int cantidad = sistema.EliminarCategoria(categoria);
+							
+							if (cantidad > 0)
+								cout << "Categoria eliminada. Se modificaron "
+								<< cantidad << " productos." << endl;
+							else
+								cout << "No habia productos con esa categoria." << endl;
+							
+						} else {
+							
+							cout << "Eliminacion cancelada." << endl;
+							
+						}
+						
+						break;
 					}
-					break;
-					case 10: {
-						//Editar Producto
+					case 10:
+					{
+						int id;
+						
+						cout << "Ingrese el ID del producto: ";
+						cin >> id;
+						cin.ignore();
+						
+						Producto producto;
+						
+						if (!sistema.BuscarProducto(id, producto))
+						{
+							cout << "El producto no existe." << endl;
+							break;
+						}
+						
+						int opcion;
+						
+						cout << endl;
+						cout << "1 - Nombre" << endl;
+						cout << "2 - Categoria" << endl;
+						cout << "3 - Precio" << endl;
+						cout << "4 - Stock" << endl;
+						cout << "5 - Todo" << endl;
+						cout << "Opcion: ";
+						
+						cin >> opcion;
+						cin.ignore();
+						
+						switch(opcion)
+						{
+						case 1:
+						{
+							string nombre;
+							
+							cout << "Nuevo nombre: ";
+							getline(cin,nombre);
+							
+							producto.SetNombre(nombre);
+							
+							break;
+						}
+						
+						case 2:
+						{
+							string categoria;
+							
+							cout << "Nueva categoria: ";
+							getline(cin,categoria);
+							
+							producto.SetCategoria(categoria);
+							
+							break;
+						}
+						
+						case 3:
+						{
+							double precio;
+							
+							cout << "Nuevo precio: ";
+							cin >> precio;
+							cin.ignore();
+							
+							producto.SetPrecio(precio);
+							
+							break;
+						}
+						
+						case 4:
+						{
+							int stock;
+							
+							cout << "Nuevo stock: ";
+							cin >> stock;
+							cin.ignore();
+							
+							producto.setStock(stock);
+							
+							break;
+						}
+						
+						case 5:
+						{
+							string nombre;
+							string categoria;
+							double precio;
+							int stock;
+							
+							cout << "Nuevo nombre: ";
+							getline(cin,nombre);
+							
+							cout << "Nueva categoria: ";
+							getline(cin,categoria);
+							
+							cout << "Nuevo precio: ";
+							cin >> precio;
+							
+							cout << "Nuevo stock: ";
+							cin >> stock;
+							cin.ignore();
+							
+							producto.SetNombre(nombre);
+							producto.SetCategoria(categoria);
+							producto.SetPrecio(precio);
+							producto.setStock(stock);
+							
+							break;
+						}
+						
+						default:
+							cout << "Opcion invalida." << endl;
+							break;
+						}
+						
+						if (sistema.EditarProducto(producto))
+							cout << "Producto editado correctamente." << endl;
+						else
+							cout << "No se pudo editar el producto." << endl;
+						
+						break;
 					}
-					break;
 					default:
 					break;
 					}

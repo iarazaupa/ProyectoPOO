@@ -94,6 +94,16 @@ public:
 	vector<Producto> StockBajo();
 	
 	
+	///eliminar categoria
+	//devuelve cant de productos afectados
+	int EliminarCategoria(string categoria);
+	//aca llamar a "vector<string> ObtenerCategorias();"
+	
+	///editar productos Admin
+	bool BuscarProducto(int id, Producto &producto);
+	bool EditarProducto(Producto &producto);
+	
+	
 	///Menus anteriores
 	void menuNormal();
 	
@@ -101,5 +111,9 @@ public:
 };
 
 #endif
+
+
+
+
 
 

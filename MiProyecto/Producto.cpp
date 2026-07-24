@@ -188,111 +188,38 @@ void Producto::setStock (int stockNuevo) {
 	m_stock = stockNuevo;
 }
 
-
-
-
-void Producto::EditarProducto(int id, int opcion) {
-	
+bool Producto::BuscarProducto(int id, Producto &productoEncontrado)
+{
 	vector<Producto> productos = CargarLista();
 	
-	for (int i = 0; i < productos.size(); i++) {
-		
-		if (productos[i].GetID() == id) {
-			
-			string nombre, categoria;
-			double precio;
-			int stock;
-			
-			switch (opcion) {
-				
-			case 1:
-				cout<< "Nuevo nombre: ";
-				getline(cin, nombre);
-				productos[i].SetNombre(nombre);
-				break;
-				
-			case 2: {
-				
-				vector<string> categorias = CargarCategorias();
-				
-				cout << endl;
-				cout << "Categorias disponibles:" << endl;
-				
-				for (int j = 0; j < categorias.size(); j++) {
-					cout << j + 1 << " - " << categorias[j] << endl;
-				}
-				
-				cout << categorias.size() + 1 << " - Nueva categoria" << endl;
-				
-				int opCategoria;
-				
-				cout << "Opcion: ";
-				cin >> opCategoria;
-				cin.ignore();
-				
-				if (opCategoria >= 1 && opCategoria <= categorias.size()) {
-					
-					productos[i].SetCategoria(categorias[opCategoria - 1]);
-					
-				}
-				else if (opCategoria == categorias.size() + 1) {
-					
-					cout << "Ingrese el nombre de la nueva categoria: ";
-					getline(cin, categoria);
-					
-					productos[i].SetCategoria(categoria);
-					
-				}
-				else {
-					
-					cout << "Opcion invalida." << endl;
-					
-				}
-				
-				break;
-			}
-				
-			case 3:
-				cout << "Nuevo precio: ";
-				cin >> precio;
-				cin.ignore();
-				productos[i].SetPrecio(precio);
-				break;
-				
-			case 4:
-				cout << "Nuevo stock: ";
-				cin >> stock;
-				cin.ignore();
-				productos[i].setStock(stock);
-				break;
-				
-			case 5:
-				
-				cout << "Nuevo nombre: ";
-				getline(cin, nombre);
-				productos[i].SetNombre(nombre);
-				
-				cout << "Nueva categoria: ";
-				getline(cin, categoria);
-				productos[i].SetCategoria(categoria);
-				
-				cout << "Nuevo precio: ";
-				cin >> precio;
-				cin.ignore();
-				productos[i].SetPrecio(precio);
-				
-				cout << "Nuevo stock: ";
-				cin >> stock;
-				cin.ignore();
-				// Falta un SetStock(stock);
-				break;
-			}
-			
-			break;
+	for (auto &producto : productos)
+	{
+		if (producto.GetID() == id)
+		{
+			productoEncontrado = producto;
+			return true;
 		}
 	}
 	
-	GuardarLista(productos);
+	return false;
+}
+
+
+bool Producto::EditarProducto(Producto& productoEditado) {
+	vector<Producto> productos = CargarLista();
+	
+	for (auto &producto : productos)
+	{
+		if (producto.GetID() == productoEditado.GetID())
+		{
+			producto = productoEditado;
+			
+			GuardarLista(productos);
+			return true;
+		}
+	}
+	
+	return false;
 }
 
 
